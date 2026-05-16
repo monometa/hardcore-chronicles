@@ -30,14 +30,24 @@ All metrics are computed from CSVs in `data/`:
 
 | File | What's in it |
 | --- | --- |
-| `summary.csv` | overall metrics (totals, failure rate, date range) |
-| `worlds.csv` | one row per hardcore world; outcome + first-death info |
-| `deaths.csv` | one row per death event; `is_first_in_world` flag |
+| `summary.csv` | overall metrics (totals, failure rate, total active hours, hardcore cutoff) |
+| `worlds.csv` | one row per hardcore world; outcome + first-death + active/wallclock minutes |
+| `deaths.csv` | one row per death event; `is_first_in_world` flag, category |
 | `death_messages.csv` | unique first-death phrasings + counts (Minecraft Wiki phrasing) |
 | `players.csv` | per-player aggregates (first deaths, total deaths, PvP kills) |
 | `pvp.csv` | killer → victim counts |
 
-Regenerate from raw server logs by re-running the parsing script (lives outside this repo).
+Regenerate them from the raw server logs:
+
+```bash
+python scripts/parse_logs.py
+```
+
+Raw logs (gzipped) live under `assets/logs/{vanilla,forge}/`. **The `assets/` directory is gitignored** — auditors must obtain it out-of-band and drop it at the repo root before running the parser.
+
+## For auditors
+
+[`METHODOLOGY.md`](METHODOLOGY.md) is the source-of-truth for *how every number is computed*, with explicit spot-checks. Read it before validating the dashboard. The pipeline has one transformation step (`scripts/parse_logs.py`); everything in `data/` is derivable from `assets/logs/` and that script alone.
 
 ## Updating the data
 

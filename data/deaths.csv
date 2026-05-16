@@ -10,45 +10,45 @@ world_num,timestamp,player,death_message,full_message,is_first_in_world,category
 8,2026-05-07T23:00:57,trofimova2002,was slain by Piglin,trofimova2002 was slain by Piglin,YES,Mob,2026-05-07-5.log.gz
 8,2026-05-07T23:02:44,MurzichAI,fell from a high place,MurzichAI fell from a high place,NO,Environment,2026-05-07-5.log.gz
 8,2026-05-07T23:05:16,axantroff,tried to swim in lava,axantroff tried to swim in lava,NO,Environment,2026-05-07-5.log.gz
-9,2026-05-08T23:38:21,axantroff,was blown up by Creeper,axantroff was blown up by Creeper,YES,Mob,2026-05-08-2.log.gz
-10,2026-05-09T13:38:56,MurzichAI,was blown up by Creeper,MurzichAI was blown up by Creeper,YES,Mob,2026-05-09-2.log.gz
-11,2026-05-09T14:45:33,axantroff,was blown up by Creeper,axantroff was blown up by Creeper,YES,Mob,2026-05-09-1.log.gz
-12,2026-05-10T15:22:16,MurzichAI,was slain by Zombie,MurzichAI was slain by Zombie,YES,Mob,2026-05-10-5.log.gz
-13,2026-05-10T18:41:41,MurzichAI,was slain by Enderman,MurzichAI was slain by Enderman,YES,Mob,2026-05-10-4.log.gz
-14,2026-05-10T18:58:41,trofimova2002,hit the ground too hard,trofimova2002 hit the ground too hard,YES,Environment,2026-05-10-3.log.gz
-15,2026-05-10T19:02:18,axantroff,was blown up by Creeper,axantroff was blown up by Creeper,YES,Mob,2026-05-10-2.log.gz
-16,2026-05-11T22:09:46,MurzichAI,was killed by Ender Dragon using magic,MurzichAI was killed by Ender Dragon using magic,YES,Mob,2026-05-11-3.log.gz
-16,2026-05-11T22:09:46,axantroff,was killed by Ender Dragon using magic,axantroff was killed by Ender Dragon using magic,NO,Mob,2026-05-11-3.log.gz
-16,2026-05-11T22:09:46,trofimova2002,was killed by Ender Dragon using magic,trofimova2002 was killed by Ender Dragon using magic,NO,Mob,2026-05-11-3.log.gz
-17,2026-05-11T22:27:38,MurzichAI,was blown up by Creeper,MurzichAI was blown up by Creeper,YES,Mob,2026-05-11-2.log.gz
-18,2026-05-11T23:34:16,axantroff,was slain by MurzichAI,axantroff was slain by MurzichAI,YES,PvP,2026-05-11-1.log.gz
-18,2026-05-11T23:36:50,trofimova2002,was blown up by Creeper,trofimova2002 was blown up by Creeper,NO,Mob,2026-05-11-1.log.gz
-18,2026-05-11T23:37:16,MurzichAI,was slain by Iron Golem,MurzichAI was slain by Iron Golem,NO,Mob,2026-05-11-1.log.gz
-19,2026-05-14T17:32:38,MurzichAI,went up in flames,MurzichAI went up in flames,YES,Environment,2026-05-14-15.log.gz
-20,2026-05-14T17:45:32,MurzichAI,was slain by Zombie,MurzichAI was slain by Zombie,YES,Mob,2026-05-14-14.log.gz
-20,2026-05-14T17:47:02,trofimova2002,was slain by Polar Bear,trofimova2002 was slain by Polar Bear,NO,Mob,2026-05-14-14.log.gz
-20,2026-05-14T17:47:58,axantroff,was slain by Polar Bear,axantroff was slain by Polar Bear,NO,Mob,2026-05-14-14.log.gz
-21,2026-05-14T18:03:40,MurzichAI,was slain by Husk,MurzichAI was slain by Husk,YES,Mob,2026-05-14-13.log.gz
-21,2026-05-14T18:04:42,trofimova2002,was shot by Skeleton,trofimova2002 was shot by Skeleton,NO,Mob,2026-05-14-13.log.gz
-22,2026-05-14T18:21:16,MurzichAI,was blown up by Creeper,MurzichAI was blown up by Creeper,YES,Mob,2026-05-14-12.log.gz
-22,2026-05-14T18:22:43,trofimova2002,was slain by Zombie,trofimova2002 was slain by Zombie,NO,Mob,2026-05-14-12.log.gz
-23,2026-05-14T18:49:35,axantroff,was blown up by Creeper,axantroff was blown up by Creeper,YES,Mob,2026-05-14-11.log.gz
-23,2026-05-14T18:50:57,MurzichAI,was slain by Iron Golem,MurzichAI was slain by Iron Golem,NO,Mob,2026-05-14-11.log.gz
-26,2026-05-14T19:50:20,MurzichAI,was slain by Zombie,MurzichAI was slain by Zombie,YES,Mob,2026-05-14-7.log.gz
-26,2026-05-14T19:52:34,trofimova2002,drowned,trofimova2002 drowned,NO,Mob,2026-05-14-7.log.gz
-27,2026-05-14T21:12:14,MurzichAI,tried to swim in lava,MurzichAI tried to swim in lava,YES,Environment,2026-05-14-6.log.gz
-28,2026-05-14T21:31:00,MurzichAI,fell from a high place,MurzichAI fell from a high place,YES,Environment,2026-05-14-5.log.gz
-28,2026-05-14T21:32:58,trofimova2002,fell from a high place,trofimova2002 fell from a high place,NO,Environment,2026-05-14-5.log.gz
-28,2026-05-14T21:33:45,axantroff,tried to swim in lava,axantroff tried to swim in lava,NO,Environment,2026-05-14-5.log.gz
-31,2026-05-14T21:42:09,axantroff,was slain by Wolf,axantroff was slain by Wolf,YES,Mob,2026-05-14-2.log.gz
-32,2026-05-14T22:28:55,MurzichAI,was shot by Skeleton,MurzichAI was shot by Skeleton,YES,Mob,2026-05-14-1.log.gz
-32,2026-05-14T22:36:01,trofimova2002,was slain by Blaze,trofimova2002 was slain by Blaze,NO,Mob,2026-05-14-1.log.gz
-32,2026-05-16T01:45:35,axantroff,tried to swim in lava,axantroff tried to swim in lava,NO,Environment,2026-05-16-12.log.gz
-38,2026-05-16T02:01:05,MurzichAI,was impaled by Drowned,MurzichAI was impaled by Drowned,YES,Mob,2026-05-16-6.log.gz
-40,2026-05-16T15:52:23,MurzichAI,was slain by Zombie,MurzichAI was slain by Zombie,YES,Mob,2026-05-16-5.log.gz
-40,2026-05-16T15:52:23,MurzichAI,was slain by Zombie,MurzichAI was slain by Zombie,NO,Mob,debug-5.log.gz
-44,2026-05-16T15:55:43,MurzichAI,was slain by axantroff,MurzichAI was slain by axantroff,YES,PvP,2026-05-16-3.log.gz
-44,2026-05-16T15:55:43,MurzichAI,was slain by axantroff,MurzichAI was slain by axantroff,NO,PvP,debug-3.log.gz
-49,2026-05-16T17:32:10,axantroff,was impaled on a stalagmite,axantroff was impaled on a stalagmite,YES,Environment,latest.log
-49,2026-05-16T17:37:34,MurzichAI,was shot by Skeleton,MurzichAI was shot by Skeleton,NO,Mob,latest.log
-49,2026-05-16T17:41:21,trofimova2002,was blown up by Creeper,trofimova2002 was blown up by Creeper,NO,Mob,latest.log
+8,2026-05-08T23:38:21,axantroff,was blown up by Creeper,axantroff was blown up by Creeper,NO,Mob,2026-05-08-2.log.gz
+9,2026-05-09T13:38:56,MurzichAI,was blown up by Creeper,MurzichAI was blown up by Creeper,YES,Mob,2026-05-09-2.log.gz
+10,2026-05-09T14:45:33,axantroff,was blown up by Creeper,axantroff was blown up by Creeper,YES,Mob,2026-05-09-1.log.gz
+11,2026-05-10T15:22:16,MurzichAI,was slain by Zombie,MurzichAI was slain by Zombie,YES,Mob,2026-05-10-5.log.gz
+12,2026-05-10T18:41:41,MurzichAI,was slain by Enderman,MurzichAI was slain by Enderman,YES,Mob,2026-05-10-4.log.gz
+13,2026-05-10T18:58:41,trofimova2002,hit the ground too hard,trofimova2002 hit the ground too hard,YES,Environment,2026-05-10-3.log.gz
+14,2026-05-10T19:02:18,axantroff,was blown up by Creeper,axantroff was blown up by Creeper,YES,Mob,2026-05-10-2.log.gz
+15,2026-05-11T22:09:46,MurzichAI,was killed by Ender Dragon using magic,MurzichAI was killed by Ender Dragon using magic,YES,Mob,2026-05-11-3.log.gz
+15,2026-05-11T22:09:46,axantroff,was killed by Ender Dragon using magic,axantroff was killed by Ender Dragon using magic,NO,Mob,2026-05-11-3.log.gz
+15,2026-05-11T22:09:46,trofimova2002,was killed by Ender Dragon using magic,trofimova2002 was killed by Ender Dragon using magic,NO,Mob,2026-05-11-3.log.gz
+16,2026-05-11T22:27:38,MurzichAI,was blown up by Creeper,MurzichAI was blown up by Creeper,YES,Mob,2026-05-11-2.log.gz
+17,2026-05-11T23:34:16,axantroff,was slain by MurzichAI,axantroff was slain by MurzichAI,YES,PvP,2026-05-11-1.log.gz
+17,2026-05-11T23:36:50,trofimova2002,was blown up by Creeper,trofimova2002 was blown up by Creeper,NO,Mob,2026-05-11-1.log.gz
+17,2026-05-11T23:37:16,MurzichAI,was slain by Iron Golem,MurzichAI was slain by Iron Golem,NO,Mob,2026-05-11-1.log.gz
+18,2026-05-14T17:32:38,MurzichAI,went up in flames,MurzichAI went up in flames,YES,Environment,2026-05-14-15.log.gz
+19,2026-05-14T17:45:32,MurzichAI,was slain by Zombie,MurzichAI was slain by Zombie,YES,Mob,2026-05-14-14.log.gz
+19,2026-05-14T17:47:02,trofimova2002,was slain by Polar Bear,trofimova2002 was slain by Polar Bear,NO,Mob,2026-05-14-14.log.gz
+19,2026-05-14T17:47:58,axantroff,was slain by Polar Bear,axantroff was slain by Polar Bear,NO,Mob,2026-05-14-14.log.gz
+20,2026-05-14T18:03:40,MurzichAI,was slain by Husk,MurzichAI was slain by Husk,YES,Mob,2026-05-14-13.log.gz
+20,2026-05-14T18:04:42,trofimova2002,was shot by Skeleton,trofimova2002 was shot by Skeleton,NO,Mob,2026-05-14-13.log.gz
+21,2026-05-14T18:21:16,MurzichAI,was blown up by Creeper,MurzichAI was blown up by Creeper,YES,Mob,2026-05-14-12.log.gz
+21,2026-05-14T18:22:43,trofimova2002,was slain by Zombie,trofimova2002 was slain by Zombie,NO,Mob,2026-05-14-12.log.gz
+22,2026-05-14T18:49:35,axantroff,was blown up by Creeper,axantroff was blown up by Creeper,YES,Mob,2026-05-14-11.log.gz
+22,2026-05-14T18:50:57,MurzichAI,was slain by Iron Golem,MurzichAI was slain by Iron Golem,NO,Mob,2026-05-14-11.log.gz
+25,2026-05-14T19:50:20,MurzichAI,was slain by Zombie,MurzichAI was slain by Zombie,YES,Mob,2026-05-14-7.log.gz
+25,2026-05-14T19:52:34,trofimova2002,drowned,trofimova2002 drowned,NO,Mob,2026-05-14-7.log.gz
+26,2026-05-14T21:12:14,MurzichAI,tried to swim in lava,MurzichAI tried to swim in lava,YES,Environment,2026-05-14-6.log.gz
+27,2026-05-14T21:31:00,MurzichAI,fell from a high place,MurzichAI fell from a high place,YES,Environment,2026-05-14-5.log.gz
+27,2026-05-14T21:32:58,trofimova2002,fell from a high place,trofimova2002 fell from a high place,NO,Environment,2026-05-14-5.log.gz
+27,2026-05-14T21:33:45,axantroff,tried to swim in lava,axantroff tried to swim in lava,NO,Environment,2026-05-14-5.log.gz
+30,2026-05-14T21:42:09,axantroff,was slain by Wolf,axantroff was slain by Wolf,YES,Mob,2026-05-14-2.log.gz
+31,2026-05-14T22:28:55,MurzichAI,was shot by Skeleton,MurzichAI was shot by Skeleton,YES,Mob,2026-05-14-1.log.gz
+31,2026-05-14T22:36:01,trofimova2002,was slain by Blaze,trofimova2002 was slain by Blaze,NO,Mob,2026-05-14-1.log.gz
+31,2026-05-16T01:45:35,axantroff,tried to swim in lava,axantroff tried to swim in lava,NO,Environment,2026-05-16-12.log.gz
+37,2026-05-16T02:01:05,MurzichAI,was impaled by Drowned,MurzichAI was impaled by Drowned,YES,Mob,2026-05-16-6.log.gz
+39,2026-05-16T15:52:23,MurzichAI,was slain by Zombie,MurzichAI was slain by Zombie,YES,Mob,2026-05-16-5.log.gz
+39,2026-05-16T15:52:23,MurzichAI,was slain by Zombie,MurzichAI was slain by Zombie,NO,Mob,debug-5.log.gz
+43,2026-05-16T15:55:43,MurzichAI,was slain by axantroff,MurzichAI was slain by axantroff,YES,PvP,2026-05-16-3.log.gz
+43,2026-05-16T15:55:43,MurzichAI,was slain by axantroff,MurzichAI was slain by axantroff,NO,PvP,debug-3.log.gz
+48,2026-05-16T17:32:10,axantroff,was impaled on a stalagmite,axantroff was impaled on a stalagmite,YES,Environment,latest.log
+48,2026-05-16T17:37:34,MurzichAI,was shot by Skeleton,MurzichAI was shot by Skeleton,NO,Mob,latest.log
+48,2026-05-16T17:41:21,trofimova2002,was blown up by Creeper,trofimova2002 was blown up by Creeper,NO,Mob,latest.log

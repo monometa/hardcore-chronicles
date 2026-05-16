@@ -7,3 +7,7 @@ venv/
 .idea/
 .vscode/
 *.log
+
+# Raw server logs — bundled locally for auditors, not committed.
+# Methodology assumes presence at assets/logs/{vanilla,forge}/.
+assets/
