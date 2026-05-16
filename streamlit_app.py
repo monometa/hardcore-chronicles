@@ -1,4 +1,3 @@
-import re
 from pathlib import Path
 
 import pandas as pd
@@ -12,40 +11,24 @@ PLAYERS = ["MurzichAI", "axantroff", "trofimova2002"]
 
 # Palette derived from in-game Minecraft block colors
 PLAYER_COLOR = {
-    "MurzichAI": "#DC2626",     # redstone
-    "axantroff": "#3DD5F3",     # diamond
-    "trofimova2002": "#7CB342", # grass top
+    "MurzichAI": "#DC2626",
+    "axantroff": "#3DD5F3",
+    "trofimova2002": "#7CB342",
 }
 CAT_COLOR = {
-    "Mob": "#DC2626",          # redstone red — hostile mobs
-    "Environment": "#FF8C1A",  # lava orange — environment hazards
-    "PvP": "#3DD5F3",          # diamond cyan — player vs player
-    "Other": "#9CA3AF",        # stone gray
+    "Mob": "#DC2626",          # redstone red
+    "Environment": "#FF8C1A",  # lava orange
 }
-ACCENT_GOLD = "#FFAA00"        # gold ingot
-ACCENT_XP = "#A4FF00"          # XP green
-GRASS_GREEN = "#7CB342"        # grass top
+ACCENT_GOLD = "#FFAA00"
+GRASS_GREEN = "#7CB342"
 DIAMOND = "#3DD5F3"
-BG_DARK = "#1B1D24"            # deep obsidian-ish dark
-SURFACE = "#2A2D36"            # stone
+BG_DARK = "#1B1D24"
+SURFACE = "#2A2D36"
 BORDER = "#3D4148"
 TEXT = "#F5F5F5"
 MUTED = "#9CA3AF"
 
-MOB_KEYWORDS = [
-    "creeper","zombie","husk","skeleton","enderman","iron golem","piglin","ghast",
-    "blaze","wolf","bear","drowned","wither","spider","witch","vex","phantom",
-    "dragon","warden","vindicator","pillager","ravager","silverfish","endermite",
-    "slime","magma cube","elder guardian","guardian","shulker",
-]
-ENV_KEYWORDS = [
-    "fell","ground too hard","lava","fire","burn","flame","stalagmite","stalactite",
-    "cactus","lightning","drown","froze","frozen","starve","suffocate","wither",
-    "kinetic","crushed","squashed","bang","danger zone","wall","dehydration",
-    "floor was lava",
-]
-
-# Icons (emoji-based since Streamlit renders them natively)
+# Emoji icons rendered native by Streamlit (no font hassles)
 MOB_ICON = {
     "creeper": "🟢", "zombie": "🧟", "husk": "🧟", "skeleton": "💀",
     "enderman": "🟣", "iron golem": "🤖", "piglin": "🐷", "ghast": "👻",
@@ -58,18 +41,6 @@ ENV_ICON = {
     "cactus": "🌵", "lightning": "⚡", "drown": "🌊", "froze": "❄️",
     "frozen": "❄️", "starve": "🍖", "suffocate": "🧱",
 }
-
-
-def categorize(msg: str) -> str:
-    m = msg.lower()
-    for p in PLAYERS:
-        if f"by {p}" in msg:
-            return "PvP"
-    if any(k in m for k in MOB_KEYWORDS):
-        return "Mob"
-    if any(k in m for k in ENV_KEYWORDS):
-        return "Environment"
-    return "Other"
 
 
 def message_icon(msg: str) -> str:
@@ -86,17 +57,16 @@ def message_icon(msg: str) -> str:
 @st.cache_data
 def load_data():
     summary = pd.read_csv(DATA_DIR / "summary.csv")
-    worlds = pd.read_csv(DATA_DIR / "worlds.csv", parse_dates=["start_time", "first_death_at"])
+    worlds = pd.read_csv(
+        DATA_DIR / "worlds.csv",
+        parse_dates=["start_time", "first_death_at"],
+    )
     deaths = pd.read_csv(DATA_DIR / "deaths.csv", parse_dates=["timestamp"])
     death_messages = pd.read_csv(DATA_DIR / "death_messages.csv")
     players = pd.read_csv(DATA_DIR / "players.csv")
     pvp = pd.read_csv(DATA_DIR / "pvp.csv")
 
-    death_messages["category"] = death_messages["death_message"].map(categorize)
     death_messages["icon"] = death_messages["death_message"].map(message_icon)
-    worlds["first_death_category"] = worlds["first_death_message"].fillna("").map(
-        lambda m: categorize(m) if m else None
-    )
     return {
         "summary": dict(zip(summary["metric"], summary["value"])),
         "worlds": worlds,
@@ -105,10 +75,6 @@ def load_data():
         "players": players,
         "pvp": pvp,
     }
-
-
-def metric_to_int(d: dict, key: str) -> int:
-    return int(float(d[key]))
 
 
 def section_header(title: str, sub: str = ""):
@@ -145,24 +111,25 @@ def build_app():
         }}
         section[data-testid="stSidebar"] {{ background-color: {SURFACE}; }}
         .stPlotlyChart {{ background-color: transparent; }}
-        .fun-fact {{
-            background: {SURFACE};
-            padding: 16px 20px;
-            border-left: 5px solid {ACCENT_GOLD};
-            border-radius: 4px;
-            margin: 10px 0;
-            font-size: 0.98rem;
-            line-height: 1.55;
-        }}
-        .fun-fact b {{ color: {ACCENT_GOLD}; }}
         hr {{ border-color: {BORDER} !important; }}
+        .insight-card {{
+            background: {SURFACE};
+            border-left: 4px solid {ACCENT_GOLD};
+            border-radius: 4px;
+            padding: 12px 16px;
+            margin: 6px 0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }}
+        .insight-card .number {{ color: {ACCENT_GOLD}; font-weight: 800; font-size: 1.05rem; }}
         </style>
         """,
         unsafe_allow_html=True,
     )
 
     data = load_data()
-    s = data["summary"]
+    raw_worlds = data["worlds"]
+    raw_deaths = data["deaths"]
 
     # === Title ===
     st.markdown("# ⛏️ THE HARDCORE CHRONICLES")
@@ -171,194 +138,271 @@ def build_app():
         f"A Minecraft journey  —  May 5 to May 16, 2026</p>",
         unsafe_allow_html=True,
     )
-    st.markdown(f"<hr style='border-color:{BORDER};'>", unsafe_allow_html=True)
 
-    n_total = metric_to_int(s, "total_worlds_attempted")
-    n_failed = metric_to_int(s, "worlds_failed")
-    n_safe = metric_to_int(s, "worlds_survived_rerolled")
-    survival = data["worlds"]["survival_minutes"].dropna().astype(float)
-    total_hours = survival.sum() / 60
+    # === Filter toggle ===
+    f1, f2, _ = st.columns([1.2, 1.2, 1.6])
+    with f1:
+        exclude_short = st.toggle(
+            "Exclude worlds < 15 min active",
+            value=True,
+            help="Filters out worlds where total active play time was under 15 minutes — "
+                 "those were almost always rerolls or messing around, not real attempts.",
+        )
+    with f2:
+        exclude_pvp_msg = st.toggle(
+            "Exclude PvP deaths",
+            value=True,
+            help="PvP deaths (one of us killed another) are usually goofing around, "
+                 "not part of the hardcore challenge.",
+        )
+
+    # Apply filters
+    worlds = raw_worlds.copy()
+    if exclude_short:
+        worlds = worlds[worlds["active_minutes"].fillna(0).astype(float) >= 15]
+    if exclude_pvp_msg:
+        worlds = worlds[~(worlds["first_death_category"].fillna("") == "PvP")]
+
+    # Failed = died subset
+    failed = worlds[worlds["outcome"] == "died"].copy()
+    skipped = worlds[worlds["outcome"] == "skipped"].copy()
+    active_survival = failed["active_minutes"].astype(float)
+
+    n_total = len(worlds)
+    n_failed = len(failed)
+    n_skipped = len(skipped)
+    total_active_hours = (
+        worlds["active_minutes"].fillna(0).astype(float).sum() / 60
+    )
+
+    st.markdown(f"<hr style='border-color:{BORDER};'>", unsafe_allow_html=True)
 
     # === Hero metrics ===
     c1, c2, c3, c4 = st.columns(4)
     c1.metric("🌍  Worlds Attempted", n_total)
     c2.metric("💀  Ended in Death", n_failed)
-    c3.metric("🔄  Rerolled (skipped)", n_safe)
-    c4.metric("⏰  Total Lived", f"{total_hours:.0f} h")
+    c3.metric("🔄  Skipped (no death)", n_skipped)
+    c4.metric("⏰  Total Active Play", f"{total_active_hours:.1f} h")
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    # === Row: How each run ended (wide) + What killed the runs (narrow) ===
+    # === Death messages bar + Category donut ===
     left, right = st.columns([2.2, 1])
 
     with left:
-        section_header("☠️ How Each Run Ended", "First death per world — official Minecraft death message phrasing")
+        section_header(
+            "☠️ How Each Run Ended",
+            "First death per world — official Minecraft death message phrasing.",
+        )
 
-        dm = data["death_messages"].sort_values("count_first_deaths_only", ascending=True).copy()
-        dm = dm[dm["count_first_deaths_only"] > 0]
-        dm["label"] = dm.apply(
+        # build counts only over filtered worlds
+        msg_counts = failed["first_death_message"].value_counts().reset_index()
+        msg_counts.columns = ["death_message", "count"]
+        msg_counts = msg_counts.merge(
+            data["death_messages"][["death_message", "category", "icon"]],
+            on="death_message", how="left",
+        )
+        msg_counts["label"] = msg_counts.apply(
             lambda r: f"{r['icon']}  <player> {r['death_message']}", axis=1
         )
+        msg_counts = msg_counts.sort_values("count", ascending=True)
 
-        fig = px.bar(
-            dm,
-            x="count_first_deaths_only",
-            y="label",
-            orientation="h",
-            color="category",
-            color_discrete_map=CAT_COLOR,
-            text="count_first_deaths_only",
-            hover_data={"category": True, "label": False, "count_first_deaths_only": False, "death_message": True},
-            labels={"count_first_deaths_only": "Worlds ended this way", "label": ""},
-            height=520,
-        )
-        fig.update_traces(
-            textposition="outside",
-            textfont=dict(size=14, color=TEXT),
-            marker_line_color=BG_DARK,
-            marker_line_width=2,
-        )
-        fig.update_layout(
-            paper_bgcolor="rgba(0,0,0,0)",
-            plot_bgcolor="rgba(0,0,0,0)",
-            font=dict(family="monospace", color=TEXT, size=13),
-            margin=dict(l=10, r=40, t=10, b=40),
-            xaxis=dict(gridcolor=BORDER, zerolinecolor=BORDER),
-            yaxis=dict(gridcolor="rgba(0,0,0,0)"),
-            legend=dict(
-                title="Cause category",
-                orientation="h",
-                yanchor="bottom",
-                y=-0.25,
-                xanchor="right",
-                x=1,
-                bgcolor=SURFACE,
-                bordercolor=BORDER,
-                borderwidth=1,
-                font=dict(color=TEXT),
-            ),
-        )
-        st.plotly_chart(fig, use_container_width=True)
+        if msg_counts.empty:
+            st.info("No deaths after filters applied.")
+        else:
+            color_map = {**CAT_COLOR, "PvP": MUTED, "Other": MUTED}
+            fig = px.bar(
+                msg_counts, x="count", y="label", orientation="h",
+                color="category", color_discrete_map=color_map,
+                text="count",
+                labels={"count": "Worlds ended this way", "label": ""},
+                height=max(360, 40 * len(msg_counts) + 100),
+            )
+            fig.update_traces(
+                textposition="outside",
+                textfont=dict(size=14, color=TEXT),
+                marker_line_color=BG_DARK,
+                marker_line_width=2,
+            )
+            fig.update_layout(
+                paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
+                font=dict(family="monospace", color=TEXT, size=13),
+                margin=dict(l=10, r=40, t=10, b=40),
+                xaxis=dict(gridcolor=BORDER, zerolinecolor=BORDER),
+                yaxis=dict(gridcolor="rgba(0,0,0,0)"),
+                legend=dict(
+                    title="Cause", orientation="h", yanchor="bottom", y=-0.18,
+                    xanchor="right", x=1, bgcolor=SURFACE,
+                    bordercolor=BORDER, borderwidth=1, font=dict(color=TEXT),
+                ),
+            )
+            st.plotly_chart(fig, use_container_width=True)
 
     with right:
-        section_header("🎯 What Killed the Runs", "All 30 deaths by category")
+        section_header("🎯 Mob vs Environment", "Of all hardcore-ending deaths.")
 
-        cat_counts = data["death_messages"].groupby("category")["count_first_deaths_only"].sum().reset_index()
-        cat_counts = cat_counts[cat_counts["count_first_deaths_only"] > 0]
+        # Only show Mob and Environment, exclude PvP/Other from donut
+        cat = failed["first_death_category"].copy()
+        cat_counts = cat[cat.isin(["Mob", "Environment"])].value_counts().reset_index()
+        cat_counts.columns = ["category", "n"]
+
+        if cat_counts.empty:
+            st.info("No categorized deaths after filters.")
+        else:
+            fig = go.Figure(
+                data=[
+                    go.Pie(
+                        labels=cat_counts["category"],
+                        values=cat_counts["n"],
+                        hole=0.6,
+                        marker=dict(
+                            colors=[CAT_COLOR[c] for c in cat_counts["category"]],
+                            line=dict(color=BG_DARK, width=4),
+                        ),
+                        textinfo="label+percent",
+                        textfont=dict(size=15, family="monospace", color=TEXT),
+                        hovertemplate="<b>%{label}</b><br>%{value} deaths<br>%{percent}<extra></extra>",
+                    )
+                ]
+            )
+            fig.update_layout(
+                paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
+                showlegend=False,
+                margin=dict(l=20, r=20, t=20, b=20),
+                height=420,
+                annotations=[
+                    dict(
+                        text=f"<b>{cat_counts['n'].sum()}</b><br>"
+                             f"<span style='font-size:13px;color:{MUTED}'>deaths</span>",
+                        x=0.5, y=0.5, font=dict(size=38, color=ACCENT_GOLD), showarrow=False,
+                    )
+                ],
+            )
+            st.plotly_chart(fig, use_container_width=True)
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    # === Time-to-first-death histogram (using ACTIVE minutes) ===
+    section_header(
+        "⏰ How Long Each Run Lasted",
+        "Active play time from world creation to first death — idle / overnight server time is excluded.",
+    )
+
+    if active_survival.empty:
+        st.info("No deaths after filters applied.")
+    else:
+        bins = [0, 5, 15, 30, 60, 120, 240, 10_000]
+        labels = ["<5 min", "5–15 min", "15–30 min", "30 min – 1 h", "1–2 h", "2–4 h", "4 h+"]
+        survival_binned = pd.cut(active_survival, bins=bins, labels=labels, right=False)
+        counts = survival_binned.value_counts().reindex(labels).fillna(0).astype(int)
 
         fig = go.Figure(
             data=[
-                go.Pie(
-                    labels=cat_counts["category"],
-                    values=cat_counts["count_first_deaths_only"],
-                    hole=0.55,
-                    marker=dict(
-                        colors=[CAT_COLOR[c] for c in cat_counts["category"]],
-                        line=dict(color=BG_DARK, width=4),
-                    ),
-                    textinfo="label+percent",
-                    textfont=dict(size=14, family="monospace", color=TEXT),
-                    hovertemplate="<b>%{label}</b><br>%{value} deaths<br>%{percent}<extra></extra>",
+                go.Bar(
+                    x=labels, y=counts.values,
+                    marker=dict(color=GRASS_GREEN, line=dict(color=BG_DARK, width=2)),
+                    text=counts.values, textposition="outside",
+                    textfont=dict(size=14, color=TEXT),
+                    hovertemplate="<b>%{x}</b><br>%{y} worlds<extra></extra>",
                 )
             ]
         )
         fig.update_layout(
-            paper_bgcolor="rgba(0,0,0,0)",
-            plot_bgcolor="rgba(0,0,0,0)",
-            showlegend=False,
-            margin=dict(l=20, r=20, t=20, b=20),
-            height=420,
-            annotations=[
-                dict(text=f"<b>{n_failed}</b><br><span style='font-size:13px;color:{MUTED}'>deaths</span>",
-                     x=0.5, y=0.5, font=dict(size=38, color=ACCENT_GOLD), showarrow=False)
-            ],
+            paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
+            font=dict(family="monospace", color=TEXT, size=13),
+            height=360,
+            margin=dict(l=40, r=40, t=20, b=40),
+            xaxis=dict(gridcolor="rgba(0,0,0,0)"),
+            yaxis=dict(gridcolor=BORDER, title="Worlds"),
         )
         st.plotly_chart(fig, use_container_width=True)
 
+        sc1, sc2, sc3, sc4 = st.columns(4)
+        sc1.metric("Median", f"{active_survival.median():.0f} min")
+        sc2.metric("Mean",   f"{active_survival.mean():.0f} min")
+        sc3.metric("Longest", f"{active_survival.max():.0f} min")
+        sc4.metric("Shortest", f"{active_survival.min():.1f} min")
+
     st.markdown("<br>", unsafe_allow_html=True)
 
-    # === Time to first death (full width) ===
-    section_header("⏰ How Long Each Run Lasted", "Time from world creation to first death")
+    # === Key insights (unique stats, not duplicated above) ===
+    section_header("💡 Key Insights")
+    if not failed.empty:
+        msg_cnt = failed["first_death_message"].value_counts()
+        top1_msg, top1_n = msg_cnt.index[0], msg_cnt.iloc[0]
+        top3_share = 100 * msg_cnt.head(3).sum() / msg_cnt.sum()
+        unique_msgs = len(msg_cnt)
+        only_once = msg_cnt[msg_cnt == 1]
+        cat_share = failed["first_death_category"].value_counts(normalize=True) * 100
 
-    bins = [0, 5, 15, 30, 60, 120, 240, 10_000]
-    labels = ["<5 min", "5–15 min", "15–30 min", "30 min – 1 h", "1–2 h", "2–4 h", "4 h+"]
-    survival_binned = pd.cut(survival, bins=bins, labels=labels, right=False)
-    counts = survival_binned.value_counts().reindex(labels).fillna(0).astype(int)
+        # Specific killer extraction (e.g., "by Creeper" -> Creeper)
+        import re as _re
+        killer_re = _re.compile(r"by ([A-Z][\w-]+(?: [A-Z][\w-]+)?)")
+        specific_killer = failed["first_death_message"].apply(
+            lambda m: (killer_re.search(m).group(1) if killer_re.search(m) else None)
+        )
+        sk_counts = specific_killer.dropna().value_counts()
 
-    median = survival.median()
-    mean = survival.mean()
-    longest = survival.max()
-    shortest = survival.min()
-
-    fig = go.Figure(
-        data=[
-            go.Bar(
-                x=labels,
-                y=counts.values,
-                marker=dict(color=GRASS_GREEN, line=dict(color=BG_DARK, width=2)),
-                text=counts.values,
-                textposition="outside",
-                textfont=dict(size=14, color=TEXT),
-                hovertemplate="<b>%{x}</b><br>%{y} worlds<extra></extra>",
+        insights = []
+        insights.append(
+            f"💥 <span class='number'>{100*top1_n/msg_cnt.sum():.0f}%</span> of failed runs "
+            f"ended with «{top1_msg}» ({top1_n} of {msg_cnt.sum()})"
+        )
+        insights.append(
+            f"📊 Top 3 death causes account for "
+            f"<span class='number'>{top3_share:.0f}%</span> of all failed runs"
+        )
+        insights.append(
+            f"🔢 <span class='number'>{unique_msgs}</span> different death messages "
+            f"happened — <span class='number'>{len(only_once)}</span> only once "
+            f"({', '.join(only_once.index[:3].tolist())}{'…' if len(only_once)>3 else ''})"
+        )
+        if "Mob" in cat_share:
+            insights.append(
+                f"🧟 Hostile mobs caused "
+                f"<span class='number'>{cat_share['Mob']:.0f}%</span> of all hardcore endings; "
+                f"environment caused <span class='number'>"
+                f"{cat_share.get('Environment',0):.0f}%</span>"
             )
+        if not sk_counts.empty:
+            insights.append(
+                f"🏆 Deadliest specific enemy: <span class='number'>{sk_counts.index[0]}</span> "
+                f"({sk_counts.iloc[0]} kills)"
+            )
+        # Average active time before death
+        insights.append(
+            f"⏱  An average run lasted "
+            f"<span class='number'>{active_survival.mean():.0f} active minutes</span> "
+            f"before someone died"
+        )
+
+        for ins in insights:
+            st.markdown(f"<div class='insight-card'>{ins}</div>", unsafe_allow_html=True)
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    # === Browse worlds (uses filtered list) ===
+    with st.expander(f"📋 Browse every world  ({n_total} after filters)"):
+        w = worlds.copy()
+        w["outcome"] = w["outcome"].map({"died": "Died", "skipped": "Skipped (no death)"})
+        w = w[[
+            "world_num", "start_time", "outcome", "active_minutes", "wallclock_minutes",
+            "first_death_player", "first_death_message", "first_death_category", "total_deaths",
+        ]]
+        w.columns = [
+            "World #", "Started", "Outcome", "Active (min)", "Wall-clock (min)",
+            "First died", "Death cause", "Category", "Total deaths",
         ]
-    )
-    fig.update_layout(
-        paper_bgcolor="rgba(0,0,0,0)",
-        plot_bgcolor="rgba(0,0,0,0)",
-        font=dict(family="monospace", color=TEXT, size=13),
-        height=360,
-        margin=dict(l=40, r=40, t=20, b=40),
-        xaxis=dict(gridcolor="rgba(0,0,0,0)"),
-        yaxis=dict(gridcolor=BORDER, title="Worlds"),
-    )
-    st.plotly_chart(fig, use_container_width=True)
-
-    sc1, sc2, sc3, sc4 = st.columns(4)
-    sc1.metric("Median", f"{median:.0f} min")
-    sc2.metric("Mean", f"{mean:.0f} min")
-    sc3.metric("Longest", f"{longest:.0f} min")
-    sc4.metric("Shortest", f"{shortest:.1f} min")
-
-    st.markdown("<br>", unsafe_allow_html=True)
-
-    # === Fun facts ===
-    longest_row = data["worlds"].sort_values("survival_minutes", ascending=False).iloc[0]
-    shortest_row = data["worlds"][data["worlds"]["survival_minutes"].notna()].sort_values(
-        "survival_minutes"
-    ).iloc[0]
-
-    section_header("🏆 Fun Facts")
-    st.markdown(
-        f"""
-        <div class='fun-fact'>🏆  <b>Longest run:</b> {longest_row['survival_minutes']:.0f} minutes — ended by
-        «{longest_row['first_death_player']} {longest_row['first_death_message']}» <i>(world #{int(longest_row['world_num'])})</i></div>
-        <div class='fun-fact'>⚡  <b>Shortest run:</b> {shortest_row['survival_minutes']:.1f} minutes — «{shortest_row['first_death_player']} {shortest_row['first_death_message']}» <i>(world #{int(shortest_row['world_num'])})</i></div>
-        <div class='fun-fact'>🌍  <b>Failure rate:</b> {100*n_failed/n_total:.0f}% of worlds ended in death</div>
-        <div class='fun-fact'>⛏️  <b>Total time alive across all attempts:</b> {total_hours:.1f} hours</div>
-        """,
-        unsafe_allow_html=True,
-    )
-
-    st.markdown("<br>", unsafe_allow_html=True)
-
-    # === Worlds table (expandable) ===
-    with st.expander("📋 Browse every world (sortable / filterable)"):
-        w = data["worlds"][[
-            "world_num", "start_time", "outcome", "survival_minutes",
-            "first_death_player", "first_death_message", "first_death_category",
-            "total_deaths",
-        ]].copy()
-        w.columns = ["World #", "Started", "Outcome", "Lived (min)",
-                     "First died", "Death cause", "Category", "Total deaths"]
         st.dataframe(w, use_container_width=True, hide_index=True)
 
     # === Footer ===
     st.markdown(f"<hr style='border-color:{BORDER};'>", unsafe_allow_html=True)
     st.caption(
-        "Source: Minecraft server logs (vanilla + Forge), parsed and aggregated. "
-        "Only worlds created after `hardcore=true` was enabled (2026-05-05 21:37) are counted. "
-        "Cause categories: **Mob** (hostile entities), **Environment** (fall, lava, fire, etc.), **PvP** (killed by another player)."
+        f"Source: Minecraft server logs (vanilla + Forge). Only worlds created after "
+        f"`hardcore=true` was enabled (2026-05-05 21:37). "
+        f"Active minutes = wall-clock time where at least one player was logged in "
+        f"(computed from `joined the game` / `left the game` events). "
+        f"Filters above apply to all charts."
     )
 
 

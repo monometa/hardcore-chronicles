@@ -1,20 +1,20 @@
-death_message,count_first_deaths_only,example_full
-was blown up by Creeper,7,<player> was blown up by Creeper
-was slain by Zombie,4,<player> was slain by Zombie
-fell from a high place,2,<player> fell from a high place
-was slain by Enderman,2,<player> was slain by Enderman
-was doomed to fall by Ghast,1,<player> was doomed to fall by Ghast
-was burned to a crisp while fighting Blaze,1,<player> was burned to a crisp while fighting Blaze
-was slain by Iron Golem,1,<player> was slain by Iron Golem
-was slain by Piglin,1,<player> was slain by Piglin
-hit the ground too hard,1,<player> hit the ground too hard
-was killed by Ender Dragon using magic,1,<player> was killed by Ender Dragon using magic
-was slain by MurzichAI,1,<player> was slain by MurzichAI
-went up in flames,1,<player> went up in flames
-was slain by Husk,1,<player> was slain by Husk
-tried to swim in lava,1,<player> tried to swim in lava
-was slain by Wolf,1,<player> was slain by Wolf
-was shot by Skeleton,1,<player> was shot by Skeleton
-was impaled by Drowned,1,<player> was impaled by Drowned
-was slain by axantroff,1,<player> was slain by axantroff
-was impaled on a stalagmite,1,<player> was impaled on a stalagmite
+death_message,count_first_deaths_only,category,example_full
+was blown up by Creeper,7,Mob,<player> was blown up by Creeper
+was slain by Zombie,4,Mob,<player> was slain by Zombie
+fell from a high place,2,Environment,<player> fell from a high place
+was slain by Enderman,2,Mob,<player> was slain by Enderman
+was doomed to fall by Ghast,1,Mob,<player> was doomed to fall by Ghast
+was burned to a crisp while fighting Blaze,1,Mob,<player> was burned to a crisp while fighting Blaze
+was slain by Iron Golem,1,Mob,<player> was slain by Iron Golem
+was slain by Piglin,1,Mob,<player> was slain by Piglin
+hit the ground too hard,1,Environment,<player> hit the ground too hard
+was killed by Ender Dragon using magic,1,Mob,<player> was killed by Ender Dragon using magic
+was slain by MurzichAI,1,PvP,<player> was slain by MurzichAI
+went up in flames,1,Environment,<player> went up in flames
+was slain by Husk,1,Mob,<player> was slain by Husk
+tried to swim in lava,1,Environment,<player> tried to swim in lava
+was slain by Wolf,1,Mob,<player> was slain by Wolf
+was shot by Skeleton,1,Mob,<player> was shot by Skeleton
+was impaled by Drowned,1,Mob,<player> was impaled by Drowned
+was slain by axantroff,1,PvP,<player> was slain by axantroff
+was impaled on a stalagmite,1,Environment,<player> was impaled on a stalagmite
