@@ -5,6 +5,17 @@ import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
 
+from i18n import (
+    advancement_label,
+    cause_label,
+    death_message_label,
+    language_selector,
+    outcome_label,
+    tr,
+    unit_hours,
+    unit_minutes,
+)
+
 DATA_DIR = Path(__file__).parent / "data"
 
 PLAYERS = ["MurzichAI", "axantroff", "trofimova2002"]
@@ -134,6 +145,10 @@ def build_app():
         unsafe_allow_html=True,
     )
 
+    lang = language_selector()
+    died_label = outcome_label("died", lang, compact=True)
+    rerolled_label = outcome_label("skipped", lang, compact=True)
+
     data = load_data()
     raw_worlds = data["worlds"]
     raw_deaths = data["deaths"]
@@ -142,7 +157,8 @@ def build_app():
     st.markdown("# ⛏️ THE HARDCORE CHRONICLES")
     st.markdown(
         f"<p style='text-align:center;color:{MUTED};font-style:italic;margin-top:-10px;'>"
-        f"A Minecraft journey  —  May 5 to May 16, 2026</p>",
+        f"{tr(lang, 'A Minecraft journey', 'Наш Minecraft-марафон')}  —  "
+        f"{tr(lang, 'May 5 to May 16, 2026', '5-16 мая 2026')}</p>",
         unsafe_allow_html=True,
     )
 
@@ -153,10 +169,15 @@ def build_app():
     f1, _ = st.columns([1.2, 2.8])
     with f1:
         exclude_short = st.toggle(
-            "Exclude worlds < 15 min active",
+            tr(lang, "Exclude worlds < 15 min active", "Скрыть миры < 15 мин активной игры"),
             value=False,
-            help="Filters out worlds where total active play time was under 15 minutes — "
-                 "those were almost always rerolls or messing around, not real attempts.",
+            help=tr(
+                lang,
+                "Filters out worlds where total active play time was under 15 minutes — "
+                "those were almost always rerolls or messing around, not real attempts.",
+                "Убирает миры, где активной игры было меньше 15 минут. "
+                "Это почти всегда быстрые рероллы или возня между попытками.",
+            ),
         )
 
     # Apply filters — drive every chart/insight on the page, including the hero.
@@ -180,26 +201,33 @@ def build_app():
 
     # === Hero metrics (respect the toggle above) ===
     c1, c2, c3, c4 = st.columns(4)
-    c1.metric("🌍  Worlds Attempted", n_total)
-    c2.metric("💀  Ended in Death", n_failed)
-    c3.metric("🔄  Skipped (no death)", n_skipped)
-    c4.metric("⏰  Total Active Play", f"{total_active_hours:.1f} h")
+    c1.metric(tr(lang, "🌍  Worlds Attempted", "🌍  Миров создано"), n_total)
+    c2.metric(tr(lang, "💀  Ended in Death", "💀  Закончились смертью"), n_failed)
+    c3.metric(tr(lang, "🔄  Skipped (no death)", "🔄  Рероллы без смерти"), n_skipped)
+    c4.metric(
+        tr(lang, "⏰  Total Active Play", "⏰  Активной игры"),
+        f"{total_active_hours:.1f} {unit_hours(lang)}",
+    )
 
     st.markdown("<br>", unsafe_allow_html=True)
 
     # === Worlds per Day ===
     section_header(
-        "📅 Worlds Per Day",
-        "Daily attempt count. Outcome stacked: red = ended in death, gold = rerolled.",
+        tr(lang, "📅 Worlds Per Day", "📅 Миры по дням"),
+        tr(
+            lang,
+            "Daily attempt count. Outcome stacked: red = ended in death, gold = rerolled.",
+            "Сколько попыток начиналось каждый день. Красное = смерть, золото = реролл.",
+        ),
     )
 
     if worlds.empty:
-        st.info("No worlds after filters applied.")
+        st.info(tr(lang, "No worlds after filters applied.", "После фильтров не осталось миров."))
     else:
         per_day = worlds.copy()
         per_day["day"] = per_day["start_time"].dt.date
         per_day["outcome_label"] = per_day["outcome"].map(
-            {"died": "Died", "skipped": "Rerolled"}
+            {"died": died_label, "skipped": rerolled_label}
         )
         grouped = (
             per_day.groupby(["day", "outcome_label"])
@@ -209,10 +237,14 @@ def build_app():
         all_days = pd.date_range(per_day["day"].min(), per_day["day"].max(), freq="D").date
         fig = px.bar(
             grouped, x="day", y="count", color="outcome_label",
-            color_discrete_map={"Died": "#DC2626", "Rerolled": ACCENT_GOLD},
+            color_discrete_map={died_label: "#DC2626", rerolled_label: ACCENT_GOLD},
             text="count",
-            labels={"day": "", "count": "Worlds", "outcome_label": "Outcome"},
-            category_orders={"outcome_label": ["Died", "Rerolled"]},
+            labels={
+                "day": "",
+                "count": tr(lang, "Worlds", "Миры"),
+                "outcome_label": tr(lang, "Outcome", "Итог"),
+            },
+            category_orders={"outcome_label": [died_label, rerolled_label]},
             height=300,
         )
         fig.update_traces(
@@ -232,7 +264,7 @@ def build_app():
                 tickformat="%b %-d",
                 tickangle=-45,
             ),
-            yaxis=dict(gridcolor=BORDER, title="Worlds started"),
+            yaxis=dict(gridcolor=BORDER, title=tr(lang, "Worlds started", "Миров начато")),
             legend=dict(
                 orientation="h", yanchor="bottom", y=-0.35, xanchor="right", x=1,
                 bgcolor=SURFACE, bordercolor=BORDER, borderwidth=1, font=dict(color=TEXT),
@@ -249,12 +281,12 @@ def build_app():
             .sort_values(ascending=False).index[0]
         )
         pd1, pd2, pd3 = st.columns(3)
-        pd1.metric("Days Played", f"{days_played}")
-        pd2.metric("Avg Worlds / Day", f"{worlds_per_day:.1f}")
+        pd1.metric(tr(lang, "Days Played", "Дней игры"), f"{days_played}")
+        pd2.metric(tr(lang, "Avg Worlds / Day", "Миров в день"), f"{worlds_per_day:.1f}")
         pd3.metric(
-            "Peak Day",
-            f"{peak_day_count} worlds",
-            help=f"On {peak_day.strftime('%b %-d')}",
+            tr(lang, "Peak Day", "Самый плотный день"),
+            tr(lang, f"{peak_day_count} worlds", f"{peak_day_count} миров"),
+            help=tr(lang, f"On {peak_day.strftime('%b %-d')}", f"{peak_day.strftime('%d.%m.%Y')}"),
         )
 
     st.markdown("<br>", unsafe_allow_html=True)
@@ -264,8 +296,12 @@ def build_app():
 
     with left:
         section_header(
-            "☠️ How Each Run Ended",
-            "First death per world — official Minecraft death message phrasing.",
+            tr(lang, "☠️ How Each Run Ended", "☠️ Чем заканчивались попытки"),
+            tr(
+                lang,
+                "First death per world — official Minecraft death message phrasing.",
+                "Первая смерть в каждом мире. Русские подписи сверены с официальной локализацией Minecraft.",
+            ),
         )
 
         # build counts only over filtered worlds
@@ -275,21 +311,29 @@ def build_app():
             data["death_messages"][["death_message", "category", "icon"]],
             on="death_message", how="left",
         )
+        msg_counts["category_label"] = msg_counts["category"].map(lambda c: cause_label(c, lang))
         msg_counts["label"] = msg_counts.apply(
-            lambda r: f"{r['icon']}  <player> {r['death_message']}", axis=1
+            lambda r: f"{r['icon']}  <player> {death_message_label(r['death_message'], lang)}",
+            axis=1,
         )
         # Global desc ordering by count, regardless of category color groupings.
         msg_counts = msg_counts.sort_values("count", ascending=True)
 
         if msg_counts.empty:
-            st.info("No deaths after filters applied.")
+            st.info(tr(lang, "No deaths after filters applied.", "После фильтров не осталось смертей."))
         else:
-            color_map = {**CAT_COLOR, "PvP": MUTED, "Other": MUTED}
+            color_map = {
+                cause_label(k, lang): v for k, v in {**CAT_COLOR, "PvP": MUTED, "Other": MUTED}.items()
+            }
             fig = px.bar(
                 msg_counts, x="count", y="label", orientation="h",
-                color="category", color_discrete_map=color_map,
+                color="category_label", color_discrete_map=color_map,
                 text="count",
-                labels={"count": "Worlds ended this way", "label": ""},
+                labels={
+                    "count": tr(lang, "Worlds ended this way", "Миров закончилось так"),
+                    "label": "",
+                    "category_label": tr(lang, "Cause", "Причина"),
+                },
                 height=max(360, 40 * len(msg_counts) + 100),
             )
             fig.update_traces(
@@ -311,7 +355,7 @@ def build_app():
                 xaxis=dict(gridcolor=BORDER, zerolinecolor=BORDER),
                 yaxis=dict(gridcolor="rgba(0,0,0,0)"),
                 legend=dict(
-                    title="Cause", orientation="h", yanchor="bottom", y=-0.18,
+                    title=tr(lang, "Cause", "Причина"), orientation="h", yanchor="bottom", y=-0.18,
                     xanchor="right", x=1, bgcolor=SURFACE,
                     bordercolor=BORDER, borderwidth=1, font=dict(color=TEXT),
                 ),
@@ -319,20 +363,24 @@ def build_app():
             st.plotly_chart(fig, use_container_width=True)
 
     with right:
-        section_header("🎯 Mob vs Environment", "Of all hardcore-ending deaths.")
+        section_header(
+            tr(lang, "🎯 Mob vs Environment", "🎯 Мобы против среды"),
+            tr(lang, "Of all hardcore-ending deaths.", "Среди всех смертей, которые закрыли попытку."),
+        )
 
         # Only show Mob and Environment, exclude PvP/Other from donut
         cat = failed["first_death_category"].copy()
         cat_counts = cat[cat.isin(["Mob", "Environment"])].value_counts().reset_index()
         cat_counts.columns = ["category", "n"]
+        cat_counts["category_label"] = cat_counts["category"].map(lambda c: cause_label(c, lang))
 
         if cat_counts.empty:
-            st.info("No categorized deaths after filters.")
+            st.info(tr(lang, "No categorized deaths after filters.", "После фильтров нет смертей с категорией."))
         else:
             fig = go.Figure(
                 data=[
                     go.Pie(
-                        labels=cat_counts["category"],
+                        labels=cat_counts["category_label"],
                         values=cat_counts["n"],
                         hole=0.6,
                         marker=dict(
@@ -341,7 +389,11 @@ def build_app():
                         ),
                         textinfo="label+percent",
                         textfont=dict(size=15, family="monospace", color=TEXT),
-                        hovertemplate="<b>%{label}</b><br>%{value} deaths<br>%{percent}<extra></extra>",
+                        hovertemplate=tr(
+                            lang,
+                            "<b>%{label}</b><br>%{value} deaths<br>%{percent}<extra></extra>",
+                            "<b>%{label}</b><br>%{value} смертей<br>%{percent}<extra></extra>",
+                        ),
                     )
                 ]
             )
@@ -353,7 +405,8 @@ def build_app():
                 annotations=[
                     dict(
                         text=f"<b>{cat_counts['n'].sum()}</b><br>"
-                             f"<span style='font-size:13px;color:{MUTED}'>deaths</span>",
+                             f"<span style='font-size:13px;color:{MUTED}'>"
+                             f"{tr(lang, 'deaths', 'смертей')}</span>",
                         x=0.5, y=0.5, font=dict(size=38, color=ACCENT_GOLD), showarrow=False,
                     )
                 ],
@@ -364,15 +417,23 @@ def build_app():
 
     # === Time-to-first-death histogram (using ACTIVE minutes) ===
     section_header(
-        "⏰ How Long Each Run Lasted",
-        "Active play time from world creation to first death — idle / overnight server time is excluded.",
+        tr(lang, "⏰ How Long Each Run Lasted", "⏰ Сколько жили попытки"),
+        tr(
+            lang,
+            "Active play time from world creation to first death — idle / overnight server time is excluded.",
+            "Активное время от создания мира до первой смерти. Ночной простой сервера не считается.",
+        ),
     )
 
     if active_survival.empty:
-        st.info("No deaths after filters applied.")
+        st.info(tr(lang, "No deaths after filters applied.", "После фильтров не осталось смертей."))
     else:
         bins = [0, 5, 15, 30, 60, 120, 240, 10_000]
-        labels = ["<5 min", "5–15 min", "15–30 min", "30 min – 1 h", "1–2 h", "2–4 h", "4 h+"]
+        labels = tr(
+            lang,
+            ["<5 min", "5–15 min", "15–30 min", "30 min – 1 h", "1–2 h", "2–4 h", "4 h+"],
+            ["<5 мин", "5-15 мин", "15-30 мин", "30 мин - 1 ч", "1-2 ч", "2-4 ч", "4 ч+"],
+        )
         survival_binned = pd.cut(active_survival, bins=bins, labels=labels, right=False)
         counts = survival_binned.value_counts().reindex(labels).fillna(0).astype(int)
 
@@ -383,7 +444,11 @@ def build_app():
                     marker=dict(color=GRASS_GREEN, line=dict(color=BG_DARK, width=2)),
                     text=counts.values, textposition="outside",
                     textfont=dict(size=14, color=TEXT),
-                    hovertemplate="<b>%{x}</b><br>%{y} worlds<extra></extra>",
+                    hovertemplate=tr(
+                        lang,
+                        "<b>%{x}</b><br>%{y} worlds<extra></extra>",
+                        "<b>%{x}</b><br>%{y} миров<extra></extra>",
+                    ),
                 )
             ]
         )
@@ -393,23 +458,27 @@ def build_app():
             height=360,
             margin=dict(l=40, r=40, t=20, b=40),
             xaxis=dict(gridcolor="rgba(0,0,0,0)"),
-            yaxis=dict(gridcolor=BORDER, title="Worlds"),
+            yaxis=dict(gridcolor=BORDER, title=tr(lang, "Worlds", "Миры")),
         )
         st.plotly_chart(fig, use_container_width=True)
 
         sc1, sc2, sc3, sc4 = st.columns(4)
-        sc1.metric("Median", f"{active_survival.median():.0f} min")
-        sc2.metric("Mean",   f"{active_survival.mean():.0f} min")
-        sc3.metric("Longest", f"{active_survival.max():.0f} min")
-        sc4.metric("Shortest", f"{active_survival.min():.1f} min")
+        sc1.metric(tr(lang, "Median", "Медиана"), f"{active_survival.median():.0f} {unit_minutes(lang)}")
+        sc2.metric(tr(lang, "Mean", "Среднее"), f"{active_survival.mean():.0f} {unit_minutes(lang)}")
+        sc3.metric(tr(lang, "Longest", "Самая долгая"), f"{active_survival.max():.0f} {unit_minutes(lang)}")
+        sc4.metric(tr(lang, "Shortest", "Самая короткая"), f"{active_survival.min():.1f} {unit_minutes(lang)}")
 
     st.markdown("<br>", unsafe_allow_html=True)
 
     # === Achievements / Progression ===
     section_header(
-        "🏆 How Far Each Run Got",
-        "Advancements earned from log broadcasts (excludes recipe unlocks). "
-        "Filters above apply: only worlds passing the active-minutes / PvP toggles are counted.",
+        tr(lang, "🏆 How Far Each Run Got", "🏆 До чего мы доходили"),
+        tr(
+            lang,
+            "Advancements earned from log broadcasts (excludes recipe unlocks). "
+            "Filters above apply: only worlds passing the active-minutes / PvP toggles are counted.",
+            "Достижения из серверных логов без рецептов. Фильтры сверху применяются и здесь.",
+        ),
     )
 
     adv = data["advancements"]
@@ -417,7 +486,7 @@ def build_app():
     n_filt_worlds = len(worlds)
 
     if adv_filt.empty:
-        st.info("No advancements after filters applied.")
+        st.info(tr(lang, "No advancements after filters applied.", "После фильтров не осталось достижений."))
     else:
         # --- Hero stats row ---
         unique_advs = adv_filt["advancement"].nunique()
@@ -434,23 +503,40 @@ def build_app():
 
         a1, a2, a3, a4 = st.columns(4)
         a1.metric(
-            "🏅  Unique Advancements", f"{unique_advs}",
-            help=f"{total_adv_events} broadcasts in total across these worlds.",
+            tr(lang, "🏅  Unique Advancements", "🏅  Уникальных достижений"),
+            f"{unique_advs}",
+            help=tr(
+                lang,
+                f"{total_adv_events} broadcasts in total across these worlds.",
+                f"{total_adv_events} сообщений о достижениях в этих мирах.",
+            ),
         )
         a2.metric(
-            "⛏️  Worlds Reached Iron",
+            tr(lang, "⛏️  Worlds Reached Iron", "⛏️  Миры дошли до железа"),
             f"{worlds_with_iron} / {n_filt_worlds}",
-            help="Worlds where any player got the 'Acquire Hardware' advancement.",
+            help=tr(
+                lang,
+                "Worlds where any player got the 'Acquire Hardware' advancement.",
+                "Миры, где кто-то получил достижение 'Куй железо...'.",
+            ),
         )
         a3.metric(
-            "💎  Worlds Reached Diamond",
+            tr(lang, "💎  Worlds Reached Diamond", "💎  Миры дошли до алмазов"),
             f"{worlds_with_diamond} / {n_filt_worlds}",
-            help="Worlds where any player got the 'Diamonds!' advancement.",
+            help=tr(
+                lang,
+                "Worlds where any player got the 'Diamonds!' advancement.",
+                "Миры, где кто-то получил достижение 'Алмазы!'.",
+            ),
         )
         a4.metric(
-            "🔥  Worlds Reached Nether",
+            tr(lang, "🔥  Worlds Reached Nether", "🔥  Миры дошли до Незера"),
             f"{worlds_with_nether} / {n_filt_worlds}",
-            help="Worlds where any player got 'We Need to Go Deeper'.",
+            help=tr(
+                lang,
+                "Worlds where any player got 'We Need to Go Deeper'.",
+                "Миры, где кто-то получил достижение 'Огненные недра'.",
+            ),
         )
 
         st.markdown("<br>", unsafe_allow_html=True)
@@ -459,21 +545,21 @@ def build_app():
         # Milestones ordered by natural progression. Reach = unique worlds where
         # any player triggered the advancement.
         milestone_order = [
-            ("Stone Age",            "🪨", "first cobblestone"),
-            ("Sweet Dreams",         "🛏️", "first sleep"),
-            ("Suit Up",              "🛡️", "first armor"),
-            ("Getting an Upgrade",   "🔨", "first stone tool"),
-            ("Acquire Hardware",     "⛏️", "first iron ingot"),
-            ("Isn't It Iron Pick",   "⚒️", "first iron pick"),
-            ("Hot Stuff",            "🪣", "first lava bucket"),
-            ("Ice Bucket Challenge", "🧊", "first obsidian"),
-            ("Diamonds!",            "💎", "first diamond"),
-            ("Cover Me with Diamonds","🛡️", "diamond armor"),
-            ("We Need to Go Deeper", "🌋", "entered the Nether"),
-            ("A Terrible Fortress",  "🏰", "found Nether fortress"),
-            ("Into Fire",            "🔥", "got blaze rod"),
-            ("Eye Spy",              "👁️", "got ender eye"),
-            ("The End?",             "🐉", "reached The End"),
+            ("Stone Age",            "🪨", tr(lang, "first cobblestone", "первый булыжник")),
+            ("Sweet Dreams",         "🛏️", tr(lang, "first sleep", "первый сон")),
+            ("Suit Up",              "🛡️", tr(lang, "first armor", "первая броня")),
+            ("Getting an Upgrade",   "🔨", tr(lang, "first stone tool", "первый каменный инструмент")),
+            ("Acquire Hardware",     "⛏️", tr(lang, "first iron ingot", "первый железный слиток")),
+            ("Isn't It Iron Pick",   "⚒️", tr(lang, "first iron pick", "первая железная кирка")),
+            ("Hot Stuff",            "🪣", tr(lang, "first lava bucket", "первое ведро лавы")),
+            ("Ice Bucket Challenge", "🧊", tr(lang, "first obsidian", "первый обсидиан")),
+            ("Diamonds!",            "💎", tr(lang, "first diamond", "первый алмаз")),
+            ("Cover Me with Diamonds","🛡️", tr(lang, "diamond armor", "алмазная броня")),
+            ("We Need to Go Deeper", "🌋", tr(lang, "entered the Nether", "вошли в Незер")),
+            ("A Terrible Fortress",  "🏰", tr(lang, "found Nether fortress", "нашли крепость Незера")),
+            ("Into Fire",            "🔥", tr(lang, "got blaze rod", "добыли огненный стержень")),
+            ("Eye Spy",              "👁️", tr(lang, "got ender eye", "получили око Эндера")),
+            ("The End?",             "🐉", tr(lang, "reached The End", "дошли до Края")),
         ]
         reach = []
         for adv_name, icon, blurb in milestone_order:
@@ -483,6 +569,7 @@ def build_app():
             reach.append(
                 {
                     "label": f"{icon}  {adv_name}",
+                    "display_label": f"{icon}  {advancement_label(adv_name, lang)}",
                     "blurb": blurb,
                     "n_worlds": n,
                     "pct": 100 * n / n_filt_worlds,
@@ -496,7 +583,7 @@ def build_app():
         funnel = go.Figure(
             data=[
                 go.Bar(
-                    x=reach_df["n_worlds"], y=reach_df["label"], orientation="h",
+                    x=reach_df["n_worlds"], y=reach_df["display_label"], orientation="h",
                     marker=dict(
                         color=reach_df["n_worlds"],
                         colorscale=[
@@ -513,7 +600,8 @@ def build_app():
                     customdata=reach_df["blurb"],
                     hovertemplate=(
                         "<b>%{y}</b><br>%{customdata}<br>"
-                        "%{x} worlds reached this<extra></extra>"
+                        + tr(lang, "%{x} worlds reached this", "%{x} миров дошли сюда")
+                        + "<extra></extra>"
                     ),
                 )
             ]
@@ -525,7 +613,11 @@ def build_app():
             margin=dict(l=10, r=80, t=10, b=40),
             xaxis=dict(
                 gridcolor=BORDER, zerolinecolor=BORDER,
-                title=f"Worlds reaching this milestone (out of {n_filt_worlds})",
+                title=tr(
+                    lang,
+                    f"Worlds reaching this milestone (out of {n_filt_worlds})",
+                    f"Миров с этим достижением (из {n_filt_worlds})",
+                ),
                 range=[0, max(reach_df["n_worlds"]) * 1.18],
             ),
             yaxis=dict(gridcolor="rgba(0,0,0,0)"),
@@ -540,9 +632,13 @@ def build_app():
 
         with ttm_col:
             section_header(
-                "⚡ Fastest Progression",
-                "Median / fastest time from world start to first time anyone "
-                "in the group earned this advancement.",
+                tr(lang, "⚡ Fastest Progression", "⚡ Самый быстрый прогресс"),
+                tr(
+                    lang,
+                    "Median / fastest time from world start to first time anyone "
+                    "in the group earned this advancement.",
+                    "Медиана и рекорд от старта мира до первого получения достижения кем-то из группы.",
+                ),
             )
             milestones_for_ttm = [
                 ("Stone Age", "🪨"),
@@ -563,18 +659,22 @@ def build_app():
                     .min().astype(float)
                 )
                 ttm_rows.append({
-                    "Milestone": f"{icon}  {adv_name}",
-                    "Worlds": len(first_per_world),
-                    "Fastest": f"{first_per_world.min():.0f} min",
-                    "Median": f"{first_per_world.median():.0f} min",
+                    tr(lang, "Milestone", "Этап"): f"{icon}  {advancement_label(adv_name, lang)}",
+                    tr(lang, "Worlds", "Миры"): len(first_per_world),
+                    tr(lang, "Fastest", "Рекорд"): f"{first_per_world.min():.0f} {unit_minutes(lang)}",
+                    tr(lang, "Median", "Медиана"): f"{first_per_world.median():.0f} {unit_minutes(lang)}",
                 })
             ttm_df = pd.DataFrame(ttm_rows)
             st.dataframe(ttm_df, use_container_width=True, hide_index=True)
 
         with leader_col:
             section_header(
-                "👤 Unique Per Player",
-                "Unique advancements each player has personally earned.",
+                tr(lang, "👤 Unique Per Player", "👤 Уникальных на игрока"),
+                tr(
+                    lang,
+                    "Unique advancements each player has personally earned.",
+                    "Сколько разных достижений каждый игрок получил лично.",
+                ),
             )
             per_player = (
                 adv_filt.groupby("player")["advancement"]
@@ -591,7 +691,11 @@ def build_app():
                         ),
                         text=per_player.values, textposition="outside",
                         textfont=dict(size=14, color=TEXT),
-                        hovertemplate="<b>%{y}</b><br>%{x} unique advancements<extra></extra>",
+                        hovertemplate=tr(
+                            lang,
+                            "<b>%{y}</b><br>%{x} unique advancements<extra></extra>",
+                            "<b>%{y}</b><br>%{x} уникальных достижений<extra></extra>",
+                        ),
                     )
                 ]
             )
@@ -610,7 +714,7 @@ def build_app():
         st.markdown("<br>", unsafe_allow_html=True)
 
         # --- Rare achievements + Last-before-death narrative ---
-        section_header("🌟 Highlights")
+        section_header(tr(lang, "🌟 Highlights", "🌟 Самые обидные и редкие моменты"))
 
         # Singletons: advancements earned in only ONE world ever.
         worlds_per_adv = (
@@ -647,28 +751,44 @@ def build_app():
         highlight_cards = []
         if singletons:
             highlight_cards.append(
-                "💫 Only-once unlocks: "
-                + ", ".join(f"<b>{s}</b>" for s in singletons[:6])
-                + (f" and {len(singletons)-6} more" if len(singletons) > 6 else "")
+                tr(lang, "💫 Only-once unlocks: ", "💫 Достижения, которые случились только один раз: ")
+                + ", ".join(f"<b>{advancement_label(s, lang)}</b>" for s in singletons[:6])
+                + (
+                    tr(lang, f" and {len(singletons)-6} more", f" и ещё {len(singletons)-6}")
+                    if len(singletons) > 6 else ""
+                )
             )
 
         # Worlds that reached The End vs total — the meta narrative.
         end_count = adv_filt[adv_filt["advancement"] == "The End?"]["world_num"].nunique()
         if end_count > 0:
             highlight_cards.append(
-                f"🐉 We reached <span class='number'>The End</span> in "
-                f"<span class='number'>{end_count}</span> world(s) "
-                f"— and died before killing the dragon every time."
+                tr(
+                    lang,
+                    f"🐉 We reached <span class='number'>The End</span> in "
+                    f"<span class='number'>{end_count}</span> world(s) "
+                    f"— and died before killing the dragon every time.",
+                    f"🐉 Мы дошли до <span class='number'>Края</span> в "
+                    f"<span class='number'>{end_count}</span> мире "
+                    f"и всё равно умерли до убийства дракона.",
+                )
             )
 
         # Ironic last-before-death examples: shortest gap between advancement and death.
         if last_before:
             top = last_before[0]
             highlight_cards.append(
-                f"⏱  Cruelest gap: <b>{top['death_player']}</b> died "
-                f"<span class='number'>{top['gap_min']:.1f} min</span> after "
-                f"<b>{top['player']}</b> unlocked "
-                f"<b>{top['advancement']}</b> (world #{top['world_num']})."
+                tr(
+                    lang,
+                    f"⏱  Cruelest gap: <b>{top['death_player']}</b> died "
+                    f"<span class='number'>{top['gap_min']:.1f} min</span> after "
+                    f"<b>{top['player']}</b> unlocked "
+                    f"<b>{top['advancement']}</b> (world #{top['world_num']}).",
+                    f"⏱  Самый жестокий зазор: <b>{top['death_player']}</b> умер через "
+                    f"<span class='number'>{top['gap_min']:.1f} мин</span> после того, как "
+                    f"<b>{top['player']}</b> получил "
+                    f"<b>{advancement_label(top['advancement'], lang)}</b> (мир #{top['world_num']}).",
+                )
             )
 
         # Most-reached vs least-reached among those we DID achieve.
@@ -676,9 +796,15 @@ def build_app():
             top_adv = worlds_per_adv.idxmax()
             top_n = worlds_per_adv.max()
             highlight_cards.append(
-                f"🏆 Most-frequent unlock: <b>{top_adv}</b> earned in "
-                f"<span class='number'>{top_n}</span> different worlds "
-                f"({100*top_n/n_filt_worlds:.0f}% of attempts)."
+                tr(
+                    lang,
+                    f"🏆 Most-frequent unlock: <b>{top_adv}</b> earned in "
+                    f"<span class='number'>{top_n}</span> different worlds "
+                    f"({100*top_n/n_filt_worlds:.0f}% of attempts).",
+                    f"🏆 Самое частое достижение: <b>{advancement_label(top_adv, lang)}</b> "
+                    f"в <span class='number'>{top_n}</span> разных мирах "
+                    f"({100*top_n/n_filt_worlds:.0f}% попыток).",
+                )
             )
 
         for ins in highlight_cards:
@@ -688,12 +814,16 @@ def build_app():
 
     # === Per-player tally ===
     section_header(
-        "👥 Per Player",
-        "First deaths (run-ending) and total deaths each player accumulated across the filtered worlds.",
+        tr(lang, "👥 Per Player", "👥 По игрокам"),
+        tr(
+            lang,
+            "First deaths (run-ending) and total deaths each player accumulated across the filtered worlds.",
+            "Первые смерти, которые закрывали мир, и все смерти каждого игрока в отфильтрованных мирах.",
+        ),
     )
 
     if failed.empty:
-        st.info("No deaths after filters applied.")
+        st.info(tr(lang, "No deaths after filters applied.", "После фильтров не осталось смертей."))
     else:
         first_by = (
             failed["first_death_player"].value_counts()
@@ -707,33 +837,41 @@ def build_app():
 
         pp_df = pd.DataFrame({
             "player": PLAYERS,
-            "First deaths": [int(first_by[p]) for p in PLAYERS],
-            "Total deaths": [int(total_by[p]) for p in PLAYERS],
-        }).sort_values("First deaths", ascending=True)
+            "first_deaths": [int(first_by[p]) for p in PLAYERS],
+            "total_deaths": [int(total_by[p]) for p in PLAYERS],
+        }).sort_values("first_deaths", ascending=True)
 
         fig = go.Figure()
         fig.add_trace(go.Bar(
-            x=pp_df["First deaths"], y=pp_df["player"], orientation="h",
-            name="First deaths (run-ending)",
+            x=pp_df["first_deaths"], y=pp_df["player"], orientation="h",
+            name=tr(lang, "First deaths (run-ending)", "Первые смерти"),
             marker=dict(
                 color=[PLAYER_COLOR[p] for p in pp_df["player"]],
                 line=dict(color=BG_DARK, width=2),
             ),
-            text=pp_df["First deaths"], textposition="outside",
+            text=pp_df["first_deaths"], textposition="outside",
             textfont=dict(size=14, color=TEXT),
-            hovertemplate="<b>%{y}</b><br>First deaths: %{x}<extra></extra>",
+            hovertemplate=tr(
+                lang,
+                "<b>%{y}</b><br>First deaths: %{x}<extra></extra>",
+                "<b>%{y}</b><br>Первые смерти: %{x}<extra></extra>",
+            ),
         ))
         fig.add_trace(go.Bar(
-            x=pp_df["Total deaths"], y=pp_df["player"], orientation="h",
-            name="Total deaths (incl. post-first)",
+            x=pp_df["total_deaths"], y=pp_df["player"], orientation="h",
+            name=tr(lang, "Total deaths (incl. post-first)", "Все смерти"),
             marker=dict(
                 color=[PLAYER_COLOR[p] for p in pp_df["player"]],
                 opacity=0.35,
                 line=dict(color=BG_DARK, width=2),
             ),
-            text=pp_df["Total deaths"], textposition="outside",
+            text=pp_df["total_deaths"], textposition="outside",
             textfont=dict(size=14, color=MUTED),
-            hovertemplate="<b>%{y}</b><br>Total deaths: %{x}<extra></extra>",
+            hovertemplate=tr(
+                lang,
+                "<b>%{y}</b><br>Total deaths: %{x}<extra></extra>",
+                "<b>%{y}</b><br>Все смерти: %{x}<extra></extra>",
+            ),
             visible="legendonly",
         ))
         fig.update_layout(
@@ -741,7 +879,7 @@ def build_app():
             paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
             font=dict(family="monospace", color=TEXT, size=14),
             margin=dict(l=10, r=40, t=10, b=40),
-            xaxis=dict(gridcolor=BORDER, zerolinecolor=BORDER, title="Worlds"),
+            xaxis=dict(gridcolor=BORDER, zerolinecolor=BORDER, title=tr(lang, "Worlds", "Миры")),
             yaxis=dict(gridcolor="rgba(0,0,0,0)", tickfont=dict(size=14)),
             height=280,
             showlegend=True,
@@ -762,9 +900,9 @@ def build_app():
                         <div style='color:{PLAYER_COLOR[p]};font-weight:800;font-size:1.05rem;
                                     letter-spacing:0.03em;'>{p}</div>
                         <div style='color:{TEXT};font-size:0.85rem;margin-top:8px;'>
-                            <b style='color:{ACCENT_GOLD};'>{int(first_by[p])}</b> first deaths
+                            <b style='color:{ACCENT_GOLD};'>{int(first_by[p])}</b> {tr(lang, 'first deaths', 'первых смертей')}
                             &nbsp;·&nbsp;
-                            <b style='color:{ACCENT_GOLD};'>{int(total_by[p])}</b> total
+                            <b style='color:{ACCENT_GOLD};'>{int(total_by[p])}</b> {tr(lang, 'total', 'всего')}
                         </div>
                     </div>
                     """,
@@ -782,7 +920,7 @@ def build_app():
     # assets/web/ if a new MC version adds new ones.
     JAVA_DEATH_MSG_TOTAL = 93
 
-    section_header("💡 Key Insights")
+    section_header(tr(lang, "💡 Key Insights", "💡 Выводы"))
     if not failed.empty:
         msg_cnt = failed["first_death_message"].value_counts()
         unique_msgs = len(msg_cnt)
@@ -802,39 +940,62 @@ def build_app():
 
         # 1. Narrative line on average run length (the one you said works).
         insights.append(
-            f"⏱  An average run lasted "
-            f"<span class='number'>{active_survival.mean():.0f} active minutes</span> "
-            f"before someone died."
+            tr(
+                lang,
+                f"⏱  An average run lasted "
+                f"<span class='number'>{active_survival.mean():.0f} active minutes</span> "
+                f"before someone died.",
+                f"⏱  В среднем попытка держалась "
+                f"<span class='number'>{active_survival.mean():.0f} активных минут</span> "
+                f"до первой смерти.",
+            )
         )
 
         # 2. Vocabulary line — N of 93 Java Edition templates we've hit,
         #    + list of the singletons.
         only_once_list = only_once.index.tolist()
         if only_once_list:
-            preview = ", ".join(only_once_list[:3])
+            preview = ", ".join(death_message_label(m, lang) for m in only_once_list[:3])
             if len(only_once_list) > 3:
-                preview += f", … (+{len(only_once_list) - 3} more)"
-            singletons_clause = (
+                preview += tr(lang, f", … (+{len(only_once_list) - 3} more)", f", … (+{len(only_once_list) - 3} ещё)")
+            singletons_clause = tr(
+                lang,
                 f" — <span class='number'>{len(only_once_list)}</span> of those "
-                f"only happened once ({preview})"
+                f"only happened once ({preview})",
+                f" — <span class='number'>{len(only_once_list)}</span> из них "
+                f"случились только один раз ({preview})",
             )
         else:
             singletons_clause = ""
         insights.append(
-            f"🔢 We've encountered "
-            f"<span class='number'>{unique_msgs}</span> of "
-            f"<span class='number'>{JAVA_DEATH_MSG_TOTAL}</span> "
-            f"distinct Minecraft Java Edition death messages{singletons_clause}."
+            tr(
+                lang,
+                f"🔢 We've encountered "
+                f"<span class='number'>{unique_msgs}</span> of "
+                f"<span class='number'>{JAVA_DEATH_MSG_TOTAL}</span> "
+                f"distinct Minecraft Java Edition death messages{singletons_clause}.",
+                f"🔢 Мы уже собрали "
+                f"<span class='number'>{unique_msgs}</span> из "
+                f"<span class='number'>{JAVA_DEATH_MSG_TOTAL}</span> "
+                f"вариантов смертей Java Edition{singletons_clause}.",
+            )
         )
 
         # 3. Death cadence — distinct from the median/mean cards above (which
         #    only count first-deaths). This is "all deaths per active minute".
         if n_deaths_total and total_active_min:
             insights.append(
-                f"💀 Across <span class='number'>{total_active_min/60:.1f} hours</span> "
-                f"of active play we died <span class='number'>{n_deaths_total}</span> "
-                f"times — roughly one death every "
-                f"<span class='number'>{cadence_min:.1f} active minutes</span>."
+                tr(
+                    lang,
+                    f"💀 Across <span class='number'>{total_active_min/60:.1f} hours</span> "
+                    f"of active play we died <span class='number'>{n_deaths_total}</span> "
+                    f"times — roughly one death every "
+                    f"<span class='number'>{cadence_min:.1f} active minutes</span>.",
+                    f"💀 За <span class='number'>{total_active_min/60:.1f} часа</span> "
+                    f"активной игры мы умерли <span class='number'>{n_deaths_total}</span> "
+                    f"раз — примерно одна смерть каждые "
+                    f"<span class='number'>{cadence_min:.1f} активных минут</span>.",
+                )
             )
 
         for ins in insights:
@@ -843,28 +1004,58 @@ def build_app():
     st.markdown("<br>", unsafe_allow_html=True)
 
     # === Browse worlds (uses filtered list) ===
-    with st.expander(f"📋 Browse every world  ({n_total} after filters)"):
+    with st.expander(
+        tr(
+            lang,
+            f"📋 Browse every world  ({n_total} after filters)",
+            f"📋 Все миры  ({n_total} после фильтров)",
+        )
+    ):
         w = worlds.copy()
-        w["outcome"] = w["outcome"].map({"died": "Died", "skipped": "Skipped (no death)"})
+        w["outcome"] = w["outcome"].map(
+            {"died": outcome_label("died", lang), "skipped": outcome_label("skipped", lang)}
+        )
+        w["first_death_message"] = w["first_death_message"].map(
+            lambda m: death_message_label(m, lang) if pd.notna(m) else m
+        )
+        w["first_death_category"] = w["first_death_category"].map(
+            lambda c: cause_label(c, lang) if pd.notna(c) else c
+        )
         w = w[[
             "world_num", "start_time", "outcome", "active_minutes", "wallclock_minutes",
             "first_death_player", "first_death_message", "first_death_category", "total_deaths",
         ]]
-        w.columns = [
-            "World #", "Started", "Outcome", "Active (min)", "Wall-clock (min)",
-            "First died", "Death cause", "Category", "Total deaths",
-        ]
+        w.columns = tr(
+            lang,
+            [
+                "World #", "Started", "Outcome", "Active (min)", "Wall-clock (min)",
+                "First died", "Death cause", "Category", "Total deaths",
+            ],
+            [
+                "Мир #", "Создан", "Итог", "Активно (мин)", "По часам (мин)",
+                "Первым умер", "Причина смерти", "Категория", "Всего смертей",
+            ],
+        )
         st.dataframe(w, use_container_width=True, hide_index=True)
 
     # === Footer ===
     st.markdown(f"<hr style='border-color:{BORDER};'>", unsafe_allow_html=True)
     st.caption(
-        f"Source: Minecraft server logs (vanilla + Forge). Only worlds created after "
-        f"`hardcore=true` was enabled (2026-05-05 21:37). "
-        f"Active minutes = wall-clock time where at least one player was logged in "
-        f"(computed from `joined the game` / `left the game` events). "
-        f"PvP deaths are always excluded (they were goofing around, not real attempts); "
-        f"the toggle above further filters out short rerolls."
+        tr(
+            lang,
+            f"Source: Minecraft server logs (vanilla + Forge). Only worlds created after "
+            f"`hardcore=true` was enabled (2026-05-05 21:37). "
+            f"Active minutes = wall-clock time where at least one player was logged in "
+            f"(computed from `joined the game` / `left the game` events). "
+            f"PvP deaths are always excluded (they were goofing around, not real attempts); "
+            f"the toggle above further filters out short rerolls.",
+            f"Источник: логи Minecraft-сервера (vanilla + Forge). Учитываются только миры после "
+            f"включения `hardcore=true` (2026-05-05 21:37). "
+            f"Активные минуты = время, когда хотя бы один игрок был онлайн "
+            f"(по событиям `joined the game` / `left the game`). "
+            f"PvP-смерти всегда скрыты: это была возня между друзьями, а не настоящие попытки. "
+            f"Переключатель сверху дополнительно убирает короткие рероллы.",
+        )
     )
 
 

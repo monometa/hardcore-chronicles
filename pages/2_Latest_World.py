@@ -13,6 +13,8 @@ import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
 
+from i18n import advancement_id_label, item_label, language_selector, tr, unit_minutes
+
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 
 PLAYERS = ["MurzichAI", "axantroff", "trofimova2002"]
@@ -32,29 +34,62 @@ BORDER = "#3D4148"
 TEXT = "#F5F5F5"
 MUTED = "#9CA3AF"
 
-# Pretty labels for the chunkier counters surfaced as hero stats.
-# Tuple shape: (label, csv_column_key, unit_suffix, optional_help_tooltip)
-HERO_LABELS = [
-    ("⏱  Time Played", "play_minutes", "min", None),
-    ("🚶  Walked", "walk_m", "m", None),
-    ("🏃  Sprinted", "sprint_m", "m", None),
-    ("🪂  Air Time", "fly_m", "m",
-     "Cumulative cm spent airborne — jumping, falling, gliding. Not elytra-specific."),
-    ("⛏️  Blocks Mined", "blocks_mined_total", "", None),
-    ("⚔️  Mobs Killed", "mob_kills_total", "", None),
-    ("🔨  Items Crafted", "items_crafted_total", "",
-     "Minecraft counts crafted items by *output count*, not unique recipes. "
-     "Crafting one stack of sticks (4 planks → 4 sticks) adds 4 here — that's why "
-     "the number can hit the tens of thousands."),
-    ("📦  Items Picked Up", "items_picked_up_total", "", None),
-    ("🛏️  Times Slept", "sleep_count", "", None),
-    ("🤸  Jumps", "jumps", "", None),
-    ("💥  Damage Dealt", "damage_dealt_hearts", "♥",
-     "Damage dealt to mobs, in hearts. Minecraft stores this as integer tenths-of-hearts; "
-     "we divide by 10 for display."),
-    ("🩸  Damage Taken", "damage_taken_hearts", "♥",
-     "Damage absorbed by the player, in hearts. Same divide-by-10 conversion."),
-]
+def hero_labels(lang):
+    # Tuple shape: (label, csv_column_key, unit_suffix, optional_help_tooltip)
+    return [
+        (tr(lang, "⏱  Time Played", "⏱  Время игры"), "play_minutes", unit_minutes(lang), None),
+        (tr(lang, "🚶  Walked", "🚶  Пешком"), "walk_m", "m", None),
+        (tr(lang, "🏃  Sprinted", "🏃  Бегом"), "sprint_m", "m", None),
+        (
+            tr(lang, "🪂  Air Time", "🪂  В воздухе"),
+            "fly_m",
+            "m",
+            tr(
+                lang,
+                "Cumulative cm spent airborne — jumping, falling, gliding. Not elytra-specific.",
+                "Суммарная дистанция в воздухе: прыжки, падения, полет. Это не только элитры.",
+            ),
+        ),
+        (tr(lang, "⛏️  Blocks Mined", "⛏️  Блоков добыто"), "blocks_mined_total", "", None),
+        (tr(lang, "⚔️  Mobs Killed", "⚔️  Мобов убито"), "mob_kills_total", "", None),
+        (
+            tr(lang, "🔨  Items Crafted", "🔨  Предметов создано"),
+            "items_crafted_total",
+            "",
+            tr(
+                lang,
+                "Minecraft counts crafted items by *output count*, not unique recipes. "
+                "Crafting one stack of sticks (4 planks → 4 sticks) adds 4 here — that's why "
+                "the number can hit the tens of thousands.",
+                "Minecraft считает созданные предметы по количеству результата, а не по уникальным рецептам. "
+                "Один крафт палок из досок дает +4, поэтому число может улетать в десятки тысяч.",
+            ),
+        ),
+        (tr(lang, "📦  Items Picked Up", "📦  Предметов поднято"), "items_picked_up_total", "", None),
+        (tr(lang, "🛏️  Times Slept", "🛏️  Раз спал"), "sleep_count", "", None),
+        (tr(lang, "🤸  Jumps", "🤸  Прыжков"), "jumps", "", None),
+        (
+            tr(lang, "💥  Damage Dealt", "💥  Урона нанесено"),
+            "damage_dealt_hearts",
+            "♥",
+            tr(
+                lang,
+                "Damage dealt to mobs, in hearts. Minecraft stores this as integer tenths-of-hearts; "
+                "we divide by 10 for display.",
+                "Урон мобам в сердцах. Minecraft хранит его в десятых долях сердца, здесь значение делится на 10.",
+            ),
+        ),
+        (
+            tr(lang, "🩸  Damage Taken", "🩸  Урона получено"),
+            "damage_taken_hearts",
+            "♥",
+            tr(
+                lang,
+                "Damage absorbed by the player, in hearts. Same divide-by-10 conversion.",
+                "Полученный урон в сердцах. Та же конвертация: деление на 10.",
+            ),
+        ),
+    ]
 
 
 @st.cache_data
@@ -134,20 +169,26 @@ def build_page():
         unsafe_allow_html=True,
     )
 
+    lang = language_selector()
     summary, detail, advs = load_snapshot()
 
-    st.markdown("# 🏕️ THE LATEST WORLD")
+    st.markdown(tr(lang, "# 🏕️ THE LATEST WORLD", "# 🏕️ ТЕКУЩИЙ МИР"))
     st.caption(
-        "Snapshot taken from the live Forge server on **2026-05-16** "
-        "(re-run `scripts/parse_snapshot.py` and redeploy to refresh)."
+        tr(
+            lang,
+            "Snapshot taken from the live Forge server on **2026-05-16** "
+            "(re-run `scripts/parse_snapshot.py` and redeploy to refresh).",
+            "Снимок взят с живого Forge-сервера **2026-05-16** "
+            "(чтобы обновить, нужно заново запустить `scripts/parse_snapshot.py` и передеплоить).",
+        )
     )
 
     st.markdown(f"<hr style='border-color:{BORDER};'>", unsafe_allow_html=True)
 
     # === Hero stats: per-player columns ===
     section_header(
-        "👥 Tale of the Tape",
-        "Side-by-side counters for each player in this world.",
+        tr(lang, "👥 Tale of the Tape", "👥 Кто чем занимался"),
+        tr(lang, "Side-by-side counters for each player in this world.", "Статы каждого игрока в этом мире рядом."),
     )
 
     cols = st.columns(len(PLAYERS))
@@ -166,7 +207,7 @@ def build_page():
                     <div style='color:{PLAYER_COLOR[p]};font-weight:800;font-size:1.3rem;
                                 letter-spacing:0.03em;'>{p}</div>
                     <div style='color:{MUTED};font-size:0.85rem;margin-top:4px;'>
-                        {fmt_num(row["play_minutes"])} min played
+                        {fmt_num(row["play_minutes"])} {unit_minutes(lang)} {tr(lang, 'played', 'в игре')}
                     </div>
                 </div>
                 """,
@@ -174,7 +215,7 @@ def build_page():
             )
             # 2-col grid of compact metrics inside the player card
             mg1, mg2 = st.columns(2)
-            for i, (label, col_key, unit, help_text) in enumerate(HERO_LABELS):
+            for i, (label, col_key, unit, help_text) in enumerate(hero_labels(lang)):
                 val = row[col_key]
                 txt = f"{fmt_num(val)}{(' ' + unit) if unit else ''}"
                 (mg1 if i % 2 == 0 else mg2).metric(label, txt, help=help_text)
@@ -183,19 +224,23 @@ def build_page():
 
     # === Movement breakdown ===
     section_header(
-        "🧭 Movement Profile",
-        "How each player spent their travel distance. “Air” = jumping / falling time (not necessarily elytra).",
+        tr(lang, "🧭 Movement Profile", "🧭 Как передвигались"),
+        tr(
+            lang,
+            "How each player spent their travel distance. “Air” = jumping / falling time (not necessarily elytra).",
+            "Из чего складывалась дистанция. 'В воздухе' = прыжки, падения и полет, не только элитры.",
+        ),
     )
 
     move_cols = ["walk_m", "sprint_m", "fly_m", "fall_m", "walk_on_water_m", "walk_under_water_m", "crouch_m"]
     move_labels = {
-        "walk_m": "Walk",
-        "sprint_m": "Sprint",
-        "fly_m": "Air",
-        "fall_m": "Fall",
-        "walk_on_water_m": "On Water",
-        "walk_under_water_m": "Under Water",
-        "crouch_m": "Sneak",
+        "walk_m": tr(lang, "Walk", "Пешком"),
+        "sprint_m": tr(lang, "Sprint", "Бегом"),
+        "fly_m": tr(lang, "Air", "В воздухе"),
+        "fall_m": tr(lang, "Fall", "Падение"),
+        "walk_on_water_m": tr(lang, "On Water", "По воде"),
+        "walk_under_water_m": tr(lang, "Under Water", "Под водой"),
+        "crouch_m": tr(lang, "Sneak", "Крадучись"),
     }
     move_df = summary[["player"] + move_cols].melt(id_vars="player", var_name="mode", value_name="meters")
     move_df["mode"] = move_df["mode"].map(move_labels)
@@ -218,7 +263,7 @@ def build_page():
             "#7C3AED",
             MUTED,
         ],
-        labels={"meters": "Meters", "player": ""},
+        labels={"meters": tr(lang, "Meters", "Метры"), "player": ""},
     )
     move_fig.update_traces(marker_line_color=BG_DARK, marker_line_width=1)
     move_fig.update_layout(
@@ -252,23 +297,26 @@ def build_page():
     # framing, so it was renamed to read as "what the group did", not "who is
     # winning". Keep the framing neutral if you change anything here.
     section_header(
-        "📊 What We Did Most",
-        "Per-category counters across all three players by default. "
-        "Use the selector below to look at one player at a time.",
+        tr(lang, "📊 What We Did Most", "📊 Что мы делали чаще всего"),
+        tr(
+            lang,
+            "Per-category counters across all three players by default. "
+            "Use the selector below to look at one player at a time.",
+            "По умолчанию суммарно по всем троим. Переключатель ниже показывает одного игрока.",
+        ),
     )
 
+    all_players_label = tr(lang, "All Players", "Все игроки")
     # Selector: "All Players" (sum across) or one specific player.
-    # Using segmented_control for a pill-style toggle that reads as
-    # "switch perspective", not as a filter chip.
-    leader_view = st.segmented_control(
-        "View",
-        options=["All Players"] + PLAYERS,
-        default="All Players",
+    leader_view = st.radio(
+        tr(lang, "View", "Вид"),
+        options=["all"] + PLAYERS,
+        index=0,
+        format_func=lambda value: all_players_label if value == "all" else value,
         label_visibility="collapsed",
+        horizontal=True,
         key="leaderboard_view",
     )
-    if leader_view is None:  # user un-selected — fall back to default
-        leader_view = "All Players"
 
     # When showing one player: tint every chart with that player's color so the
     # perspective is unmistakable. When showing totals: keep the original six
@@ -282,6 +330,7 @@ def build_page():
             df = df[df["player"] == leader_view]
         d = df[df["category"] == cat].groupby("item")["count"].sum().sort_values(ascending=False).head(n).reset_index()
         d = d.sort_values("count", ascending=True)
+        d["display_item"] = d["item"].map(lambda x: item_label(x, lang))
         if d.empty:
             # Empty category for this player — render a placeholder rather than
             # a broken chart. trofimova2002 has only 1 mob kill, for example.
@@ -292,7 +341,7 @@ def build_page():
                 f"justify-content:center;'>"
                 f"<div style='color:{ACCENT_GOLD};font-size:15px;font-weight:700;"
                 f"margin-bottom:8px;'>{title}</div>"
-                f"<div style='font-size:0.9rem;'>nothing here</div></div>",
+                f"<div style='font-size:0.9rem;'>{tr(lang, 'nothing here', 'пусто')}</div></div>",
                 unsafe_allow_html=True,
             )
             return
@@ -301,7 +350,7 @@ def build_page():
             data=[
                 go.Bar(
                     x=d["count"],
-                    y=d["item"],
+                    y=d["display_item"],
                     orientation="h",
                     marker=dict(color=bar_color, line=dict(color=BG_DARK, width=2)),
                     text=d["count"],
@@ -326,34 +375,38 @@ def build_page():
 
     lc1, lc2, lc3 = st.columns(3)
     with lc1:
-        top_chart("mined", "⛏️ Most Mined", GRASS_GREEN)
+        top_chart("mined", tr(lang, "⛏️ Most Mined", "⛏️ Больше всего добывали"), GRASS_GREEN)
     with lc2:
-        top_chart("killed", "⚔️ Most Killed", "#DC2626")
+        top_chart("killed", tr(lang, "⚔️ Most Killed", "⚔️ Больше всего убивали"), "#DC2626")
     with lc3:
-        top_chart("used", "🔧 Most Used", ACCENT_GOLD)
+        top_chart("used", tr(lang, "🔧 Most Used", "🔧 Больше всего использовали"), ACCENT_GOLD)
 
     lc4, lc5, lc6 = st.columns(3)
     with lc4:
-        top_chart("crafted", "🛠️ Most Crafted", LAVA_ORANGE)
+        top_chart("crafted", tr(lang, "🛠️ Most Crafted", "🛠️ Больше всего крафтили"), LAVA_ORANGE)
     with lc5:
-        top_chart("picked_up", "📥 Most Picked Up", DIAMOND)
+        top_chart("picked_up", tr(lang, "📥 Most Picked Up", "📥 Больше всего поднимали"), DIAMOND)
     with lc6:
-        top_chart("dropped", "📤 Most Dropped", MUTED)
+        top_chart("dropped", tr(lang, "📤 Most Dropped", "📤 Больше всего выбрасывали"), MUTED)
 
     st.markdown("<br>", unsafe_allow_html=True)
 
     # === Advancements per player ===
     section_header(
-        "🏅 Achievements In This World",
-        "Non-recipe advancements unlocked by each player in the live world. "
-        "Each player progresses independently — sleeping, smelting iron, etc. "
-        "are all individual milestones.",
+        tr(lang, "🏅 Achievements In This World", "🏅 Достижения в этом мире"),
+        tr(
+            lang,
+            "Non-recipe advancements unlocked by each player in the live world. "
+            "Each player progresses independently — sleeping, smelting iron, etc. "
+            "are all individual milestones.",
+            "Достижения без рецептов, полученные каждым игроком. Сон, железо и другие шаги считаются отдельно для каждого.",
+        ),
     )
 
     completed = advs[advs["done"] == "YES"].copy()
 
     if completed.empty:
-        st.info("No advancements completed yet in this world.")
+        st.info(tr(lang, "No advancements completed yet in this world.", "В этом мире пока нет завершенных достижений."))
     else:
         # Pretty up the advancement IDs:  minecraft:adventure/sleep_in_bed -> Adventure / Sleep In Bed
         def pretty(a):
@@ -363,13 +416,17 @@ def build_page():
             return f"{cat.title()}", f"{name}"
 
         completed[["category", "name"]] = completed["advancement_id"].apply(lambda a: pd.Series(pretty(a)))
+        completed["name"] = completed.apply(
+            lambda r: advancement_id_label(r["advancement_id"], r["name"], lang),
+            axis=1,
+        )
         completed["category"] = completed["category"].replace(
             {
-                "Adventure": "🗺️ Adventure",
-                "Husbandry": "🌾 Husbandry",
-                "Story": "📖 Story",
-                "Nether": "🔥 Nether",
-                "End": "🐉 End",
+                "Adventure": tr(lang, "🗺️ Adventure", "🗺️ Приключения"),
+                "Husbandry": tr(lang, "🌾 Husbandry", "🌾 Сельское хозяйство"),
+                "Story": tr(lang, "📖 Story", "📖 Minecraft"),
+                "Nether": tr(lang, "🔥 Nether", "🔥 Незер"),
+                "End": tr(lang, "🐉 End", "🐉 Край"),
             }
         )
 
@@ -381,11 +438,11 @@ def build_page():
                     f"<div style='color:{PLAYER_COLOR[p]};font-weight:800;"
                     f"text-align:center;font-size:1.05rem;letter-spacing:0.03em;"
                     f"padding:8px;border-bottom:2px solid {PLAYER_COLOR[p]};"
-                    f"margin-bottom:8px;'>{p} — {len(sub)} unlocked</div>",
+                    f"margin-bottom:8px;'>{p} — {len(sub)} {tr(lang, 'unlocked', 'получено')}</div>",
                     unsafe_allow_html=True,
                 )
                 if sub.empty:
-                    st.caption("Nothing yet.")
+                    st.caption(tr(lang, "Nothing yet.", "Пока ничего."))
                     continue
                 # Group by category for compact display
                 for cat in sub["category"].drop_duplicates().tolist():
@@ -403,7 +460,7 @@ def build_page():
     st.markdown("<br>", unsafe_allow_html=True)
 
     # === Auto-generated fun facts ===
-    section_header("✨ Notable Stats")
+    section_header(tr(lang, "✨ Notable Stats", "✨ Заметные факты"))
 
     s = summary.set_index("player")
     facts = []
@@ -419,75 +476,142 @@ def build_page():
     murzich_trades = detail_count("MurzichAI", "custom", item="traded_with_villager")
     murzich_sticks = detail_count("MurzichAI", "crafted", item="stick")
     facts.append(
-        f"🧾 <b>MurzichAI</b> traded with villagers "
-        f"<span class='number'>{murzich_trades:,}</span> times and crafted "
-        f"<span class='number'>{murzich_sticks:,}</span> sticks."
+        tr(
+            lang,
+            f"🧾 <b>MurzichAI</b> traded with villagers "
+            f"<span class='number'>{murzich_trades:,}</span> times and crafted "
+            f"<span class='number'>{murzich_sticks:,}</span> sticks.",
+            f"🧾 <b>MurzichAI</b> сделал "
+            f"<span class='number'>{murzich_trades:,}</span> сделок с крестьянами и скрафтил "
+            f"<span class='number'>{murzich_sticks:,}</span> палок.",
+        )
     )
 
     trofimova_saplings = detail_count("trofimova2002", "used", contains="sapling")
     facts.append(
-        f"🌱 <b>trofimova2002</b> planted "
-        f"<span class='number'>{trofimova_saplings:,}</span> saplings."
+        tr(
+            lang,
+            f"🌱 <b>trofimova2002</b> planted "
+            f"<span class='number'>{trofimova_saplings:,}</span> saplings.",
+            f"🌱 <b>trofimova2002</b> посадила "
+            f"<span class='number'>{trofimova_saplings:,}</span> саженцев.",
+        )
     )
 
     # Biggest walker / sprinter / flyer
     walk_leader = s["walk_m"].idxmax()
     facts.append(
-        f"🚶 <b>{walk_leader}</b> walked the most — "
-        f"<span class='number'>{s.loc[walk_leader, 'walk_m']:.0f} m</span> "
-        f"({s.loc[walk_leader, 'walk_m'] / 1000:.1f} km on foot)."
+        tr(
+            lang,
+            f"🚶 <b>{walk_leader}</b> walked the most — "
+            f"<span class='number'>{s.loc[walk_leader, 'walk_m']:.0f} m</span> "
+            f"({s.loc[walk_leader, 'walk_m'] / 1000:.1f} km on foot).",
+            f"🚶 <b>{walk_leader}</b> больше всех ходил пешком — "
+            f"<span class='number'>{s.loc[walk_leader, 'walk_m']:.0f} м</span> "
+            f"({s.loc[walk_leader, 'walk_m'] / 1000:.1f} км).",
+        )
     )
     fly_leader = s["fly_m"].idxmax()
     facts.append(
-        f"🪂 <b>{fly_leader}</b> spent the most time in the air — "
-        f"<span class='number'>{s.loc[fly_leader, 'fly_m']:.0f} m</span> "
-        f"(falling, jumping, or otherwise airborne)."
+        tr(
+            lang,
+            f"🪂 <b>{fly_leader}</b> spent the most time in the air — "
+            f"<span class='number'>{s.loc[fly_leader, 'fly_m']:.0f} m</span> "
+            f"(falling, jumping, or otherwise airborne).",
+            f"🪂 <b>{fly_leader}</b> больше всех провел в воздухе — "
+            f"<span class='number'>{s.loc[fly_leader, 'fly_m']:.0f} м</span> "
+            f"(прыжки, падения и прочее).",
+        )
     )
 
     # Combat efficiency
     fighter = s["mob_kills_total"].idxmax()
     facts.append(
-        f"⚔️ <b>{fighter}</b> killed the most mobs — "
-        f"<span class='number'>{int(s.loc[fighter, 'mob_kills_total'])}</span> in total."
+        tr(
+            lang,
+            f"⚔️ <b>{fighter}</b> killed the most mobs — "
+            f"<span class='number'>{int(s.loc[fighter, 'mob_kills_total'])}</span> in total.",
+            f"⚔️ <b>{fighter}</b> убил больше всего мобов — "
+            f"<span class='number'>{int(s.loc[fighter, 'mob_kills_total'])}</span> всего.",
+        )
     )
     most_dmg = s["damage_dealt_hearts"].idxmax()
     most_hurt = s["damage_taken_hearts"].idxmax()
     if most_dmg == most_hurt:
         facts.append(
-            f"💥 <b>{most_dmg}</b> dealt the most damage "
-            f"(<span class='number'>{s.loc[most_dmg, 'damage_dealt_hearts']:.1f}♥</span>) "
-            f"and also took the most "
-            f"(<span class='number'>{s.loc[most_dmg, 'damage_taken_hearts']:.1f}♥</span>)."
+            tr(
+                lang,
+                f"💥 <b>{most_dmg}</b> dealt the most damage "
+                f"(<span class='number'>{s.loc[most_dmg, 'damage_dealt_hearts']:.1f}♥</span>) "
+                f"and also took the most "
+                f"(<span class='number'>{s.loc[most_dmg, 'damage_taken_hearts']:.1f}♥</span>).",
+                f"💥 <b>{most_dmg}</b> нанес больше всего урона "
+                f"(<span class='number'>{s.loc[most_dmg, 'damage_dealt_hearts']:.1f}♥</span>) "
+                f"и сам получил больше всех "
+                f"(<span class='number'>{s.loc[most_dmg, 'damage_taken_hearts']:.1f}♥</span>).",
+            )
         )
     else:
         facts.append(
-            f"💥 <b>{most_dmg}</b> dealt the most damage "
-            f"(<span class='number'>{s.loc[most_dmg, 'damage_dealt_hearts']:.1f}♥</span>) "
-            f"while <b>{most_hurt}</b> took the most "
-            f"(<span class='number'>{s.loc[most_hurt, 'damage_taken_hearts']:.1f}♥</span>)."
+            tr(
+                lang,
+                f"💥 <b>{most_dmg}</b> dealt the most damage "
+                f"(<span class='number'>{s.loc[most_dmg, 'damage_dealt_hearts']:.1f}♥</span>) "
+                f"while <b>{most_hurt}</b> took the most "
+                f"(<span class='number'>{s.loc[most_hurt, 'damage_taken_hearts']:.1f}♥</span>).",
+                f"💥 <b>{most_dmg}</b> нанес больше всего урона "
+                f"(<span class='number'>{s.loc[most_dmg, 'damage_dealt_hearts']:.1f}♥</span>), "
+                f"а <b>{most_hurt}</b> получил больше всех "
+                f"(<span class='number'>{s.loc[most_hurt, 'damage_taken_hearts']:.1f}♥</span>).",
+            )
         )
 
     # Looter
     looter = s["open_chest"].idxmax()
-    facts.append(f"📦 <b>{looter}</b> opened <span class='number'>{int(s.loc[looter, 'open_chest'])}</span> chests.")
+    facts.append(
+        tr(
+            lang,
+            f"📦 <b>{looter}</b> opened <span class='number'>{int(s.loc[looter, 'open_chest'])}</span> chests.",
+            f"📦 <b>{looter}</b> открыл "
+            f"<span class='number'>{int(s.loc[looter, 'open_chest'])}</span> сундуков.",
+        )
+    )
 
     # Sleeper
     sleeper = s["sleep_count"].idxmax()
     facts.append(
-        f"🛏️ <b>{sleeper}</b> slept "
-        f"<span class='number'>{int(s.loc[sleeper, 'sleep_count'])}</span> "
-        f"nights through — the most-rested of the group."
+        tr(
+            lang,
+            f"🛏️ <b>{sleeper}</b> slept "
+            f"<span class='number'>{int(s.loc[sleeper, 'sleep_count'])}</span> "
+            f"nights through — the most-rested of the group.",
+            f"🛏️ <b>{sleeper}</b> проспал "
+            f"<span class='number'>{int(s.loc[sleeper, 'sleep_count'])}</span> "
+            f"ночей — самый отдохнувший в группе.",
+        )
     )
 
     # Tool destroyer
     breaker = s["tools_broken"].idxmax()
     facts.append(
-        f"🔨 <b>{breaker}</b> wore through <span class='number'>{int(s.loc[breaker, 'tools_broken'])}</span> tools."
+        tr(
+            lang,
+            f"🔨 <b>{breaker}</b> wore through <span class='number'>{int(s.loc[breaker, 'tools_broken'])}</span> tools.",
+            f"🔨 <b>{breaker}</b> сломал "
+            f"<span class='number'>{int(s.loc[breaker, 'tools_broken'])}</span> инструментов.",
+        )
     )
 
     # Jumper
     jumper = s["jumps"].idxmax()
-    facts.append(f"🤸 <b>{jumper}</b> jumped <span class='number'>{int(s.loc[jumper, 'jumps']):,}</span> times.")
+    facts.append(
+        tr(
+            lang,
+            f"🤸 <b>{jumper}</b> jumped <span class='number'>{int(s.loc[jumper, 'jumps']):,}</span> times.",
+            f"🤸 <b>{jumper}</b> прыгнул "
+            f"<span class='number'>{int(s.loc[jumper, 'jumps']):,}</span> раз.",
+        )
+    )
 
     for f in facts:
         st.markdown(f"<div class='insight-card'>{f}</div>", unsafe_allow_html=True)
@@ -495,13 +619,21 @@ def build_page():
     # === Footer ===
     st.markdown(f"<hr style='border-color:{BORDER};'>", unsafe_allow_html=True)
     st.caption(
-        "Source: `assets/snapshots/live-world/players/{stats,advancements}/*.json` "
-        "(Minecraft server NBT/JSON), parsed by `scripts/parse_snapshot.py`. "
-        "Distances are converted from cm → m; time from game-ticks → minutes "
-        "(20 ticks = 1 second). Damage values are divided by 10 to display in hearts "
-        "(Minecraft stores damage as integer tenths-of-hearts). "
-        "Recipe advancements are excluded — they fire on every craft and would "
-        "drown out the player-facing achievements."
+        tr(
+            lang,
+            "Source: `assets/snapshots/live-world/players/{stats,advancements}/*.json` "
+            "(Minecraft server NBT/JSON), parsed by `scripts/parse_snapshot.py`. "
+            "Distances are converted from cm → m; time from game-ticks → minutes "
+            "(20 ticks = 1 second). Damage values are divided by 10 to display in hearts "
+            "(Minecraft stores damage as integer tenths-of-hearts). "
+            "Recipe advancements are excluded — they fire on every craft and would "
+            "drown out the player-facing achievements.",
+            "Источник: `assets/snapshots/live-world/players/{stats,advancements}/*.json` "
+            "(серверные NBT/JSON-файлы Minecraft), обработано `scripts/parse_snapshot.py`. "
+            "Дистанции переведены из сантиметров в метры, время — из игровых тиков в минуты "
+            "(20 тиков = 1 секунда). Урон делится на 10 и показывается в сердцах. "
+            "Рецептурные достижения исключены: они срабатывают на каждом крафте и забивают важные достижения.",
+        )
     )
 
 
