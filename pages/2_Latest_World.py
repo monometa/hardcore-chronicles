@@ -13,7 +13,14 @@ import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
 
-from i18n import advancement_id_label, item_label, language_selector, tr, unit_minutes
+from i18n import (
+    advancement_id_label,
+    item_label,
+    language_selector,
+    ru_verb,
+    tr,
+    unit_minutes,
+)
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 
@@ -173,15 +180,6 @@ def build_page():
     summary, detail, advs = load_snapshot()
 
     st.markdown(tr(lang, "# 🏕️ THE LATEST WORLD", "# 🏕️ ТЕКУЩИЙ МИР"))
-    st.caption(
-        tr(
-            lang,
-            "Snapshot taken from the live Forge server on **2026-05-16** "
-            "(re-run `scripts/parse_snapshot.py` and redeploy to refresh).",
-            "Снимок взят с живого Forge-сервера **2026-05-16** "
-            "(чтобы обновить, нужно заново запустить `scripts/parse_snapshot.py` и передеплоить).",
-        )
-    )
 
     st.markdown(f"<hr style='border-color:{BORDER};'>", unsafe_allow_html=True)
 
@@ -506,7 +504,8 @@ def build_page():
             f"🚶 <b>{walk_leader}</b> walked the most — "
             f"<span class='number'>{s.loc[walk_leader, 'walk_m']:.0f} m</span> "
             f"({s.loc[walk_leader, 'walk_m'] / 1000:.1f} km on foot).",
-            f"🚶 <b>{walk_leader}</b> больше всех ходил пешком — "
+            f"🚶 <b>{walk_leader}</b> больше всех "
+            f"{ru_verb(walk_leader, 'ходил', 'ходила')} пешком — "
             f"<span class='number'>{s.loc[walk_leader, 'walk_m']:.0f} м</span> "
             f"({s.loc[walk_leader, 'walk_m'] / 1000:.1f} км).",
         )
@@ -518,7 +517,8 @@ def build_page():
             f"🪂 <b>{fly_leader}</b> spent the most time in the air — "
             f"<span class='number'>{s.loc[fly_leader, 'fly_m']:.0f} m</span> "
             f"(falling, jumping, or otherwise airborne).",
-            f"🪂 <b>{fly_leader}</b> больше всех провел в воздухе — "
+            f"🪂 <b>{fly_leader}</b> больше всех "
+            f"{ru_verb(fly_leader, 'провел', 'провела')} в воздухе — "
             f"<span class='number'>{s.loc[fly_leader, 'fly_m']:.0f} м</span> "
             f"(прыжки, падения и прочее).",
         )
@@ -531,7 +531,7 @@ def build_page():
             lang,
             f"⚔️ <b>{fighter}</b> killed the most mobs — "
             f"<span class='number'>{int(s.loc[fighter, 'mob_kills_total'])}</span> in total.",
-            f"⚔️ <b>{fighter}</b> убил больше всего мобов — "
+            f"⚔️ <b>{fighter}</b> {ru_verb(fighter, 'убил', 'убила')} больше всего мобов — "
             f"<span class='number'>{int(s.loc[fighter, 'mob_kills_total'])}</span> всего.",
         )
     )
@@ -545,9 +545,9 @@ def build_page():
                 f"(<span class='number'>{s.loc[most_dmg, 'damage_dealt_hearts']:.1f}♥</span>) "
                 f"and also took the most "
                 f"(<span class='number'>{s.loc[most_dmg, 'damage_taken_hearts']:.1f}♥</span>).",
-                f"💥 <b>{most_dmg}</b> нанес больше всего урона "
+                f"💥 <b>{most_dmg}</b> {ru_verb(most_dmg, 'нанес', 'нанесла')} больше всего урона "
                 f"(<span class='number'>{s.loc[most_dmg, 'damage_dealt_hearts']:.1f}♥</span>) "
-                f"и сам получил больше всех "
+                f"и {ru_verb(most_dmg, 'сам получил', 'сама получила')} больше всех "
                 f"(<span class='number'>{s.loc[most_dmg, 'damage_taken_hearts']:.1f}♥</span>).",
             )
         )
@@ -559,9 +559,9 @@ def build_page():
                 f"(<span class='number'>{s.loc[most_dmg, 'damage_dealt_hearts']:.1f}♥</span>) "
                 f"while <b>{most_hurt}</b> took the most "
                 f"(<span class='number'>{s.loc[most_hurt, 'damage_taken_hearts']:.1f}♥</span>).",
-                f"💥 <b>{most_dmg}</b> нанес больше всего урона "
+                f"💥 <b>{most_dmg}</b> {ru_verb(most_dmg, 'нанес', 'нанесла')} больше всего урона "
                 f"(<span class='number'>{s.loc[most_dmg, 'damage_dealt_hearts']:.1f}♥</span>), "
-                f"а <b>{most_hurt}</b> получил больше всех "
+                f"а <b>{most_hurt}</b> {ru_verb(most_hurt, 'получил', 'получила')} больше всех "
                 f"(<span class='number'>{s.loc[most_hurt, 'damage_taken_hearts']:.1f}♥</span>).",
             )
         )
@@ -572,7 +572,7 @@ def build_page():
         tr(
             lang,
             f"📦 <b>{looter}</b> opened <span class='number'>{int(s.loc[looter, 'open_chest'])}</span> chests.",
-            f"📦 <b>{looter}</b> открыл "
+            f"📦 <b>{looter}</b> {ru_verb(looter, 'открыл', 'открыла')} "
             f"<span class='number'>{int(s.loc[looter, 'open_chest'])}</span> сундуков.",
         )
     )
@@ -585,9 +585,9 @@ def build_page():
             f"🛏️ <b>{sleeper}</b> slept "
             f"<span class='number'>{int(s.loc[sleeper, 'sleep_count'])}</span> "
             f"nights through — the most-rested of the group.",
-            f"🛏️ <b>{sleeper}</b> проспал "
+            f"🛏️ <b>{sleeper}</b> {ru_verb(sleeper, 'проспал', 'проспала')} "
             f"<span class='number'>{int(s.loc[sleeper, 'sleep_count'])}</span> "
-            f"ночей — самый отдохнувший в группе.",
+            f"ночей — {ru_verb(sleeper, 'самый отдохнувший', 'самая отдохнувшая')} в группе.",
         )
     )
 
@@ -597,7 +597,7 @@ def build_page():
         tr(
             lang,
             f"🔨 <b>{breaker}</b> wore through <span class='number'>{int(s.loc[breaker, 'tools_broken'])}</span> tools.",
-            f"🔨 <b>{breaker}</b> сломал "
+            f"🔨 <b>{breaker}</b> {ru_verb(breaker, 'сломал', 'сломала')} "
             f"<span class='number'>{int(s.loc[breaker, 'tools_broken'])}</span> инструментов.",
         )
     )
@@ -608,7 +608,7 @@ def build_page():
         tr(
             lang,
             f"🤸 <b>{jumper}</b> jumped <span class='number'>{int(s.loc[jumper, 'jumps']):,}</span> times.",
-            f"🤸 <b>{jumper}</b> прыгнул "
+            f"🤸 <b>{jumper}</b> {ru_verb(jumper, 'прыгнул', 'прыгнула')} "
             f"<span class='number'>{int(s.loc[jumper, 'jumps']):,}</span> раз.",
         )
     )
@@ -616,25 +616,7 @@ def build_page():
     for f in facts:
         st.markdown(f"<div class='insight-card'>{f}</div>", unsafe_allow_html=True)
 
-    # === Footer ===
     st.markdown(f"<hr style='border-color:{BORDER};'>", unsafe_allow_html=True)
-    st.caption(
-        tr(
-            lang,
-            "Source: `assets/snapshots/live-world/players/{stats,advancements}/*.json` "
-            "(Minecraft server NBT/JSON), parsed by `scripts/parse_snapshot.py`. "
-            "Distances are converted from cm → m; time from game-ticks → minutes "
-            "(20 ticks = 1 second). Damage values are divided by 10 to display in hearts "
-            "(Minecraft stores damage as integer tenths-of-hearts). "
-            "Recipe advancements are excluded — they fire on every craft and would "
-            "drown out the player-facing achievements.",
-            "Источник: `assets/snapshots/live-world/players/{stats,advancements}/*.json` "
-            "(серверные NBT/JSON-файлы Minecraft), обработано `scripts/parse_snapshot.py`. "
-            "Дистанции переведены из сантиметров в метры, время — из игровых тиков в минуты "
-            "(20 тиков = 1 секунда). Урон делится на 10 и показывается в сердцах. "
-            "Рецептурные достижения исключены: они срабатывают на каждом крафте и забивают важные достижения.",
-        )
-    )
 
 
 if __name__ == "__main__":

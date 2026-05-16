@@ -54,9 +54,23 @@ def cause_label(value, lang):
     return labels.get(value, {}).get(lang, value)
 
 
-# Minecraft terms below are taken from the official 26.1.2 ru_ru.json asset.
-# For death messages we render the same official templates with the player
-# placeholder stripped, because the dashboard already prepends "<player>".
+# Players whose Russian verbs must use feminine past-tense forms.
+# Single-source-of-truth for gender; expand if a new female player joins.
+FEMALE_PLAYERS = {"trofimova2002"}
+
+
+def is_female(player: str) -> bool:
+    return player in FEMALE_PLAYERS
+
+
+def ru_verb(player: str, masc: str, fem: str) -> str:
+    """Pick the past-tense form that agrees with the player's grammatical gender.
+
+    Use in f-strings like:  f"{player} {ru_verb(player, 'умер', 'умерла')}"
+    """
+    return fem if is_female(player) else masc
+
+
 DEATH_MESSAGES_RU = {
     "drowned": "утонул",
     "fell from a high place": "разбился насмерть",
@@ -83,11 +97,48 @@ DEATH_MESSAGES_RU = {
     "went up in flames": "умер в огне",
 }
 
+# Feminine counterparts — used when the player is in FEMALE_PLAYERS.
+DEATH_MESSAGES_RU_FEMININE = {
+    "drowned": "утонула",
+    "fell from a high place": "разбилась насмерть",
+    "hit the ground too hard": "разбилась вдребезги",
+    "tried to swim in lava": "решила поплавать в лаве",
+    "was blown up by Creeper": "была взорвана Крипером",
+    "was burned to a crisp while fighting Blaze": "была сожжена дотла, пока боролась со Всполохом",
+    "was doomed to fall by Ghast": "была обречена на падение благодаря Гасту",
+    "was impaled by Drowned": "была пронзена Утопленником",
+    "was impaled on a stalagmite": "была пронзена сталагмитом",
+    "was killed by Ender Dragon using magic": "была убита Эндер-драконом с помощью магии",
+    "was shot by Skeleton": "была застрелена Скелетом",
+    "was shot by axantroff": "была застрелена axantroff",
+    "was slain by Blaze": "была убита Всполохом",
+    "was slain by Enderman": "была убита Эндерменом",
+    "was slain by Husk": "была убита Кадавром",
+    "was slain by Iron Golem": "была убита Железным големом",
+    "was slain by MurzichAI": "была убита MurzichAI",
+    "was slain by Piglin": "была убита Пиглином",
+    "was slain by Polar Bear": "была убита Белым медведем",
+    "was slain by Wolf": "была убита Волком",
+    "was slain by Zombie": "была убита Зомби",
+    "was slain by axantroff": "была убита axantroff",
+    "went up in flames": "сгорела заживо",
+}
 
-def death_message_label(message, lang):
-    if lang == "ru":
-        return DEATH_MESSAGES_RU.get(message, message)
-    return message
+
+def death_message_label(message, lang, player=None):
+    """Translate a death message into the target language.
+
+    When `lang == 'ru'` and `player` is female, returns the feminine form so
+    things like trofimova2002's deaths read as "была убита" instead of
+    "был убит".
+    """
+    if lang != "ru":
+        return message
+    if player and is_female(player):
+        return DEATH_MESSAGES_RU_FEMININE.get(
+            message, DEATH_MESSAGES_RU.get(message, message)
+        )
+    return DEATH_MESSAGES_RU.get(message, message)
 
 
 ADVANCEMENTS_RU = {

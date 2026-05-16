@@ -11,6 +11,7 @@ from i18n import (
     death_message_label,
     language_selector,
     outcome_label,
+    ru_verb,
     tr,
     unit_hours,
     unit_minutes,
@@ -299,8 +300,8 @@ def build_app():
             tr(lang, "☠️ How Each Run Ended", "☠️ Чем заканчивались попытки"),
             tr(
                 lang,
-                "First death per world — official Minecraft death message phrasing.",
-                "Первая смерть в каждом мире. Русские подписи сверены с официальной локализацией Minecraft.",
+                "First death per world.",
+                "Первая смерть в каждом мире.",
             ),
         )
 
@@ -420,8 +421,8 @@ def build_app():
         tr(lang, "⏰ How Long Each Run Lasted", "⏰ Сколько жили попытки"),
         tr(
             lang,
-            "Active play time from world creation to first death — idle / overnight server time is excluded.",
-            "Активное время от создания мира до первой смерти. Ночной простой сервера не считается.",
+            "Active play time from world creation to first death.",
+            "Активное время от создания мира до первой смерти.",
         ),
     )
 
@@ -473,12 +474,7 @@ def build_app():
     # === Achievements / Progression ===
     section_header(
         tr(lang, "🏆 How Far Each Run Got", "🏆 До чего мы доходили"),
-        tr(
-            lang,
-            "Advancements earned from log broadcasts (excludes recipe unlocks). "
-            "Filters above apply: only worlds passing the active-minutes / PvP toggles are counted.",
-            "Достижения из серверных логов без рецептов. Фильтры сверху применяются и здесь.",
-        ),
+        "",
     )
 
     adv = data["advancements"]
@@ -784,9 +780,11 @@ def build_app():
                     f"<span class='number'>{top['gap_min']:.1f} min</span> after "
                     f"<b>{top['player']}</b> unlocked "
                     f"<b>{top['advancement']}</b> (world #{top['world_num']}).",
-                    f"⏱  Самый жестокий зазор: <b>{top['death_player']}</b> умер через "
+                    f"⏱  Самый жестокий зазор: <b>{top['death_player']}</b> "
+                    f"{ru_verb(top['death_player'], 'умер', 'умерла')} через "
                     f"<span class='number'>{top['gap_min']:.1f} мин</span> после того, как "
-                    f"<b>{top['player']}</b> получил "
+                    f"<b>{top['player']}</b> "
+                    f"{ru_verb(top['player'], 'получил', 'получила')} "
                     f"<b>{advancement_label(top['advancement'], lang)}</b> (мир #{top['world_num']}).",
                 )
             )
@@ -1015,8 +1013,15 @@ def build_app():
         w["outcome"] = w["outcome"].map(
             {"died": outcome_label("died", lang), "skipped": outcome_label("skipped", lang)}
         )
-        w["first_death_message"] = w["first_death_message"].map(
-            lambda m: death_message_label(m, lang) if pd.notna(m) else m
+        # Per-row death message gets feminine forms when the dier is female.
+        w["first_death_message"] = w.apply(
+            lambda r: (
+                death_message_label(
+                    r["first_death_message"], lang, player=r["first_death_player"],
+                )
+                if pd.notna(r["first_death_message"]) else r["first_death_message"]
+            ),
+            axis=1,
         )
         w["first_death_category"] = w["first_death_category"].map(
             lambda c: cause_label(c, lang) if pd.notna(c) else c
@@ -1033,30 +1038,12 @@ def build_app():
             ],
             [
                 "Мир #", "Создан", "Итог", "Активно (мин)", "По часам (мин)",
-                "Первым умер", "Причина смерти", "Категория", "Всего смертей",
+                "Кто погиб первым", "Причина смерти", "Категория", "Всего смертей",
             ],
         )
         st.dataframe(w, use_container_width=True, hide_index=True)
 
-    # === Footer ===
     st.markdown(f"<hr style='border-color:{BORDER};'>", unsafe_allow_html=True)
-    st.caption(
-        tr(
-            lang,
-            f"Source: Minecraft server logs (vanilla + Forge). Only worlds created after "
-            f"`hardcore=true` was enabled (2026-05-05 21:37). "
-            f"Active minutes = wall-clock time where at least one player was logged in "
-            f"(computed from `joined the game` / `left the game` events). "
-            f"PvP deaths are always excluded (they were goofing around, not real attempts); "
-            f"the toggle above further filters out short rerolls.",
-            f"Источник: логи Minecraft-сервера (vanilla + Forge). Учитываются только миры после "
-            f"включения `hardcore=true` (2026-05-05 21:37). "
-            f"Активные минуты = время, когда хотя бы один игрок был онлайн "
-            f"(по событиям `joined the game` / `left the game`). "
-            f"PvP-смерти всегда скрыты: это была возня между друзьями, а не настоящие попытки. "
-            f"Переключатель сверху дополнительно убирает короткие рероллы.",
-        )
-    )
 
 
 if __name__ == "__main__":
