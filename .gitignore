@@ -11,3 +11,6 @@ venv/
 # Raw server logs — bundled locally for auditors, not committed.
 # Methodology assumes presence at assets/logs/{vanilla,forge}/.
 assets/
+
+# Auditor reports — kept locally for reference, not part of the public repo.
+audit/
