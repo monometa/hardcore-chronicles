@@ -325,6 +325,93 @@ def build_app():
 
     st.markdown("<br>", unsafe_allow_html=True)
 
+    # === Per-player tally ===
+    section_header(
+        "👥 Per Player",
+        "First deaths (run-ending) and total deaths each player accumulated across the filtered worlds.",
+    )
+
+    if failed.empty:
+        st.info("No deaths after filters applied.")
+    else:
+        first_by = (
+            failed["first_death_player"].value_counts()
+            .reindex(PLAYERS).fillna(0).astype(int)
+        )
+        deaths_filtered = raw_deaths[raw_deaths["world_num"].isin(worlds["world_num"])]
+        total_by = (
+            deaths_filtered["player"].value_counts()
+            .reindex(PLAYERS).fillna(0).astype(int)
+        )
+
+        pp_df = pd.DataFrame({
+            "player": PLAYERS,
+            "First deaths": [int(first_by[p]) for p in PLAYERS],
+            "Total deaths": [int(total_by[p]) for p in PLAYERS],
+        }).sort_values("First deaths", ascending=True)
+
+        fig = go.Figure()
+        fig.add_trace(go.Bar(
+            x=pp_df["First deaths"], y=pp_df["player"], orientation="h",
+            name="First deaths (run-ending)",
+            marker=dict(
+                color=[PLAYER_COLOR[p] for p in pp_df["player"]],
+                line=dict(color=BG_DARK, width=2),
+            ),
+            text=pp_df["First deaths"], textposition="outside",
+            textfont=dict(size=14, color=TEXT),
+            hovertemplate="<b>%{y}</b><br>First deaths: %{x}<extra></extra>",
+        ))
+        fig.add_trace(go.Bar(
+            x=pp_df["Total deaths"], y=pp_df["player"], orientation="h",
+            name="Total deaths (incl. post-first)",
+            marker=dict(
+                color=[PLAYER_COLOR[p] for p in pp_df["player"]],
+                opacity=0.35,
+                line=dict(color=BG_DARK, width=2),
+            ),
+            text=pp_df["Total deaths"], textposition="outside",
+            textfont=dict(size=14, color=MUTED),
+            hovertemplate="<b>%{y}</b><br>Total deaths: %{x}<extra></extra>",
+            visible="legendonly",
+        ))
+        fig.update_layout(
+            barmode="overlay",
+            paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
+            font=dict(family="monospace", color=TEXT, size=14),
+            margin=dict(l=10, r=40, t=10, b=40),
+            xaxis=dict(gridcolor=BORDER, zerolinecolor=BORDER, title="Worlds"),
+            yaxis=dict(gridcolor="rgba(0,0,0,0)", tickfont=dict(size=14)),
+            height=280,
+            showlegend=True,
+            legend=dict(
+                orientation="h", yanchor="bottom", y=-0.35, xanchor="right", x=1,
+                bgcolor=SURFACE, bordercolor=BORDER, borderwidth=1, font=dict(color=TEXT),
+            ),
+        )
+        st.plotly_chart(fig, use_container_width=True)
+
+        cols = st.columns(len(PLAYERS))
+        for col, p in zip(cols, PLAYERS):
+            with col:
+                st.markdown(
+                    f"""
+                    <div style='background:{SURFACE};border:2px solid {PLAYER_COLOR[p]};
+                                border-radius:6px;padding:14px 18px;text-align:center;'>
+                        <div style='color:{PLAYER_COLOR[p]};font-weight:800;font-size:1.05rem;
+                                    letter-spacing:0.03em;'>{p}</div>
+                        <div style='color:{TEXT};font-size:0.85rem;margin-top:8px;'>
+                            <b style='color:{ACCENT_GOLD};'>{int(first_by[p])}</b> first deaths
+                            &nbsp;·&nbsp;
+                            <b style='color:{ACCENT_GOLD};'>{int(total_by[p])}</b> total
+                        </div>
+                    </div>
+                    """,
+                    unsafe_allow_html=True,
+                )
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
     # === Key insights (unique stats, not duplicated above) ===
     section_header("💡 Key Insights")
     if not failed.empty:
