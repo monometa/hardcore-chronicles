@@ -205,6 +205,7 @@ def build_app():
         msg_counts["label"] = msg_counts.apply(
             lambda r: f"{r['icon']}  <player> {r['death_message']}", axis=1
         )
+        # Global desc ordering by count, regardless of category color groupings.
         msg_counts = msg_counts.sort_values("count", ascending=True)
 
         if msg_counts.empty:
@@ -223,6 +224,12 @@ def build_app():
                 textfont=dict(size=14, color=TEXT),
                 marker_line_color=BG_DARK,
                 marker_line_width=2,
+            )
+            # Force a global sort across categories — without this, plotly
+            # creates one trace per color and groups bars by category.
+            fig.update_yaxes(
+                categoryorder="array",
+                categoryarray=msg_counts["label"].tolist(),
             )
             fig.update_layout(
                 paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
