@@ -2,7 +2,8 @@
 
 An interactive Streamlit dashboard that tells the story of our hardcore Minecraft journey — every world attempted, every death, every reroll. Built from raw server logs.
 
-![hero](https://img.shields.io/badge/49-worlds_attempted-FFC107) ![hero](https://img.shields.io/badge/30-ended_in_death-E63946) ![hero](https://img.shields.io/badge/19-rerolled-F4A261)
+![hero](https://img.shields.io/badge/44-worlds_attempted-FFC107) ![hero](https://img.shields.io/badge/29-ended_in_death-E63946) ![hero](https://img.shields.io/badge/15-rerolled-F4A261)
+
 
 ## Run locally
 
@@ -10,7 +11,7 @@ An interactive Streamlit dashboard that tells the story of our hardcore Minecraf
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-streamlit run streamlit_app.py
+streamlit run Global_Stats.py
 ```
 
 Opens at `http://localhost:8501`.
@@ -19,31 +20,43 @@ Opens at `http://localhost:8501`.
 
 1. Push this repo to a **public** GitHub repo.
 2. Go to https://share.streamlit.io and sign in with GitHub.
-3. Click **New app** → pick the repo, branch `main`, and `streamlit_app.py` as the entry point.
+3. Click **New app** → pick the repo, branch `main`, and `Global_Stats.py` as the entry point.
 4. Click **Deploy**. You'll get a URL like `https://<your-app>.streamlit.app` to share.
 
 No env vars or secrets needed — the CSVs ship with the repo.
+
+## Pages
+
+The app is multi-page (use the sidebar to switch):
+
+1. **Global Stats** (`Global_Stats.py`) — all 44 worlds: death causes, run durations, achievement progression, per-player tally, daily attempt density.
+2. **The Latest World** (`pages/2_Latest_World.py`) — deep dive into the currently-active world: per-player stat cards, movement breakdown, "what we did most" bars (mined / killed / crafted / used), advancement state.
 
 ## Data sources
 
 All metrics are computed from CSVs in `data/`:
 
-| File | What's in it |
-| --- | --- |
-| `summary.csv` | overall metrics (totals, failure rate, total active hours, hardcore cutoff) |
-| `worlds.csv` | one row per hardcore world; outcome + first-death + active/wallclock minutes |
-| `deaths.csv` | one row per death event; `is_first_in_world` flag, category |
-| `death_messages.csv` | unique first-death phrasings + counts (Minecraft Wiki phrasing) |
-| `players.csv` | per-player aggregates (first deaths, total deaths, PvP kills) |
-| `pvp.csv` | killer → victim counts |
+| File | Drives | What's in it |
+| --- | --- | --- |
+| `summary.csv` | page 1 | overall metrics (totals, failure rate, total active hours, advancements, hardcore cutoff) |
+| `worlds.csv` | page 1 | one row per hardcore world; outcome + first-death + active/wallclock minutes |
+| `deaths.csv` | page 1 | one row per death event; `is_first_in_world` flag, category |
+| `death_messages.csv` | page 1 | unique first-death phrasings + counts (Minecraft Wiki phrasing) |
+| `players.csv` | page 1 | per-player aggregates (first deaths, total deaths, PvP kills) |
+| `pvp.csv` | page 1 | killer → victim counts |
+| `advancements.csv` | page 1 | one row per advancement broadcast, attributed to its world |
+| `live_stats_summary.csv` | page 2 | per-player counters from the live world snapshot |
+| `live_stats_detail.csv` | page 2 | long-form item counts (mined / killed / crafted / …) per player |
+| `live_advancements.csv` | page 2 | per-player advancement state in the live world |
 
-Regenerate them from the raw server logs:
+Regenerate them from the raw inputs:
 
 ```bash
-python scripts/parse_logs.py
+python scripts/parse_logs.py        # logs → worlds/deaths/.../advancements CSVs
+python scripts/parse_snapshot.py    # live-world snapshot → live_stats_* CSVs
 ```
 
-Raw logs (gzipped) live under `assets/logs/{vanilla,forge}/`. **The `assets/` directory is gitignored** — auditors must obtain it out-of-band and drop it at the repo root before running the parser.
+Raw inputs (gzipped logs + the live-world snapshot) live under `assets/`. **The `assets/` directory is gitignored** — auditors must obtain it out-of-band and drop it at the repo root before running the parsers.
 
 ## For auditors
 

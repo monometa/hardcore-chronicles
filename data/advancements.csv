@@ -1,0 +1,501 @@
+world_num,timestamp,player,advancement,minutes_into_run,source_log
+3,2026-05-05T21:53:06,MurzichAI,Stone Age,1.7,2026-05-05-6.log.gz
+3,2026-05-05T21:54:34,axantroff,Stone Age,3.1,2026-05-05-6.log.gz
+3,2026-05-05T21:54:36,trofimova2002,Stone Age,3.2,2026-05-05-6.log.gz
+3,2026-05-05T21:55:10,axantroff,Getting an Upgrade,3.7,2026-05-05-6.log.gz
+3,2026-05-05T21:55:14,trofimova2002,Getting an Upgrade,3.8,2026-05-05-6.log.gz
+3,2026-05-05T22:02:41,MurzichAI,Sweet Dreams,11.2,2026-05-05-6.log.gz
+3,2026-05-05T22:02:41,trofimova2002,Sweet Dreams,11.2,2026-05-05-6.log.gz
+3,2026-05-05T22:02:48,axantroff,Sweet Dreams,11.4,2026-05-05-6.log.gz
+3,2026-05-05T22:05:41,MurzichAI,Getting an Upgrade,14.2,2026-05-05-6.log.gz
+3,2026-05-05T22:17:07,MurzichAI,Monster Hunter,25.7,2026-05-05-6.log.gz
+3,2026-05-05T22:17:10,trofimova2002,Monster Hunter,25.7,2026-05-05-6.log.gz
+3,2026-05-05T22:18:27,axantroff,Monster Hunter,27.0,2026-05-05-6.log.gz
+3,2026-05-05T22:26:04,MurzichAI,Fishy Business,34.6,2026-05-05-6.log.gz
+3,2026-05-05T22:33:31,MurzichAI,Acquire Hardware,42.1,2026-05-05-6.log.gz
+3,2026-05-05T22:53:00,axantroff,Fishy Business,61.6,2026-05-05-6.log.gz
+3,2026-05-05T22:53:18,MurzichAI,Suit Up,61.9,2026-05-05-6.log.gz
+3,2026-05-05T23:01:53,axantroff,Acquire Hardware,70.5,2026-05-05-6.log.gz
+3,2026-05-05T23:03:46,MurzichAI,Isn't It Iron Pick,72.3,2026-05-05-6.log.gz
+3,2026-05-05T23:04:16,axantroff,Isn't It Iron Pick,72.8,2026-05-05-6.log.gz
+3,2026-05-05T23:07:13,axantroff,"Not Today, Thank You",75.8,2026-05-05-6.log.gz
+3,2026-05-05T23:10:19,MurzichAI,Diamonds!,78.9,2026-05-05-6.log.gz
+3,2026-05-05T23:11:31,MurzichAI,"Not Today, Thank You",80.1,2026-05-05-6.log.gz
+3,2026-05-05T23:15:48,axantroff,Diamonds!,84.4,2026-05-05-6.log.gz
+3,2026-05-05T23:28:27,MurzichAI,Hot Stuff,97.0,2026-05-05-6.log.gz
+3,2026-05-05T23:29:55,MurzichAI,Ice Bucket Challenge,98.5,2026-05-05-6.log.gz
+3,2026-05-05T23:31:25,axantroff,Suit Up,100.0,2026-05-05-6.log.gz
+3,2026-05-05T23:31:44,MurzichAI,Take Aim,100.3,2026-05-05-6.log.gz
+3,2026-05-05T23:36:58,axantroff,Hot Stuff,105.5,2026-05-05-6.log.gz
+3,2026-05-05T23:37:58,axantroff,Ice Bucket Challenge,106.5,2026-05-05-6.log.gz
+3,2026-05-05T23:41:08,trofimova2002,Acquire Hardware,109.7,2026-05-05-6.log.gz
+3,2026-05-05T23:43:24,trofimova2002,Diamonds!,112.0,2026-05-05-6.log.gz
+3,2026-05-05T23:48:39,trofimova2002,A Seedy Place,117.2,2026-05-05-6.log.gz
+3,2026-05-05T23:51:27,MurzichAI,What a Deal!,120.0,2026-05-05-6.log.gz
+3,2026-05-06T00:00:24,MurzichAI,We Need to Go Deeper,129.0,2026-05-06-1.log.gz
+3,2026-05-06T00:00:25,axantroff,We Need to Go Deeper,129.0,2026-05-06-1.log.gz
+3,2026-05-06T00:08:57,axantroff,Take Aim,137.5,2026-05-06-1.log.gz
+4,2026-05-06T22:35:20,axantroff,Stone Age,6.3,2026-05-06-2.log.gz
+4,2026-05-06T22:35:21,trofimova2002,Stone Age,6.3,2026-05-06-2.log.gz
+4,2026-05-06T22:35:46,axantroff,Getting an Upgrade,6.7,2026-05-06-2.log.gz
+4,2026-05-06T22:36:03,trofimova2002,Getting an Upgrade,7.0,2026-05-06-2.log.gz
+4,2026-05-06T22:41:02,trofimova2002,Monster Hunter,12.0,2026-05-06-2.log.gz
+4,2026-05-06T23:08:25,axantroff,Monster Hunter,39.4,2026-05-06-2.log.gz
+4,2026-05-06T23:11:21,trofimova2002,Acquire Hardware,42.3,2026-05-06-2.log.gz
+4,2026-05-06T23:12:46,MurzichAI,What a Deal!,43.7,2026-05-06-2.log.gz
+4,2026-05-06T23:15:02,axantroff,A Seedy Place,46.0,2026-05-06-2.log.gz
+4,2026-05-06T23:17:08,MurzichAI,Acquire Hardware,48.1,2026-05-06-2.log.gz
+4,2026-05-06T23:19:53,MurzichAI,Sweet Dreams,50.9,2026-05-06-2.log.gz
+4,2026-05-06T23:19:56,trofimova2002,Sweet Dreams,50.9,2026-05-06-2.log.gz
+4,2026-05-06T23:19:59,axantroff,Sweet Dreams,51.0,2026-05-06-2.log.gz
+4,2026-05-06T23:27:01,MurzichAI,Stone Age,58.0,2026-05-06-2.log.gz
+4,2026-05-06T23:40:41,MurzichAI,Suit Up,71.7,2026-05-06-2.log.gz
+4,2026-05-06T23:40:55,axantroff,Suit Up,71.9,2026-05-06-2.log.gz
+4,2026-05-06T23:42:54,axantroff,Acquire Hardware,73.9,2026-05-06-2.log.gz
+4,2026-05-06T23:46:42,MurzichAI,Getting an Upgrade,77.7,2026-05-06-2.log.gz
+4,2026-05-06T23:47:59,MurzichAI,Take Aim,79.0,2026-05-06-2.log.gz
+4,2026-05-06T23:48:05,MurzichAI,Monster Hunter,79.0,2026-05-06-2.log.gz
+4,2026-05-06T23:49:36,trofimova2002,Suit Up,80.6,2026-05-06-2.log.gz
+4,2026-05-06T23:56:55,axantroff,Take Aim,87.9,2026-05-06-2.log.gz
+4,2026-05-06T23:57:40,axantroff,"Not Today, Thank You",88.6,2026-05-06-2.log.gz
+4,2026-05-07T00:00:31,MurzichAI,"Not Today, Thank You",91.5,2026-05-07-1.log.gz
+4,2026-05-07T00:06:57,MurzichAI,Isn't It Iron Pick,97.9,2026-05-07-1.log.gz
+4,2026-05-07T00:11:49,axantroff,Isn't It Iron Pick,102.8,2026-05-07-1.log.gz
+4,2026-05-07T00:12:07,axantroff,Diamonds!,103.1,2026-05-07-1.log.gz
+4,2026-05-07T00:12:08,MurzichAI,Diamonds!,103.1,2026-05-07-1.log.gz
+4,2026-05-07T00:35:42,MurzichAI,Cover Me with Diamonds,126.7,2026-05-07-1.log.gz
+4,2026-05-07T00:47:12,MurzichAI,Ice Bucket Challenge,138.2,2026-05-07-1.log.gz
+4,2026-05-07T00:50:50,trofimova2002,A Seedy Place,141.8,2026-05-07-1.log.gz
+4,2026-05-07T00:53:37,trofimova2002,Diamonds!,144.6,2026-05-07-1.log.gz
+4,2026-05-07T00:54:20,MurzichAI,We Need to Go Deeper,145.3,2026-05-07-1.log.gz
+4,2026-05-07T00:54:36,axantroff,We Need to Go Deeper,145.6,2026-05-07-1.log.gz
+4,2026-05-07T00:59:00,axantroff,Cover Me with Diamonds,150.0,2026-05-07-1.log.gz
+4,2026-05-07T01:18:45,MurzichAI,A Terrible Fortress,169.7,2026-05-07-1.log.gz
+4,2026-05-07T01:18:51,axantroff,A Terrible Fortress,169.8,2026-05-07-1.log.gz
+4,2026-05-07T01:19:33,MurzichAI,Into Fire,170.5,2026-05-07-1.log.gz
+4,2026-05-07T01:29:05,trofimova2002,The Parrots and the Bats,180.1,2026-05-07-1.log.gz
+6,2026-05-07T20:38:44,axantroff,Stone Age,1.8,2026-05-07-3.log.gz
+6,2026-05-07T20:39:07,axantroff,Getting an Upgrade,2.2,2026-05-07-3.log.gz
+6,2026-05-07T20:39:10,trofimova2002,Stone Age,2.2,2026-05-07-3.log.gz
+6,2026-05-07T20:40:12,trofimova2002,Getting an Upgrade,3.3,2026-05-07-3.log.gz
+7,2026-05-07T20:47:48,MurzichAI,Ice Bucket Challenge,0.6,2026-05-07-4.log.gz
+7,2026-05-07T20:48:20,trofimova2002,Stone Age,1.1,2026-05-07-4.log.gz
+7,2026-05-07T20:48:32,axantroff,Stone Age,1.3,2026-05-07-4.log.gz
+7,2026-05-07T20:49:26,trofimova2002,Getting an Upgrade,2.2,2026-05-07-4.log.gz
+7,2026-05-07T21:02:27,MurzichAI,Stone Age,15.2,2026-05-07-4.log.gz
+7,2026-05-07T21:02:44,trofimova2002,Sweet Dreams,15.5,2026-05-07-4.log.gz
+7,2026-05-07T21:02:46,MurzichAI,Sweet Dreams,15.6,2026-05-07-4.log.gz
+7,2026-05-07T21:03:13,axantroff,Sweet Dreams,16.0,2026-05-07-4.log.gz
+7,2026-05-07T21:03:53,axantroff,Isn't It Iron Pick,16.7,2026-05-07-4.log.gz
+7,2026-05-07T21:03:54,axantroff,Suit Up,16.7,2026-05-07-4.log.gz
+7,2026-05-07T21:04:02,MurzichAI,Getting an Upgrade,16.8,2026-05-07-4.log.gz
+7,2026-05-07T21:12:08,MurzichAI,Acquire Hardware,24.9,2026-05-07-4.log.gz
+7,2026-05-07T21:12:50,MurzichAI,What a Deal!,25.6,2026-05-07-4.log.gz
+8,2026-05-07T21:16:17,trofimova2002,Stone Age,1.3,2026-05-07-5.log.gz
+8,2026-05-07T21:16:41,axantroff,A Seedy Place,1.7,2026-05-07-5.log.gz
+8,2026-05-07T21:17:35,trofimova2002,Getting an Upgrade,2.6,2026-05-07-5.log.gz
+8,2026-05-07T21:26:16,MurzichAI,What a Deal!,11.3,2026-05-07-5.log.gz
+8,2026-05-07T21:26:30,axantroff,Sweet Dreams,11.5,2026-05-07-5.log.gz
+8,2026-05-07T21:26:52,MurzichAI,Sweet Dreams,11.9,2026-05-07-5.log.gz
+8,2026-05-07T21:26:59,trofimova2002,Sweet Dreams,12.0,2026-05-07-5.log.gz
+8,2026-05-07T21:28:45,axantroff,Stone Age,13.8,2026-05-07-5.log.gz
+8,2026-05-07T21:28:58,axantroff,Getting an Upgrade,14.0,2026-05-07-5.log.gz
+8,2026-05-07T21:29:54,MurzichAI,Stone Age,14.9,2026-05-07-5.log.gz
+8,2026-05-07T21:30:06,MurzichAI,Getting an Upgrade,15.1,2026-05-07-5.log.gz
+8,2026-05-07T21:39:37,axantroff,Acquire Hardware,24.6,2026-05-07-5.log.gz
+8,2026-05-07T21:40:36,MurzichAI,Acquire Hardware,25.6,2026-05-07-5.log.gz
+8,2026-05-07T21:41:08,axantroff,Monster Hunter,26.2,2026-05-07-5.log.gz
+8,2026-05-07T21:42:48,MurzichAI,Suit Up,27.8,2026-05-07-5.log.gz
+8,2026-05-07T21:43:00,MurzichAI,Isn't It Iron Pick,28.0,2026-05-07-5.log.gz
+8,2026-05-07T21:43:08,trofimova2002,Monster Hunter,28.2,2026-05-07-5.log.gz
+8,2026-05-07T21:46:03,axantroff,Suit Up,31.1,2026-05-07-5.log.gz
+8,2026-05-07T21:46:55,MurzichAI,Monster Hunter,31.9,2026-05-07-5.log.gz
+8,2026-05-07T21:48:05,axantroff,Isn't It Iron Pick,33.1,2026-05-07-5.log.gz
+8,2026-05-07T21:49:18,axantroff,"Not Today, Thank You",34.3,2026-05-07-5.log.gz
+8,2026-05-07T21:54:40,axantroff,Diamonds!,39.7,2026-05-07-5.log.gz
+8,2026-05-07T21:55:00,MurzichAI,Diamonds!,40.0,2026-05-07-5.log.gz
+8,2026-05-07T21:57:22,MurzichAI,"Not Today, Thank You",42.4,2026-05-07-5.log.gz
+8,2026-05-07T21:58:14,axantroff,Ice Bucket Challenge,43.3,2026-05-07-5.log.gz
+8,2026-05-07T22:07:54,trofimova2002,A Seedy Place,52.9,2026-05-07-5.log.gz
+8,2026-05-07T22:14:41,trofimova2002,Acquire Hardware,59.7,2026-05-07-5.log.gz
+8,2026-05-07T22:37:42,MurzichAI,Cover Me with Diamonds,82.7,2026-05-07-5.log.gz
+8,2026-05-07T22:38:05,trofimova2002,Suit Up,83.1,2026-05-07-5.log.gz
+8,2026-05-07T22:39:27,axantroff,We Need to Go Deeper,84.5,2026-05-07-5.log.gz
+8,2026-05-07T22:39:49,MurzichAI,We Need to Go Deeper,84.8,2026-05-07-5.log.gz
+8,2026-05-07T22:54:16,axantroff,Cover Me with Diamonds,99.3,2026-05-07-5.log.gz
+8,2026-05-07T23:00:44,trofimova2002,We Need to Go Deeper,105.8,2026-05-07-5.log.gz
+9,2026-05-08T23:50:37,MurzichAI,What a Deal!,5.8,2026-05-08-1.log.gz
+9,2026-05-08T23:52:07,MurzichAI,Stone Age,7.2,2026-05-08-1.log.gz
+9,2026-05-08T23:55:52,MurzichAI,Sweet Dreams,11.0,2026-05-08-1.log.gz
+9,2026-05-08T23:55:57,trofimova2002,Sweet Dreams,11.1,2026-05-08-1.log.gz
+9,2026-05-08T23:56:04,axantroff,Sweet Dreams,11.2,2026-05-08-1.log.gz
+9,2026-05-08T23:57:24,trofimova2002,Stone Age,12.5,2026-05-08-1.log.gz
+9,2026-05-08T23:58:09,trofimova2002,Getting an Upgrade,13.3,2026-05-08-1.log.gz
+9,2026-05-09T00:06:37,MurzichAI,Take Aim,21.8,2026-05-09-2.log.gz
+9,2026-05-09T00:10:07,axantroff,Stone Age,25.2,2026-05-09-2.log.gz
+9,2026-05-09T00:10:19,axantroff,Getting an Upgrade,25.4,2026-05-09-2.log.gz
+9,2026-05-09T00:13:52,MurzichAI,Monster Hunter,29.0,2026-05-09-2.log.gz
+9,2026-05-09T00:15:21,MurzichAI,Acquire Hardware,30.5,2026-05-09-2.log.gz
+9,2026-05-09T00:23:32,axantroff,Take Aim,38.7,2026-05-09-2.log.gz
+9,2026-05-09T00:25:17,MurzichAI,Suit Up,40.4,2026-05-09-2.log.gz
+9,2026-05-09T00:27:32,trofimova2002,Suit Up,42.7,2026-05-09-2.log.gz
+9,2026-05-09T00:28:46,axantroff,Suit Up,43.9,2026-05-09-2.log.gz
+9,2026-05-09T00:36:44,MurzichAI,Cover Me with Diamonds,51.9,2026-05-09-2.log.gz
+9,2026-05-09T00:48:04,axantroff,Cover Me with Diamonds,63.2,2026-05-09-2.log.gz
+9,2026-05-09T00:56:03,axantroff,The Parrots and the Bats,71.2,2026-05-09-2.log.gz
+9,2026-05-09T00:59:28,axantroff,Fishy Business,74.6,2026-05-09-2.log.gz
+9,2026-05-09T01:14:51,MurzichAI,Getting an Upgrade,90.0,2026-05-09-2.log.gz
+9,2026-05-09T01:15:55,trofimova2002,Monster Hunter,91.0,2026-05-09-2.log.gz
+9,2026-05-09T01:22:00,axantroff,Acquire Hardware,97.1,2026-05-09-2.log.gz
+9,2026-05-09T01:22:05,axantroff,Isn't It Iron Pick,97.2,2026-05-09-2.log.gz
+9,2026-05-09T01:22:18,axantroff,Diamonds!,97.4,2026-05-09-2.log.gz
+9,2026-05-09T01:22:58,MurzichAI,Diamonds!,98.1,2026-05-09-2.log.gz
+9,2026-05-09T01:28:35,axantroff,Monster Hunter,103.7,2026-05-09-2.log.gz
+9,2026-05-09T01:32:32,trofimova2002,Acquire Hardware,107.7,2026-05-09-2.log.gz
+9,2026-05-09T01:36:40,trofimova2002,Isn't It Iron Pick,111.8,2026-05-09-2.log.gz
+9,2026-05-09T01:38:30,trofimova2002,Cover Me with Diamonds,113.6,2026-05-09-2.log.gz
+9,2026-05-09T13:12:45,axantroff,Voluntary Exile,807.9,2026-05-09-2.log.gz
+9,2026-05-09T13:18:05,trofimova2002,Take Aim,813.2,2026-05-09-2.log.gz
+9,2026-05-09T13:20:14,MurzichAI,Isn't It Iron Pick,815.4,2026-05-09-2.log.gz
+9,2026-05-09T13:24:40,trofimova2002,What a Deal!,819.8,2026-05-09-2.log.gz
+9,2026-05-09T13:34:52,axantroff,Ice Bucket Challenge,830.0,2026-05-09-2.log.gz
+9,2026-05-09T13:36:35,axantroff,"Not Today, Thank You",831.7,2026-05-09-2.log.gz
+9,2026-05-09T13:38:16,MurzichAI,"Not Today, Thank You",833.4,2026-05-09-2.log.gz
+10,2026-05-09T13:44:24,axantroff,Stone Age,2.2,2026-05-09-1.log.gz
+10,2026-05-09T13:44:37,axantroff,Getting an Upgrade,2.5,2026-05-09-1.log.gz
+10,2026-05-09T13:45:33,trofimova2002,Stone Age,3.4,2026-05-09-1.log.gz
+10,2026-05-09T13:46:15,trofimova2002,Getting an Upgrade,4.1,2026-05-09-1.log.gz
+10,2026-05-09T13:52:55,trofimova2002,Sweet Dreams,10.8,2026-05-09-1.log.gz
+10,2026-05-09T13:53:03,MurzichAI,Sweet Dreams,10.9,2026-05-09-1.log.gz
+10,2026-05-09T13:53:49,axantroff,Sweet Dreams,11.7,2026-05-09-1.log.gz
+10,2026-05-09T13:58:12,MurzichAI,What a Deal!,16.1,2026-05-09-1.log.gz
+10,2026-05-09T14:06:39,axantroff,Ice Bucket Challenge,24.5,2026-05-09-1.log.gz
+10,2026-05-09T14:12:03,axantroff,Acquire Hardware,29.9,2026-05-09-1.log.gz
+10,2026-05-09T14:15:06,MurzichAI,Suit Up,33.0,2026-05-09-1.log.gz
+10,2026-05-09T14:15:53,trofimova2002,Suit Up,33.7,2026-05-09-1.log.gz
+10,2026-05-09T14:17:57,MurzichAI,Cover Me with Diamonds,35.8,2026-05-09-1.log.gz
+10,2026-05-09T14:22:13,axantroff,Suit Up,40.1,2026-05-09-1.log.gz
+10,2026-05-09T14:22:35,axantroff,Cover Me with Diamonds,40.4,2026-05-09-1.log.gz
+10,2026-05-09T14:23:01,trofimova2002,Cover Me with Diamonds,40.9,2026-05-09-1.log.gz
+10,2026-05-09T14:39:42,MurzichAI,Acquire Hardware,57.5,2026-05-09-1.log.gz
+10,2026-05-09T14:43:34,axantroff,Take Aim,61.4,2026-05-09-1.log.gz
+10,2026-05-09T14:43:37,axantroff,Monster Hunter,61.5,2026-05-09-1.log.gz
+11,2026-05-10T15:11:27,trofimova2002,Stone Age,2.7,2026-05-10-5.log.gz
+11,2026-05-10T15:12:26,trofimova2002,Getting an Upgrade,3.7,2026-05-10-5.log.gz
+11,2026-05-10T15:14:07,trofimova2002,Monster Hunter,5.4,2026-05-10-5.log.gz
+12,2026-05-10T15:25:32,axantroff,Stone Age,1.8,2026-05-10-4.log.gz
+12,2026-05-10T15:25:50,axantroff,Getting an Upgrade,2.1,2026-05-10-4.log.gz
+12,2026-05-10T15:28:35,trofimova2002,Stone Age,4.9,2026-05-10-4.log.gz
+12,2026-05-10T15:30:43,MurzichAI,Best Friends Forever,7.0,2026-05-10-4.log.gz
+12,2026-05-10T15:33:29,trofimova2002,Getting an Upgrade,9.8,2026-05-10-4.log.gz
+12,2026-05-10T15:34:15,axantroff,Sweet Dreams,10.5,2026-05-10-4.log.gz
+12,2026-05-10T15:34:17,trofimova2002,Sweet Dreams,10.6,2026-05-10-4.log.gz
+12,2026-05-10T15:34:17,MurzichAI,Sweet Dreams,10.6,2026-05-10-4.log.gz
+12,2026-05-10T15:36:52,MurzichAI,What a Deal!,13.2,2026-05-10-4.log.gz
+12,2026-05-10T15:42:20,MurzichAI,Getting an Upgrade,18.6,2026-05-10-4.log.gz
+12,2026-05-10T15:44:04,MurzichAI,Stone Age,20.4,2026-05-10-4.log.gz
+12,2026-05-10T15:55:20,MurzichAI,Take Aim,31.6,2026-05-10-4.log.gz
+12,2026-05-10T15:55:56,axantroff,Acquire Hardware,32.2,2026-05-10-4.log.gz
+12,2026-05-10T15:56:08,MurzichAI,Acquire Hardware,32.4,2026-05-10-4.log.gz
+12,2026-05-10T15:58:19,axantroff,Take Aim,34.6,2026-05-10-4.log.gz
+12,2026-05-10T15:58:20,axantroff,Monster Hunter,34.6,2026-05-10-4.log.gz
+12,2026-05-10T15:59:42,MurzichAI,Suit Up,36.0,2026-05-10-4.log.gz
+12,2026-05-10T16:00:16,axantroff,Suit Up,36.5,2026-05-10-4.log.gz
+12,2026-05-10T16:00:26,trofimova2002,Suit Up,36.7,2026-05-10-4.log.gz
+12,2026-05-10T16:02:01,MurzichAI,Cover Me with Diamonds,38.3,2026-05-10-4.log.gz
+12,2026-05-10T16:02:12,axantroff,Cover Me with Diamonds,38.5,2026-05-10-4.log.gz
+12,2026-05-10T16:05:20,axantroff,"Not Today, Thank You",41.6,2026-05-10-4.log.gz
+12,2026-05-10T16:12:37,trofimova2002,Cover Me with Diamonds,48.9,2026-05-10-4.log.gz
+12,2026-05-10T16:19:16,MurzichAI,Monster Hunter,55.5,2026-05-10-4.log.gz
+12,2026-05-10T16:26:15,axantroff,Diamonds!,62.5,2026-05-10-4.log.gz
+12,2026-05-10T16:40:32,trofimova2002,Diamonds!,76.8,2026-05-10-4.log.gz
+12,2026-05-10T17:21:06,trofimova2002,A Seedy Place,117.4,2026-05-10-4.log.gz
+12,2026-05-10T17:23:23,MurzichAI,"Not Today, Thank You",119.7,2026-05-10-4.log.gz
+12,2026-05-10T17:25:25,trofimova2002,Acquire Hardware,121.7,2026-05-10-4.log.gz
+12,2026-05-10T17:25:47,MurzichAI,Ice Bucket Challenge,122.1,2026-05-10-4.log.gz
+12,2026-05-10T17:35:24,axantroff,Ice Bucket Challenge,131.7,2026-05-10-4.log.gz
+12,2026-05-10T17:37:14,trofimova2002,Fishy Business,133.5,2026-05-10-4.log.gz
+12,2026-05-10T17:45:16,axantroff,We Need to Go Deeper,141.6,2026-05-10-4.log.gz
+12,2026-05-10T17:45:20,MurzichAI,We Need to Go Deeper,141.6,2026-05-10-4.log.gz
+12,2026-05-10T17:45:42,trofimova2002,Ice Bucket Challenge,142.0,2026-05-10-4.log.gz
+12,2026-05-10T17:47:00,trofimova2002,Isn't It Iron Pick,143.3,2026-05-10-4.log.gz
+12,2026-05-10T17:53:19,MurzichAI,Diamonds!,149.6,2026-05-10-4.log.gz
+12,2026-05-10T17:54:59,trofimova2002,We Need to Go Deeper,151.3,2026-05-10-4.log.gz
+12,2026-05-10T17:57:08,axantroff,A Terrible Fortress,153.4,2026-05-10-4.log.gz
+12,2026-05-10T17:57:13,MurzichAI,A Terrible Fortress,153.5,2026-05-10-4.log.gz
+12,2026-05-10T17:57:55,trofimova2002,A Terrible Fortress,154.2,2026-05-10-4.log.gz
+12,2026-05-10T17:59:32,MurzichAI,Into Fire,155.8,2026-05-10-4.log.gz
+12,2026-05-10T17:59:34,trofimova2002,Take Aim,155.8,2026-05-10-4.log.gz
+12,2026-05-10T18:01:05,trofimova2002,Monster Hunter,157.4,2026-05-10-4.log.gz
+12,2026-05-10T18:05:24,axantroff,Into Fire,161.7,2026-05-10-4.log.gz
+12,2026-05-10T18:30:10,axantroff,Best Friends Forever,186.4,2026-05-10-4.log.gz
+12,2026-05-10T18:31:04,trofimova2002,Crafting a New Look,187.3,2026-05-10-4.log.gz
+12,2026-05-10T18:39:28,trofimova2002,The Parrots and the Bats,195.8,2026-05-10-4.log.gz
+12,2026-05-10T18:44:23,trofimova2002,Into Fire,200.7,2026-05-10-4.log.gz
+12,2026-05-10T18:50:01,MurzichAI,Eye Spy,206.3,2026-05-10-4.log.gz
+12,2026-05-10T18:53:56,axantroff,Eye Spy,210.2,2026-05-10-4.log.gz
+13,2026-05-10T18:57:55,MurzichAI,The Parrots and the Bats,1.3,2026-05-10-3.log.gz
+14,2026-05-10T19:01:01,axantroff,Stone Age,1.5,2026-05-10-2.log.gz
+14,2026-05-10T19:01:35,axantroff,Getting an Upgrade,2.1,2026-05-10-2.log.gz
+15,2026-05-10T19:05:47,trofimova2002,Stone Age,3.1,2026-05-10-1.log.gz
+15,2026-05-10T19:05:54,axantroff,Stone Age,3.2,2026-05-10-1.log.gz
+15,2026-05-10T19:06:17,axantroff,Getting an Upgrade,3.6,2026-05-10-1.log.gz
+15,2026-05-10T19:07:33,trofimova2002,Getting an Upgrade,4.8,2026-05-10-1.log.gz
+15,2026-05-10T19:16:43,axantroff,Monster Hunter,14.0,2026-05-10-1.log.gz
+15,2026-05-10T19:21:33,MurzichAI,Monster Hunter,18.8,2026-05-10-1.log.gz
+15,2026-05-10T19:26:13,MurzichAI,What a Deal!,23.5,2026-05-10-1.log.gz
+15,2026-05-11T19:07:49,MurzichAI,Stone Age,1445.1,2026-05-11-3.log.gz
+15,2026-05-11T19:11:22,axantroff,Sweet Dreams,1448.7,2026-05-11-3.log.gz
+15,2026-05-11T19:11:24,trofimova2002,Sweet Dreams,1448.7,2026-05-11-3.log.gz
+15,2026-05-11T19:11:36,MurzichAI,Sweet Dreams,1448.9,2026-05-11-3.log.gz
+15,2026-05-11T19:25:34,MurzichAI,Getting an Upgrade,1462.8,2026-05-11-3.log.gz
+15,2026-05-11T19:28:20,axantroff,Acquire Hardware,1465.6,2026-05-11-3.log.gz
+15,2026-05-11T19:30:19,MurzichAI,Acquire Hardware,1467.6,2026-05-11-3.log.gz
+15,2026-05-11T19:30:33,MurzichAI,Suit Up,1467.8,2026-05-11-3.log.gz
+15,2026-05-11T19:31:51,trofimova2002,Suit Up,1469.1,2026-05-11-3.log.gz
+15,2026-05-11T19:32:14,MurzichAI,Cover Me with Diamonds,1469.5,2026-05-11-3.log.gz
+15,2026-05-11T19:32:48,axantroff,Cover Me with Diamonds,1470.1,2026-05-11-3.log.gz
+15,2026-05-11T19:32:49,axantroff,Suit Up,1470.1,2026-05-11-3.log.gz
+15,2026-05-11T19:35:38,trofimova2002,Cover Me with Diamonds,1472.9,2026-05-11-3.log.gz
+15,2026-05-11T19:37:49,axantroff,Take Aim,1475.1,2026-05-11-3.log.gz
+15,2026-05-11T19:41:56,axantroff,"Not Today, Thank You",1479.2,2026-05-11-3.log.gz
+15,2026-05-11T19:46:58,trofimova2002,Acquire Hardware,1484.2,2026-05-11-3.log.gz
+15,2026-05-11T20:02:29,MurzichAI,Isn't It Iron Pick,1499.8,2026-05-11-3.log.gz
+15,2026-05-11T20:04:18,MurzichAI,Take Aim,1501.6,2026-05-11-3.log.gz
+15,2026-05-11T20:07:50,MurzichAI,Diamonds!,1505.1,2026-05-11-3.log.gz
+15,2026-05-11T20:08:44,trofimova2002,"Not Today, Thank You",1506.0,2026-05-11-3.log.gz
+15,2026-05-11T20:08:47,trofimova2002,Monster Hunter,1506.1,2026-05-11-3.log.gz
+15,2026-05-11T20:10:47,axantroff,Ice Bucket Challenge,1508.1,2026-05-11-3.log.gz
+15,2026-05-11T20:35:03,axantroff,We Need to Go Deeper,1532.3,2026-05-11-3.log.gz
+15,2026-05-11T20:35:04,MurzichAI,We Need to Go Deeper,1532.3,2026-05-11-3.log.gz
+15,2026-05-11T20:53:32,axantroff,A Terrible Fortress,1550.8,2026-05-11-3.log.gz
+15,2026-05-11T20:53:34,MurzichAI,A Terrible Fortress,1550.8,2026-05-11-3.log.gz
+15,2026-05-11T20:55:34,MurzichAI,Spooky Scary Skeleton,1552.8,2026-05-11-3.log.gz
+15,2026-05-11T20:57:47,axantroff,Into Fire,1555.1,2026-05-11-3.log.gz
+15,2026-05-11T20:59:02,MurzichAI,Into Fire,1556.3,2026-05-11-3.log.gz
+15,2026-05-11T21:03:03,trofimova2002,What a Deal!,1560.3,2026-05-11-3.log.gz
+15,2026-05-11T21:03:44,MurzichAI,"Not Today, Thank You",1561.0,2026-05-11-3.log.gz
+15,2026-05-11T21:07:21,trofimova2002,Into Fire,1564.6,2026-05-11-3.log.gz
+15,2026-05-11T21:28:22,axantroff,Diamonds!,1585.7,2026-05-11-3.log.gz
+15,2026-05-11T21:30:16,axantroff,Eye Spy,1587.5,2026-05-11-3.log.gz
+15,2026-05-11T21:51:58,trofimova2002,Crafting a New Look,1609.2,2026-05-11-3.log.gz
+15,2026-05-11T22:00:43,trofimova2002,Take Aim,1618.0,2026-05-11-3.log.gz
+15,2026-05-11T22:04:15,MurzichAI,Eye Spy,1621.5,2026-05-11-3.log.gz
+15,2026-05-11T22:04:29,trofimova2002,Eye Spy,1621.8,2026-05-11-3.log.gz
+15,2026-05-11T22:09:03,axantroff,The End?,1626.3,2026-05-11-3.log.gz
+15,2026-05-11T22:09:05,MurzichAI,The End?,1626.4,2026-05-11-3.log.gz
+15,2026-05-11T22:09:06,trofimova2002,The End?,1626.4,2026-05-11-3.log.gz
+16,2026-05-11T22:18:22,trofimova2002,Stone Age,4.7,2026-05-11-2.log.gz
+16,2026-05-11T22:18:42,trofimova2002,Getting an Upgrade,5.0,2026-05-11-2.log.gz
+16,2026-05-11T22:25:47,MurzichAI,Monster Hunter,12.1,2026-05-11-2.log.gz
+16,2026-05-11T22:26:56,trofimova2002,Sweet Dreams,13.3,2026-05-11-2.log.gz
+16,2026-05-11T22:27:00,axantroff,Sweet Dreams,13.3,2026-05-11-2.log.gz
+16,2026-05-11T22:27:14,MurzichAI,Sweet Dreams,13.6,2026-05-11-2.log.gz
+17,2026-05-11T22:32:27,trofimova2002,Stone Age,3.5,2026-05-11-1.log.gz
+17,2026-05-11T22:32:45,trofimova2002,Getting an Upgrade,3.9,2026-05-11-1.log.gz
+17,2026-05-11T22:36:47,axantroff,Stone Age,7.9,2026-05-11-1.log.gz
+17,2026-05-11T22:39:23,axantroff,Sweet Dreams,10.5,2026-05-11-1.log.gz
+17,2026-05-11T22:39:24,trofimova2002,Sweet Dreams,10.5,2026-05-11-1.log.gz
+17,2026-05-11T22:39:33,MurzichAI,Sweet Dreams,10.7,2026-05-11-1.log.gz
+17,2026-05-11T22:41:07,axantroff,Getting an Upgrade,12.2,2026-05-11-1.log.gz
+17,2026-05-11T22:45:39,axantroff,Bee Our Guest,16.8,2026-05-11-1.log.gz
+17,2026-05-11T22:58:53,MurzichAI,Acquire Hardware,30.0,2026-05-11-1.log.gz
+17,2026-05-11T23:15:03,MurzichAI,Ice Bucket Challenge,46.1,2026-05-11-1.log.gz
+17,2026-05-11T23:18:57,MurzichAI,Suit Up,50.0,2026-05-11-1.log.gz
+17,2026-05-11T23:20:06,MurzichAI,Stone Age,51.2,2026-05-11-1.log.gz
+17,2026-05-11T23:34:39,MurzichAI,Getting an Upgrade,65.8,2026-05-11-1.log.gz
+17,2026-05-11T23:36:37,axantroff,Minecraft: Trial(s) Edition,67.7,2026-05-11-1.log.gz
+18,2026-05-14T17:16:51,MurzichAI,Sweet Dreams,11.2,2026-05-14-15.log.gz
+18,2026-05-14T17:16:54,trofimova2002,Sweet Dreams,11.2,2026-05-14-15.log.gz
+18,2026-05-14T17:16:58,axantroff,Sweet Dreams,11.3,2026-05-14-15.log.gz
+18,2026-05-14T17:19:02,MurzichAI,Monster Hunter,13.4,2026-05-14-15.log.gz
+18,2026-05-14T17:19:06,axantroff,Monster Hunter,13.4,2026-05-14-15.log.gz
+18,2026-05-14T17:19:24,axantroff,Stone Age,13.8,2026-05-14-15.log.gz
+18,2026-05-14T17:19:33,axantroff,Getting an Upgrade,13.9,2026-05-14-15.log.gz
+18,2026-05-14T17:19:52,trofimova2002,Stone Age,14.2,2026-05-14-15.log.gz
+18,2026-05-14T17:20:14,trofimova2002,Getting an Upgrade,14.6,2026-05-14-15.log.gz
+19,2026-05-14T17:41:48,MurzichAI,Stone Age,8.3,2026-05-14-14.log.gz
+19,2026-05-14T17:42:08,axantroff,Stone Age,8.7,2026-05-14-14.log.gz
+19,2026-05-14T17:42:27,axantroff,Getting an Upgrade,9.0,2026-05-14-14.log.gz
+19,2026-05-14T17:42:46,trofimova2002,Stone Age,9.3,2026-05-14-14.log.gz
+19,2026-05-14T17:44:19,trofimova2002,Sweet Dreams,10.9,2026-05-14-14.log.gz
+19,2026-05-14T17:44:45,axantroff,Monster Hunter,11.3,2026-05-14-14.log.gz
+19,2026-05-14T17:45:13,MurzichAI,Sweet Dreams,11.8,2026-05-14-14.log.gz
+20,2026-05-14T17:53:14,MurzichAI,Suit Up,4.7,2026-05-14-13.log.gz
+20,2026-05-14T17:53:15,MurzichAI,Acquire Hardware,4.7,2026-05-14-13.log.gz
+20,2026-05-14T17:54:30,trofimova2002,Stone Age,5.9,2026-05-14-13.log.gz
+20,2026-05-14T17:55:11,trofimova2002,Getting an Upgrade,6.6,2026-05-14-13.log.gz
+20,2026-05-14T17:57:27,MurzichAI,Isn't It Iron Pick,8.9,2026-05-14-13.log.gz
+20,2026-05-14T18:00:33,axantroff,Suit Up,12.0,2026-05-14-13.log.gz
+20,2026-05-14T18:00:33,axantroff,Ice Bucket Challenge,12.0,2026-05-14-13.log.gz
+20,2026-05-14T18:00:34,axantroff,Acquire Hardware,12.0,2026-05-14-13.log.gz
+20,2026-05-14T18:00:55,axantroff,Monster Hunter,12.3,2026-05-14-13.log.gz
+20,2026-05-14T18:03:05,MurzichAI,Monster Hunter,14.5,2026-05-14-13.log.gz
+21,2026-05-14T18:07:57,MurzichAI,Suit Up,2.4,2026-05-14-12.log.gz
+21,2026-05-14T18:07:57,MurzichAI,Isn't It Iron Pick,2.4,2026-05-14-12.log.gz
+21,2026-05-14T18:12:09,MurzichAI,Acquire Hardware,6.6,2026-05-14-12.log.gz
+21,2026-05-14T18:12:26,trofimova2002,Stone Age,6.9,2026-05-14-12.log.gz
+21,2026-05-14T18:13:07,trofimova2002,Getting an Upgrade,7.6,2026-05-14-12.log.gz
+21,2026-05-14T18:20:03,MurzichAI,Sweet Dreams,14.5,2026-05-14-12.log.gz
+21,2026-05-14T18:20:05,axantroff,Sweet Dreams,14.6,2026-05-14-12.log.gz
+21,2026-05-14T18:21:16,MurzichAI,Monster Hunter,15.7,2026-05-14-12.log.gz
+22,2026-05-14T18:35:26,trofimova2002,Sweet Dreams,10.5,2026-05-14-11.log.gz
+22,2026-05-14T18:35:26,MurzichAI,Sweet Dreams,10.5,2026-05-14-11.log.gz
+22,2026-05-14T18:35:27,axantroff,Sweet Dreams,10.5,2026-05-14-11.log.gz
+22,2026-05-14T18:36:42,trofimova2002,Stone Age,11.7,2026-05-14-11.log.gz
+22,2026-05-14T18:37:52,trofimova2002,Getting an Upgrade,12.9,2026-05-14-11.log.gz
+22,2026-05-14T18:38:14,axantroff,Stone Age,13.3,2026-05-14-11.log.gz
+22,2026-05-14T18:38:17,axantroff,Getting an Upgrade,13.3,2026-05-14-11.log.gz
+22,2026-05-14T18:39:55,MurzichAI,What a Deal!,14.9,2026-05-14-11.log.gz
+22,2026-05-14T18:40:51,MurzichAI,Take Aim,15.9,2026-05-14-11.log.gz
+25,2026-05-14T19:07:19,trofimova2002,Stone Age,5.6,2026-05-14-7.log.gz
+25,2026-05-14T19:08:21,trofimova2002,Getting an Upgrade,6.6,2026-05-14-7.log.gz
+25,2026-05-14T19:11:28,axantroff,Stone Age,9.7,2026-05-14-7.log.gz
+25,2026-05-14T19:12:16,axantroff,Getting an Upgrade,10.5,2026-05-14-7.log.gz
+25,2026-05-14T19:12:27,trofimova2002,Sweet Dreams,10.7,2026-05-14-7.log.gz
+25,2026-05-14T19:12:35,MurzichAI,Sweet Dreams,10.8,2026-05-14-7.log.gz
+25,2026-05-14T19:13:51,axantroff,Sweet Dreams,12.1,2026-05-14-7.log.gz
+25,2026-05-14T19:14:24,MurzichAI,What a Deal!,12.7,2026-05-14-7.log.gz
+25,2026-05-14T19:14:51,axantroff,Monster Hunter,13.1,2026-05-14-7.log.gz
+25,2026-05-14T19:16:22,MurzichAI,Stone Age,14.6,2026-05-14-7.log.gz
+25,2026-05-14T19:19:13,axantroff,Acquire Hardware,17.5,2026-05-14-7.log.gz
+25,2026-05-14T19:20:45,trofimova2002,Acquire Hardware,19.0,2026-05-14-7.log.gz
+25,2026-05-14T19:26:01,trofimova2002,Monster Hunter,24.3,2026-05-14-7.log.gz
+25,2026-05-14T19:26:38,MurzichAI,Acquire Hardware,24.9,2026-05-14-7.log.gz
+25,2026-05-14T19:29:08,MurzichAI,Suit Up,27.4,2026-05-14-7.log.gz
+25,2026-05-14T19:29:23,axantroff,Suit Up,27.6,2026-05-14-7.log.gz
+25,2026-05-14T19:30:28,trofimova2002,Suit Up,28.7,2026-05-14-7.log.gz
+25,2026-05-14T19:33:20,MurzichAI,Getting an Upgrade,31.6,2026-05-14-7.log.gz
+25,2026-05-14T19:35:16,MurzichAI,Take Aim,33.5,2026-05-14-7.log.gz
+25,2026-05-14T19:35:18,MurzichAI,Monster Hunter,33.5,2026-05-14-7.log.gz
+27,2026-05-14T21:13:13,MurzichAI,Ice Bucket Challenge,0.2,2026-05-14-5.log.gz
+27,2026-05-14T21:13:13,MurzichAI,Suit Up,0.2,2026-05-14-5.log.gz
+27,2026-05-14T21:13:14,MurzichAI,Acquire Hardware,0.2,2026-05-14-5.log.gz
+27,2026-05-14T21:15:39,MurzichAI,What a Deal!,2.7,2026-05-14-5.log.gz
+27,2026-05-14T21:19:20,axantroff,Stone Age,6.3,2026-05-14-5.log.gz
+27,2026-05-14T21:20:34,MurzichAI,Take Aim,7.6,2026-05-14-5.log.gz
+27,2026-05-14T21:20:38,axantroff,Getting an Upgrade,7.7,2026-05-14-5.log.gz
+27,2026-05-14T21:24:00,trofimova2002,Sweet Dreams,11.0,2026-05-14-5.log.gz
+27,2026-05-14T21:24:02,MurzichAI,Sweet Dreams,11.1,2026-05-14-5.log.gz
+27,2026-05-14T21:24:09,axantroff,Sweet Dreams,11.2,2026-05-14-5.log.gz
+27,2026-05-14T21:24:36,trofimova2002,Stone Age,11.6,2026-05-14-5.log.gz
+27,2026-05-14T21:25:13,MurzichAI,Getting an Upgrade,12.2,2026-05-14-5.log.gz
+27,2026-05-14T21:28:10,MurzichAI,Stone Age,15.2,2026-05-14-5.log.gz
+27,2026-05-14T21:29:54,MurzichAI,Monster Hunter,16.9,2026-05-14-5.log.gz
+27,2026-05-14T21:29:57,axantroff,Take Aim,17.0,2026-05-14-5.log.gz
+27,2026-05-14T21:30:00,axantroff,Monster Hunter,17.0,2026-05-14-5.log.gz
+27,2026-05-14T21:32:45,trofimova2002,Getting an Upgrade,19.8,2026-05-14-5.log.gz
+29,2026-05-14T21:38:16,axantroff,Monster Hunter,0.6,2026-05-14-3.log.gz
+29,2026-05-14T21:39:07,MurzichAI,Monster Hunter,1.4,2026-05-14-3.log.gz
+31,2026-05-14T21:43:02,axantroff,Isn't It Iron Pick,0.5,2026-05-14-1.log.gz
+31,2026-05-14T21:43:02,axantroff,Suit Up,0.5,2026-05-14-1.log.gz
+31,2026-05-14T21:45:01,MurzichAI,Isn't It Iron Pick,2.5,2026-05-14-1.log.gz
+31,2026-05-14T21:46:14,MurzichAI,Suit Up,3.7,2026-05-14-1.log.gz
+31,2026-05-14T21:47:55,MurzichAI,What a Deal!,5.4,2026-05-14-1.log.gz
+31,2026-05-14T21:48:59,MurzichAI,Stone Age,6.5,2026-05-14-1.log.gz
+31,2026-05-14T21:49:32,trofimova2002,Stone Age,7.0,2026-05-14-1.log.gz
+31,2026-05-14T21:51:32,trofimova2002,Getting an Upgrade,9.0,2026-05-14-1.log.gz
+31,2026-05-14T21:52:47,axantroff,Stone Age,10.2,2026-05-14-1.log.gz
+31,2026-05-14T21:53:13,MurzichAI,Sweet Dreams,10.7,2026-05-14-1.log.gz
+31,2026-05-14T21:53:22,trofimova2002,Sweet Dreams,10.8,2026-05-14-1.log.gz
+31,2026-05-14T21:53:24,axantroff,Sweet Dreams,10.9,2026-05-14-1.log.gz
+31,2026-05-14T21:54:44,MurzichAI,Take Aim,12.2,2026-05-14-1.log.gz
+31,2026-05-14T21:55:15,MurzichAI,Monster Hunter,12.7,2026-05-14-1.log.gz
+31,2026-05-14T21:59:01,axantroff,Getting an Upgrade,16.5,2026-05-14-1.log.gz
+31,2026-05-14T22:06:04,axantroff,Take Aim,23.5,2026-05-14-1.log.gz
+31,2026-05-14T22:06:13,axantroff,Monster Hunter,23.7,2026-05-14-1.log.gz
+31,2026-05-14T22:11:02,trofimova2002,Ice Bucket Challenge,28.5,2026-05-14-1.log.gz
+31,2026-05-14T22:16:09,axantroff,Acquire Hardware,33.6,2026-05-14-1.log.gz
+31,2026-05-14T22:17:11,trofimova2002,A Seedy Place,34.6,2026-05-14-1.log.gz
+31,2026-05-14T22:17:23,MurzichAI,Acquire Hardware,34.9,2026-05-14-1.log.gz
+31,2026-05-14T22:19:27,axantroff,Hot Stuff,36.9,2026-05-14-1.log.gz
+31,2026-05-14T22:21:37,MurzichAI,"Not Today, Thank You",39.1,2026-05-14-1.log.gz
+31,2026-05-14T22:24:36,MurzichAI,Diamonds!,42.1,2026-05-14-1.log.gz
+31,2026-05-14T22:31:22,axantroff,We Need to Go Deeper,48.8,2026-05-14-1.log.gz
+31,2026-05-14T22:31:24,axantroff,A Terrible Fortress,48.9,2026-05-14-1.log.gz
+31,2026-05-14T22:31:24,MurzichAI,We Need to Go Deeper,48.9,2026-05-14-1.log.gz
+31,2026-05-14T22:31:24,MurzichAI,A Terrible Fortress,48.9,2026-05-14-1.log.gz
+31,2026-05-14T22:33:22,trofimova2002,We Need to Go Deeper,50.8,2026-05-14-1.log.gz
+31,2026-05-14T22:33:22,trofimova2002,A Terrible Fortress,50.8,2026-05-14-1.log.gz
+31,2026-05-14T22:35:14,MurzichAI,Those Were the Days,52.7,2026-05-14-1.log.gz
+31,2026-05-14T22:35:56,trofimova2002,Monster Hunter,53.4,2026-05-14-1.log.gz
+37,2026-05-16T01:56:53,MurzichAI,What a Deal!,2.0,2026-05-16-6.log.gz
+37,2026-05-16T01:58:31,trofimova2002,Stone Age,3.6,2026-05-16-6.log.gz
+37,2026-05-16T01:59:48,trofimova2002,Getting an Upgrade,4.9,2026-05-16-6.log.gz
+38,2026-05-16T02:07:04,trofimova2002,Stone Age,4.7,2026-05-16-5.log.gz
+38,2026-05-16T02:07:18,MurzichAI,Stone Age,4.9,2026-05-16-5.log.gz
+38,2026-05-16T02:09:37,trofimova2002,Getting an Upgrade,7.2,2026-05-16-5.log.gz
+38,2026-05-16T02:10:50,MurzichAI,What a Deal!,8.4,2026-05-16-5.log.gz
+38,2026-05-16T02:11:37,axantroff,Stone Age,9.2,2026-05-16-5.log.gz
+38,2026-05-16T02:12:28,axantroff,Getting an Upgrade,10.1,2026-05-16-5.log.gz
+38,2026-05-16T02:13:09,trofimova2002,Sweet Dreams,10.8,2026-05-16-5.log.gz
+38,2026-05-16T02:13:46,axantroff,Sweet Dreams,11.4,2026-05-16-5.log.gz
+38,2026-05-16T02:13:46,MurzichAI,Sweet Dreams,11.4,2026-05-16-5.log.gz
+38,2026-05-16T02:18:06,axantroff,Acquire Hardware,15.7,2026-05-16-5.log.gz
+38,2026-05-16T02:21:16,MurzichAI,Getting an Upgrade,18.9,2026-05-16-5.log.gz
+38,2026-05-16T02:25:41,trofimova2002,Acquire Hardware,23.3,2026-05-16-5.log.gz
+38,2026-05-16T02:27:30,MurzichAI,Acquire Hardware,25.1,2026-05-16-5.log.gz
+38,2026-05-16T02:31:19,MurzichAI,Suit Up,28.9,2026-05-16-5.log.gz
+38,2026-05-16T02:31:32,axantroff,Suit Up,29.1,2026-05-16-5.log.gz
+38,2026-05-16T02:32:29,axantroff,Take Aim,30.1,2026-05-16-5.log.gz
+38,2026-05-16T02:32:30,axantroff,Monster Hunter,30.1,2026-05-16-5.log.gz
+38,2026-05-16T02:32:45,trofimova2002,Suit Up,30.4,2026-05-16-5.log.gz
+38,2026-05-16T02:41:22,MurzichAI,Cover Me with Diamonds,39.0,2026-05-16-5.log.gz
+38,2026-05-16T02:41:32,axantroff,Cover Me with Diamonds,39.1,2026-05-16-5.log.gz
+38,2026-05-16T02:50:11,trofimova2002,Cover Me with Diamonds,47.8,2026-05-16-5.log.gz
+38,2026-05-16T02:56:17,MurzichAI,Take Aim,53.9,2026-05-16-5.log.gz
+38,2026-05-16T03:00:02,MurzichAI,Monster Hunter,57.6,2026-05-16-5.log.gz
+38,2026-05-16T03:01:37,MurzichAI,"Not Today, Thank You",59.2,2026-05-16-5.log.gz
+38,2026-05-16T03:05:21,MurzichAI,Isn't It Iron Pick,63.0,2026-05-16-5.log.gz
+38,2026-05-16T03:05:26,MurzichAI,Diamonds!,63.0,2026-05-16-5.log.gz
+38,2026-05-16T03:11:17,axantroff,"Not Today, Thank You",68.9,2026-05-16-5.log.gz
+38,2026-05-16T15:46:08,axantroff,Ice Bucket Challenge,823.7,2026-05-16-5.log.gz
+38,2026-05-16T15:46:52,MurzichAI,Ice Bucket Challenge,824.5,2026-05-16-5.log.gz
+41,2026-05-16T15:58:58,MurzichAI,Ice Bucket Challenge,2.8,2026-05-16-2.log.gz
+43,2026-05-16T16:02:31,MurzichAI,What a Deal!,2.0,latest.log
+43,2026-05-16T16:03:53,axantroff,Stone Age,3.4,latest.log
+43,2026-05-16T16:03:59,axantroff,Getting an Upgrade,3.5,latest.log
+43,2026-05-16T16:08:38,axantroff,Monster Hunter,8.1,latest.log
+43,2026-05-16T16:10:28,MurzichAI,Stone Age,10.0,latest.log
+43,2026-05-16T16:11:14,MurzichAI,Sweet Dreams,10.7,latest.log
+43,2026-05-16T16:11:15,axantroff,Sweet Dreams,10.8,latest.log
+43,2026-05-16T16:13:29,trofimova2002,Stone Age,13.0,latest.log
+43,2026-05-16T16:14:26,trofimova2002,Getting an Upgrade,13.9,latest.log
+43,2026-05-16T16:15:17,axantroff,Acquire Hardware,14.8,latest.log
+43,2026-05-16T16:18:26,MurzichAI,Getting an Upgrade,17.9,latest.log
+43,2026-05-16T16:21:20,trofimova2002,Ice Bucket Challenge,20.8,latest.log
+43,2026-05-16T16:22:24,MurzichAI,Monster Hunter,21.9,latest.log
+43,2026-05-16T16:24:00,trofimova2002,Sweet Dreams,23.5,latest.log
+43,2026-05-16T16:26:19,MurzichAI,Acquire Hardware,25.8,latest.log
+43,2026-05-16T16:27:08,MurzichAI,Ice Bucket Challenge,26.6,latest.log
+43,2026-05-16T16:27:22,axantroff,Hot Stuff,26.9,latest.log
+43,2026-05-16T16:30:16,MurzichAI,Suit Up,29.8,latest.log
+43,2026-05-16T16:31:41,MurzichAI,Cover Me with Diamonds,31.2,latest.log
+43,2026-05-16T16:35:37,trofimova2002,Suit Up,35.1,latest.log
+43,2026-05-16T16:38:30,axantroff,Cover Me with Diamonds,38.0,latest.log
+43,2026-05-16T16:38:31,axantroff,Suit Up,38.0,latest.log
+43,2026-05-16T16:40:04,trofimova2002,Cover Me with Diamonds,39.6,latest.log
+43,2026-05-16T16:48:45,axantroff,We Need to Go Deeper,48.2,latest.log
+43,2026-05-16T16:48:46,axantroff,A Terrible Fortress,48.3,latest.log
+43,2026-05-16T16:51:11,MurzichAI,We Need to Go Deeper,50.7,latest.log
+43,2026-05-16T16:51:11,MurzichAI,A Terrible Fortress,50.7,latest.log
+43,2026-05-16T16:57:53,MurzichAI,Take Aim,57.4,latest.log
+43,2026-05-16T16:58:19,axantroff,Take Aim,57.8,latest.log
+43,2026-05-16T16:58:41,axantroff,Into Fire,58.2,latest.log
+43,2026-05-16T17:02:42,MurzichAI,Into Fire,62.2,latest.log
+43,2026-05-16T17:20:00,MurzichAI,"Not Today, Thank You",79.5,latest.log
+43,2026-05-16T17:22:30,axantroff,Isn't It Iron Pick,82.0,latest.log
+43,2026-05-16T17:23:00,MurzichAI,Isn't It Iron Pick,82.5,latest.log
+43,2026-05-16T17:26:08,trofimova2002,Into Fire,85.6,latest.log
+43,2026-05-16T17:27:02,MurzichAI,Diamonds!,86.5,latest.log
+43,2026-05-16T17:27:09,trofimova2002,Acquire Hardware,86.7,latest.log
+43,2026-05-16T17:31:20,axantroff,Diamonds!,90.8,latest.log
+43,2026-05-16T17:36:47,trofimova2002,Monster Hunter,96.3,latest.log
+43,2026-05-16T17:41:35,axantroff,Minecraft: Trial(s) Edition,101.1,latest.log
+44,2026-05-16T23:08:36,trofimova2002,Stone Age,2.9,latest.log
+44,2026-05-16T23:08:45,trofimova2002,Getting an Upgrade,3.0,latest.log
+44,2026-05-16T23:11:31,MurzichAI,Suit Up,5.8,latest.log
+44,2026-05-16T23:14:22,MurzichAI,What a Deal!,8.7,latest.log
+44,2026-05-16T23:15:29,trofimova2002,Suit Up,9.8,latest.log
+44,2026-05-16T23:16:12,MurzichAI,Sweet Dreams,10.5,latest.log
+44,2026-05-16T23:16:25,trofimova2002,Sweet Dreams,10.7,latest.log

@@ -45,10 +45,8 @@ world_num,timestamp,player,death_message,full_message,is_first_in_world,category
 31,2026-05-14T22:36:01,trofimova2002,was slain by Blaze,trofimova2002 was slain by Blaze,NO,Mob,2026-05-14-1.log.gz
 31,2026-05-16T01:45:35,axantroff,tried to swim in lava,axantroff tried to swim in lava,NO,Environment,2026-05-16-12.log.gz
 37,2026-05-16T02:01:05,MurzichAI,was impaled by Drowned,MurzichAI was impaled by Drowned,YES,Mob,2026-05-16-6.log.gz
-39,2026-05-16T15:52:23,MurzichAI,was slain by Zombie,MurzichAI was slain by Zombie,YES,Mob,2026-05-16-5.log.gz
-39,2026-05-16T15:52:23,MurzichAI,was slain by Zombie,MurzichAI was slain by Zombie,NO,Mob,debug-5.log.gz
-43,2026-05-16T15:55:43,MurzichAI,was slain by axantroff,MurzichAI was slain by axantroff,YES,PvP,2026-05-16-3.log.gz
-43,2026-05-16T15:55:43,MurzichAI,was slain by axantroff,MurzichAI was slain by axantroff,NO,PvP,debug-3.log.gz
-48,2026-05-16T17:32:10,axantroff,was impaled on a stalagmite,axantroff was impaled on a stalagmite,YES,Environment,latest.log
-48,2026-05-16T17:37:34,MurzichAI,was shot by Skeleton,MurzichAI was shot by Skeleton,NO,Mob,latest.log
-48,2026-05-16T17:41:21,trofimova2002,was blown up by Creeper,trofimova2002 was blown up by Creeper,NO,Mob,latest.log
+38,2026-05-16T15:52:23,MurzichAI,was slain by Zombie,MurzichAI was slain by Zombie,YES,Mob,2026-05-16-5.log.gz
+40,2026-05-16T15:55:43,MurzichAI,was slain by axantroff,MurzichAI was slain by axantroff,YES,PvP,2026-05-16-3.log.gz
+43,2026-05-16T17:32:10,axantroff,was impaled on a stalagmite,axantroff was impaled on a stalagmite,YES,Environment,latest.log
+43,2026-05-16T17:37:34,MurzichAI,was shot by Skeleton,MurzichAI was shot by Skeleton,NO,Mob,latest.log
+43,2026-05-16T17:41:21,trofimova2002,was blown up by Creeper,trofimova2002 was blown up by Creeper,NO,Mob,latest.log

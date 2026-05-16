@@ -1,10 +1,12 @@
 metric,value
 hardcore_from,2026-05-05T21:37:00
-total_worlds_attempted,49
+total_worlds_attempted,44
 worlds_died,29
-worlds_skipped,20
-failure_rate_pct,59.2
-total_deaths,53
+worlds_skipped,15
+failure_rate_pct,65.9
+total_deaths,51
 unique_death_messages,19
-total_active_minutes,1619.0
+total_active_minutes,1622.4
 total_active_hours,27.0
+total_advancement_events,500
+unique_advancements,29

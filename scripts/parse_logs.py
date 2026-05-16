@@ -76,8 +76,33 @@ DEATH_RE = re.compile(r"(\w+) (" + "|".join(re.escape(v) for v in DEATH_VERBS) +
 WORLD_RE = re.compile(r"creating new world|No existing world data, creating new world")
 JOIN_RE = re.compile(r"(\w+) joined the game")
 LEAVE_RE = re.compile(r"(\w+) left the game")
+ADV_RE = re.compile(r"(\w+) has made the advancement \[([^\]]+)\]")
+
+# Advancements that mark notable milestones. Names are official Mojang display titles.
+# The list is used downstream for "time-to-X" stats; ordering reflects natural progression.
+MILESTONES = [
+    ("Stone Age",           "first cobblestone"),
+    ("Acquire Hardware",    "first iron ingot"),
+    ("Sweet Dreams",        "first sleep"),
+    ("Isn't It Iron Pick",  "first iron pickaxe"),
+    ("Suit Up",             "first armor"),
+    ("Hot Stuff",           "first lava bucket"),
+    ("Diamonds!",           "first diamond"),
+    ("We Need to Go Deeper","first Nether portal"),
+    ("A Terrible Fortress", "first Nether fortress"),
+    ("Into Fire",           "first blaze rod"),
+    ("Eye Spy",             "first ender eye"),
+    ("The End?",            "reached The End"),
+    ("Free the End",        "killed the Ender Dragon"),
+]
 
 # Categorization keywords. Order: PvP > Mob > Environment > Other.
+# Note on "wither": appears in both lists by design. The Wither boss (mob) and
+# the wither effect ("withered away" — environmental, e.g. suspicious stew) are
+# distinct deaths but share the substring. We check Mob first because the boss
+# is far more common in hardcore; if a "withered away" death ever appears in
+# the data and is mis-categorized as Mob, narrow the Mob match to "wither boss"
+# or remove "wither" from ENV_KEYWORDS.
 MOB_KEYWORDS = [
     "creeper", "zombie", "husk", "skeleton", "enderman", "iron golem", "piglin", "ghast",
     "blaze", "wolf", "bear", "drowned", "wither", "spider", "witch", "vex", "phantom",
@@ -90,6 +115,17 @@ ENV_KEYWORDS = [
     "kinetic", "crushed", "squashed", "bang", "danger zone", "wall", "dehydration",
     "floor was lava",
 ]
+
+# Guardrail: PvP attribution uses substring `by <PlayerName>`. If a tracked
+# player's name collides with a vanilla entity display-name, every death by
+# that mob would be mis-categorized as PvP. Names we use today are safe; this
+# assert prevents a silent regression if someone joins as e.g. "Husk".
+_VANILLA_ENTITY_TOKENS = {kw.title() for kw in MOB_KEYWORDS} | {"Player"}
+assert not (set(PLAYERS) & _VANILLA_ENTITY_TOKENS), (
+    f"Tracked player name collides with vanilla entity name: "
+    f"{set(PLAYERS) & _VANILLA_ENTITY_TOKENS}. "
+    f"Update PLAYERS or the PvP categorizer before parsing."
+)
 
 
 def categorize(msg: str) -> str:
@@ -122,11 +158,21 @@ def file_date(path: Path) -> datetime | None:
 
 
 def collect_log_paths() -> list[Path]:
+    """Collect rotated logs in chronological order.
+
+    Forge rotates two parallel families: the main log (`YYYY-MM-DD-N.log.gz`)
+    and a verbose debug log (`debug-N.log.gz`). The debug log mirrors every
+    INFO-level line from the main log, so reading both would double-count
+    world creations, joins/leaves, advancements, and deaths. We use the main
+    log as source-of-truth and skip the `debug-` family entirely.
+    """
     paths: list[Path] = []
     for d in LOG_DIRS:
         if not d.is_dir():
             continue
-        paths.extend(sorted(d.glob("*.log.gz")))
+        paths.extend(sorted(
+            p for p in d.glob("*.log.gz") if not p.name.startswith("debug")
+        ))
         latest = d / "latest.log"
         if latest.exists():
             paths.append(latest)
@@ -142,11 +188,15 @@ def parse_events(paths: list[Path]) -> list[tuple]:
       'J' — player joined the game
       'L' — player left the game
       'D' — player died (payload = full death message minus the player name)
+      'A' — player got an advancement (payload = display name without brackets)
     """
     events: list[tuple] = []
     for path in paths:
+        # latest.log has no date in the filename — fall back to mtime, zeroed
+        # to midnight (and to second-level precision) so we don't bleed
+        # filesystem microsecond artifacts into derived CSVs.
         fd = file_date(path) or datetime.fromtimestamp(path.stat().st_mtime).replace(
-            hour=0, minute=0, second=0
+            hour=0, minute=0, second=0, microsecond=0
         )
         opener = gzip.open if path.suffix == ".gz" else open
         last_ts = None
@@ -177,9 +227,15 @@ def parse_events(paths: list[Path]) -> list[tuple]:
                 m = LEAVE_RE.search(line)
                 if m and m.group(1) in PLAYERS:
                     events.append((ts, "L", m.group(1), "", path.name))
+                    continue
+                m = ADV_RE.search(line)
+                if m and m.group(1) in PLAYERS:
+                    events.append((ts, "A", m.group(1), m.group(2), path.name))
     # Sort by (timestamp, then kind-order so a world boundary at the same instant
-    # opens BEFORE deaths/joins/leaves are attributed).
-    order = {"W": 0, "J": 1, "D": 2, "L": 3}
+    # opens BEFORE deaths/joins/leaves are attributed). Advancements come after
+    # joins so a "joined the game" + "made the advancement" pair on the same
+    # second still attributes the join first.
+    order = {"W": 0, "J": 1, "A": 2, "D": 3, "L": 4}
     events.sort(key=lambda e: (e[0], order[e[1]]))
     return events
 
@@ -198,11 +254,13 @@ def build_worlds(events: list[tuple]) -> list[dict]:
         if kind == "W":
             if cur is not None:
                 worlds.append(cur)
-            cur = {"start": ts, "deaths": [], "sessions": [], "src": src}
+            cur = {"start": ts, "deaths": [], "sessions": [], "advancements": [], "src": src}
         elif cur is None:
             continue
         elif kind == "D":
             cur["deaths"].append((ts, who, payload, src))
+        elif kind == "A":
+            cur["advancements"].append((ts, who, payload, src))
         elif kind in ("J", "L"):
             cur["sessions"].append((ts, kind, who))
     if cur is not None:
@@ -337,12 +395,38 @@ def write_csvs(worlds: list[dict]):
         for (killer, victim), c in sorted(pvp_pairs.items(), key=lambda x: -x[1]):
             w.writerow([killer, victim, c])
 
+    # advancements.csv — one row per advancement event, tagged with world.
+    # Captures the FIRST time each (world, player, advancement) triple appears
+    # so re-broadcasts on relogin don't inflate counts.
+    seen_per_world: set[tuple[int, str, str]] = set()
+    adv_rows: list[tuple] = []
+    n_unique_advancements: set[str] = set()
+    for i, world in enumerate(hc, 1):
+        for ts, who, name, src in world["advancements"]:
+            key = (i, who, name)
+            if key in seen_per_world:
+                continue
+            seen_per_world.add(key)
+            n_unique_advancements.add(name)
+            mins = (ts - world["start"]).total_seconds() / 60
+            adv_rows.append((i, ts.isoformat(), who, name, f"{mins:.1f}", src))
+    with (OUT_DIR / "advancements.csv").open("w", newline="") as f:
+        w = csv.writer(f)
+        w.writerow([
+            "world_num", "timestamp", "player", "advancement",
+            "minutes_into_run", "source_log",
+        ])
+        w.writerows(adv_rows)
+
     # summary.csv
     n_total = len(hc)
     n_failed = sum(1 for x in hc if x["deaths"])
     n_skipped = n_total - n_failed
+    # Sum the *rounded-to-1-decimal* per-world values so summary.csv matches
+    # what an auditor would get from `awk` over worlds.csv. (Summing the raw
+    # seconds and rounding once at the end produces a ~0.2 min drift.)
     total_active = sum(
-        active_minutes(w["sessions"], w["start"], w["window_end"]) for w in hc
+        round(active_minutes(w["sessions"], w["start"], w["window_end"]), 1) for w in hc
     )
     with (OUT_DIR / "summary.csv").open("w", newline="") as f:
         w = csv.writer(f)
@@ -356,11 +440,14 @@ def write_csvs(worlds: list[dict]):
         w.writerow(["unique_death_messages", len(msg_counts)])
         w.writerow(["total_active_minutes", f"{total_active:.1f}"])
         w.writerow(["total_active_hours", f"{total_active/60:.1f}"])
+        w.writerow(["total_advancement_events", len(adv_rows)])
+        w.writerow(["unique_advancements", len(n_unique_advancements)])
 
     return {
         "worlds": n_total, "failed": n_failed, "skipped": n_skipped,
         "deaths": sum(total.values()), "unique_msgs": len(msg_counts),
         "active_h": total_active / 60,
+        "adv_events": len(adv_rows), "adv_unique": len(n_unique_advancements),
     }
 
 
@@ -378,13 +465,15 @@ def main():
 
     stats = write_csvs(worlds)
     print(
-        f"\nWrote 6 CSVs to {OUT_DIR.relative_to(ROOT)}:\n"
-        f"  worlds_total   = {stats['worlds']}\n"
-        f"  worlds_failed  = {stats['failed']}\n"
-        f"  worlds_skipped = {stats['skipped']}\n"
-        f"  total_deaths   = {stats['deaths']}\n"
-        f"  unique_msgs    = {stats['unique_msgs']}\n"
-        f"  active_hours   = {stats['active_h']:.1f}"
+        f"\nWrote 7 CSVs to {OUT_DIR.relative_to(ROOT)}:\n"
+        f"  worlds_total       = {stats['worlds']}\n"
+        f"  worlds_failed      = {stats['failed']}\n"
+        f"  worlds_skipped     = {stats['skipped']}\n"
+        f"  total_deaths       = {stats['deaths']}\n"
+        f"  unique_msgs        = {stats['unique_msgs']}\n"
+        f"  advancement_events = {stats['adv_events']}\n"
+        f"  unique_advancements= {stats['adv_unique']}\n"
+        f"  active_hours       = {stats['active_h']:.1f}"
     )
 
 

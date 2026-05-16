@@ -4,9 +4,17 @@ Consolidated context for anyone (Claude, auditor, or new contributor) picking th
 
 ---
 
+## 0. Why this exists
+
+Today we got together to play, again. MurzichAI went down in a mine first. Then we kitted up in full diamond — *again* — and I fell onto a stalagmite. You've gotta be kidding me.
+
+I tilted. We've been at this for days and we still can't beat it. But after a minute I cooled off, and the optimist in me thought: we already have a ridiculous number of runs of *something bad* (the fact that we keep failing) — why not turn that into *something good*? Something to make the others laugh? When I logged off saying "I'm done", it felt like a really negative note to leave the session on.
+
+So this dashboard is my attempt to make sense of the journey we've been on — to show the friends some funny or interesting analytics from the games we still have data for. Maybe it'll even give me a second wind to keep going. Call it gamification.
+
 ## 1. Background
 
-`axantroff` and two friends (`MurzichAI`, `trofimova2002`) play Minecraft hardcore together. Over ~11 days (May 5 – May 16, 2026) they ran **49 hardcore attempts**, all of which ended in death or were rerolled. No challenge was ever beaten. This dashboard tells the story of that journey.
+`axantroff` and two friends (`MurzichAI`, `trofimova2002`) play Minecraft hardcore together. Over ~11 days (May 5 – May 16, 2026) they ran **44 hardcore attempts**, all of which ended in death or were rerolled. No challenge was ever beaten. This dashboard tells the story of that journey.
 
 The Minecraft server itself is hosted on axantroff's Mac, exposed to friends via a playit.gg tunnel (the agent runs in Docker). The server is Forge 64.0.8 / MC 26.1.2 with three server-side mods: **FallingTree**, **collective** (FallingTree dependency), and **villagespawnpoint**. Hardcore mode was enabled by editing `server.properties` on **2026-05-05 21:37**; everything before that timestamp is excluded from analysis.
 
@@ -32,6 +40,8 @@ The server's raw logs live on the same machine. They are the only input to this 
 
 All three use TLauncher (offline mode). UUIDs are computed deterministically via MD5 of `OfflinePlayer:<name>` with version-3 / variant bits set; the dashboard does not depend on these UUIDs — they're only relevant if you inspect raw `world/players/stats/*.json` files.
 
+**About the group (matters for tone calibration).** All three players are roughly **23–25 years old** and based in **Belarus or Russia**. `trofimova2002` is a girl; `axantroff` and `MurzichAI` are guys. The dashboard is built for them as the primary audience — close friends who share a cultural register and humor style. That's why phrasings like "tilting", "cruelest gap", "you've gotta be kidding me" land as friend-banter, not as formal analytics or a hostile leaderboard. Future contributors (and auditors) should preserve this conversational register; sterilizing the prose to "professional dashboard English" would lose the point.
+
 ---
 
 ## 4. Hard constraints (do not violate)
@@ -41,7 +51,7 @@ These come directly from axantroff's feedback during development and are non-neg
 1. **Never use the word "Survived."** The group never beat hardcore. Worlds without a death are `skipped` or `re-created`, *not* survived.
 2. **Never frame the dashboard as a leaderboard / competition.** No medals, no "challenge failed by," no podium positioning. The first-death-per-player view is shown low on the page under a neutral header ("Per Player") and respects the same filters as the rest.
 3. **`active_minutes` is the canonical "how long did the run last" metric.** Wall-clock time inflates the longest run from 3.5 h (real play) to 27 h (server idled overnight). Both are stored in `worlds.csv` for transparency; charts use `active_minutes`.
-4. **Filter `<15 min active` and PvP deaths by default.** Both are surfaced as toggles, both default ON. The reasoning: ultra-short runs are rerolls / messing around, and PvP deaths (one of us killing another) were goofing around, not the challenge.
+4. **PvP deaths are always excluded; `<15 min active` is a default-OFF toggle.** PvP filtering is hardcoded (no UI toggle) — those deaths were always goofing around between friends, never real hardcore challenge. The toggle for it was removed because it only affected ~1 in 10 worlds and crowded the top of the page. The `<15 min` filter stays as a toggle but defaults OFF, so a fresh page load shows the full set of hardcore attempts (incl. fast rerolls) and the user can choose to hide them. CSVs still contain the raw rows for auditor transparency.
 5. **Hardcore cutoff is `2026-05-05 21:37`.** Worlds created before this point — and any death within them — are excluded. The one pre-hardcore Creeper death (a real event) is deliberately dropped; this is documented in METHODOLOGY.md §4.1.
 6. **First-death is what matters.** Post-first deaths are recorded but never used to drive failure metrics (a hardcore world is "over" the moment someone dies; subsequent deaths are spectator goofing).
 7. **Death messages must use the official Minecraft Wiki phrasing.** Source: https://minecraft.fandom.com/wiki/Death_messages. The verb list in `scripts/parse_logs.py` is taken verbatim from there.
@@ -76,7 +86,7 @@ axantroff's rating: 5/10 → after layout fixes 8/10. Still not 9.
 
 ### Era 2 — conceptual switch to Streamlit
 axantroff explicitly stopped the matplotlib track and asked for a **Streamlit app in a new git repo with CSV data sources**, deployable to a public URL. This is the current architecture:
-- `streamlit_app.py` + `data/*.csv` + `scripts/parse_logs.py`
+- `Global_Stats.py` (entry) + `pages/2_Latest_World.py` + `data/*.csv` + `scripts/parse_logs.py`
 - Local venv at `.venv/`
 - Tested locally at `http://localhost:8501`
 - Deploy target: Streamlit Community Cloud (free, GitHub-connected)
@@ -97,32 +107,14 @@ The most recent additions:
 - `scripts/parse_logs.py` — standalone, idempotent CSV regenerator.
 - `assets/logs/` — raw logs bundled locally for auditors (gitignored, transferred out of band).
 
----
-
-## 7. Ground-truth numbers (current state)
-
-With both filter toggles **OFF** (raw view):
-
-| Metric | Value |
-| --- | --- |
-| Total hardcore worlds | 49 |
-| Died (run ended in death) | 29 |
-| Skipped (no death — rerolled) | 20 |
-| Total death events | 53 (29 first-deaths + 24 post-first) |
-| Unique death-message phrasings | 19 |
-| Total active play | ~27 hours |
-
-Per-player first-death counts (default filters OFF): MurzichAI dominates the count; exact numbers in `data/players.csv`. Do not lead with this; respect framing rule #2.
-
-If the regenerated CSVs differ from these numbers, that's a regression — read METHODOLOGY.md §7 spot-checks before changing anything.
 
 ---
 
-## 8. Open items / next steps
+## 7. Open items / next steps
 
 1. **Deploy to Streamlit Community Cloud.** axantroff handles this:
    - Push repo to a public GitHub repo (`gh repo create hardcore-chronicles --public --source=. --remote=origin --push`)
-   - Connect at https://share.streamlit.io, point at `streamlit_app.py`, `main` branch
+   - Connect at https://share.streamlit.io, point at `Global_Stats.py`, `main` branch
    - Expected URL pattern: `https://<user>-hardcore-chronicles.streamlit.app`
 2. **Custom Minecraft visuals.** Was discussed but not done:
    - Pixel font for titles (e.g., Press Start 2P via Google Fonts) — possible but readability tradeoff
@@ -132,7 +124,7 @@ If the regenerated CSVs differ from these numbers, that's a regression — read 
 
 ---
 
-## 9. Continuity for the next session
+## 8. Continuity for the next session
 
 If a future Claude (or human) opens this project cold, here's the minimum to get oriented:
 
@@ -141,7 +133,7 @@ If a future Claude (or human) opens this project cold, here's the minimum to get
 1. `task.md` — this file. Read first.
 2. `METHODOLOGY.md` — how every number is computed; auditor handoff.
 3. `README.md` — install + deploy.
-4. `streamlit_app.py` — the dashboard.
+4. `Global_Stats.py` — page 1 ("Global Stats" in the sidebar); `pages/2_Latest_World.py` — page 2.
 5. `scripts/parse_logs.py` — the parser.
 6. `data/*.csv` — derived facts.
 
@@ -154,11 +146,11 @@ cd ~/hardcore-chronicles
 .venv/bin/python scripts/parse_logs.py
 
 # run dashboard
-.venv/bin/streamlit run streamlit_app.py
+.venv/bin/streamlit run Global_Stats.py
 # → http://localhost:8501
 
 # kill stale streamlit before restart
-pkill -f 'streamlit run streamlit_app'
+pkill -f 'streamlit run Global_Stats'
 ```
 
 **Filesystem layout (Mac):**
@@ -177,12 +169,5 @@ pkill -f 'streamlit run streamlit_app'
 - The hardcore cutoff (`2026-05-05 21:37`) is a magic constant. If the server moves or the cutoff changes, update `HARDCORE_FROM` in `parse_logs.py` and re-run.
 - `categoryorder="array"` on the death-messages chart is the only thing keeping the global desc sort working under `color="category"`. Removing it brings the bug back silently.
 
-**Likely next user prompts:**
-
-- "Deploy it / I pushed it to GitHub, here's the URL"
-- "Add icon X for mob Y"
-- "The auditor flagged number N — please verify"
-- "Add a new stat: <thing>"
-- "Polish [section] further"
 
 For any "add a stat" request: check whether the data already exists in `data/`, add to the Streamlit app, do **not** add it to `parse_logs.py` unless it requires new raw-log signal. Then update `METHODOLOGY.md` §5 if a new CSV column is introduced.
