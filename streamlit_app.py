@@ -9,17 +9,28 @@ import streamlit as st
 DATA_DIR = Path(__file__).parent / "data"
 
 PLAYERS = ["MurzichAI", "axantroff", "trofimova2002"]
+
+# Palette derived from in-game Minecraft block colors
 PLAYER_COLOR = {
-    "MurzichAI": "#FF6B35",
-    "axantroff": "#4A90E2",
-    "trofimova2002": "#7ED321",
+    "MurzichAI": "#DC2626",     # redstone
+    "axantroff": "#3DD5F3",     # diamond
+    "trofimova2002": "#7CB342", # grass top
 }
 CAT_COLOR = {
-    "Mob": "#E63946",
-    "Environment": "#F4A261",
-    "PvP": "#457B9D",
-    "Other": "#8B949E",
+    "Mob": "#DC2626",          # redstone red — hostile mobs
+    "Environment": "#FF8C1A",  # lava orange — environment hazards
+    "PvP": "#3DD5F3",          # diamond cyan — player vs player
+    "Other": "#9CA3AF",        # stone gray
 }
+ACCENT_GOLD = "#FFAA00"        # gold ingot
+ACCENT_XP = "#A4FF00"          # XP green
+GRASS_GREEN = "#7CB342"        # grass top
+DIAMOND = "#3DD5F3"
+BG_DARK = "#1B1D24"            # deep obsidian-ish dark
+SURFACE = "#2A2D36"            # stone
+BORDER = "#3D4148"
+TEXT = "#F5F5F5"
+MUTED = "#9CA3AF"
 
 MOB_KEYWORDS = [
     "creeper","zombie","husk","skeleton","enderman","iron golem","piglin","ghast",
@@ -115,18 +126,36 @@ def build_app():
     )
 
     st.markdown(
-        """
+        f"""
         <style>
-        .block-container { padding-top: 2rem; padding-bottom: 2rem; max-width: 1300px; }
-        h1 { color: #FFD93D !important; letter-spacing: 0.05em; text-align: center; }
-        h2 { color: #FFD93D !important; }
-        h3 { color: #FFD93D !important; }
-        div[data-testid="stMetricValue"] { font-size: 3rem; color: #FFD93D; font-weight: 700; }
-        div[data-testid="stMetricLabel"] { font-size: 0.95rem; color: #A8B8AC; }
-        section[data-testid="stSidebar"] { background-color: #0B1611; }
-        .stPlotlyChart { background-color: transparent; }
-        .fun-fact { background-color: #0B1611; padding: 14px 18px; border-left: 4px solid #FFD93D;
-                    border-radius: 4px; margin: 8px 0; }
+        .block-container {{ padding-top: 2rem; padding-bottom: 2rem; max-width: 1300px; }}
+        h1 {{ color: {ACCENT_GOLD} !important; letter-spacing: 0.08em; text-align: center;
+              text-shadow: 0 0 24px rgba(255,170,0,0.25); font-weight: 800; }}
+        h2, h3 {{ color: {ACCENT_GOLD} !important; letter-spacing: 0.03em; font-weight: 700; }}
+        div[data-testid="stMetricValue"] {{
+            font-size: 3rem; color: {ACCENT_GOLD}; font-weight: 800;
+            text-shadow: 0 0 12px rgba(255,170,0,0.2);
+        }}
+        div[data-testid="stMetricLabel"] {{ font-size: 1rem; color: {TEXT}; font-weight: 600; }}
+        div[data-testid="stMetric"] {{
+            background: {SURFACE};
+            border: 2px solid {BORDER};
+            border-radius: 6px;
+            padding: 18px 16px;
+        }}
+        section[data-testid="stSidebar"] {{ background-color: {SURFACE}; }}
+        .stPlotlyChart {{ background-color: transparent; }}
+        .fun-fact {{
+            background: {SURFACE};
+            padding: 16px 20px;
+            border-left: 5px solid {ACCENT_GOLD};
+            border-radius: 4px;
+            margin: 10px 0;
+            font-size: 0.98rem;
+            line-height: 1.55;
+        }}
+        .fun-fact b {{ color: {ACCENT_GOLD}; }}
+        hr {{ border-color: {BORDER} !important; }}
         </style>
         """,
         unsafe_allow_html=True,
@@ -138,11 +167,11 @@ def build_app():
     # === Title ===
     st.markdown("# ⛏️ THE HARDCORE CHRONICLES")
     st.markdown(
-        "<p style='text-align:center;color:#A8B8AC;font-style:italic;margin-top:-10px;'>"
+        f"<p style='text-align:center;color:{MUTED};font-style:italic;margin-top:-10px;'>"
         f"A Minecraft journey  —  May 5 to May 16, 2026</p>",
         unsafe_allow_html=True,
     )
-    st.markdown("<hr style='border-color:#2D4F3A;'>", unsafe_allow_html=True)
+    st.markdown(f"<hr style='border-color:{BORDER};'>", unsafe_allow_html=True)
 
     n_total = metric_to_int(s, "total_worlds_attempted")
     n_failed = metric_to_int(s, "worlds_failed")
@@ -185,16 +214,16 @@ def build_app():
         )
         fig.update_traces(
             textposition="outside",
-            textfont=dict(size=14, color="#E8ECE8"),
-            marker_line_color="#0B1611",
-            marker_line_width=1.5,
+            textfont=dict(size=14, color=TEXT),
+            marker_line_color=BG_DARK,
+            marker_line_width=2,
         )
         fig.update_layout(
             paper_bgcolor="rgba(0,0,0,0)",
             plot_bgcolor="rgba(0,0,0,0)",
-            font=dict(family="monospace", color="#E8ECE8", size=13),
+            font=dict(family="monospace", color=TEXT, size=13),
             margin=dict(l=10, r=40, t=10, b=40),
-            xaxis=dict(gridcolor="#2D4F3A", zerolinecolor="#2D4F3A"),
+            xaxis=dict(gridcolor=BORDER, zerolinecolor=BORDER),
             yaxis=dict(gridcolor="rgba(0,0,0,0)"),
             legend=dict(
                 title="Cause category",
@@ -203,9 +232,10 @@ def build_app():
                 y=-0.25,
                 xanchor="right",
                 x=1,
-                bgcolor="rgba(11,22,17,0.8)",
-                bordercolor="#2D4F3A",
+                bgcolor=SURFACE,
+                bordercolor=BORDER,
                 borderwidth=1,
+                font=dict(color=TEXT),
             ),
         )
         st.plotly_chart(fig, use_container_width=True)
@@ -224,10 +254,10 @@ def build_app():
                     hole=0.55,
                     marker=dict(
                         colors=[CAT_COLOR[c] for c in cat_counts["category"]],
-                        line=dict(color="#13201A", width=3),
+                        line=dict(color=BG_DARK, width=4),
                     ),
                     textinfo="label+percent",
-                    textfont=dict(size=14, family="monospace", color="#E8ECE8"),
+                    textfont=dict(size=14, family="monospace", color=TEXT),
                     hovertemplate="<b>%{label}</b><br>%{value} deaths<br>%{percent}<extra></extra>",
                 )
             ]
@@ -239,8 +269,8 @@ def build_app():
             margin=dict(l=20, r=20, t=20, b=20),
             height=420,
             annotations=[
-                dict(text=f"<b>{n_failed}</b><br><span style='font-size:13px;color:#A8B8AC'>deaths</span>",
-                     x=0.5, y=0.5, font=dict(size=34, color="#FFD93D"), showarrow=False)
+                dict(text=f"<b>{n_failed}</b><br><span style='font-size:13px;color:{MUTED}'>deaths</span>",
+                     x=0.5, y=0.5, font=dict(size=38, color=ACCENT_GOLD), showarrow=False)
             ],
         )
         st.plotly_chart(fig, use_container_width=True)
@@ -265,10 +295,10 @@ def build_app():
             go.Bar(
                 x=labels,
                 y=counts.values,
-                marker=dict(color="#F4A261", line=dict(color="#0B1611", width=1.5)),
+                marker=dict(color=GRASS_GREEN, line=dict(color=BG_DARK, width=2)),
                 text=counts.values,
                 textposition="outside",
-                textfont=dict(size=14, color="#E8ECE8"),
+                textfont=dict(size=14, color=TEXT),
                 hovertemplate="<b>%{x}</b><br>%{y} worlds<extra></extra>",
             )
         ]
@@ -276,11 +306,11 @@ def build_app():
     fig.update_layout(
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
-        font=dict(family="monospace", color="#E8ECE8", size=13),
+        font=dict(family="monospace", color=TEXT, size=13),
         height=360,
         margin=dict(l=40, r=40, t=20, b=40),
         xaxis=dict(gridcolor="rgba(0,0,0,0)"),
-        yaxis=dict(gridcolor="#2D4F3A", title="Worlds"),
+        yaxis=dict(gridcolor=BORDER, title="Worlds"),
     )
     st.plotly_chart(fig, use_container_width=True)
 
@@ -324,7 +354,7 @@ def build_app():
         st.dataframe(w, use_container_width=True, hide_index=True)
 
     # === Footer ===
-    st.markdown("<hr style='border-color:#2D4F3A;'>", unsafe_allow_html=True)
+    st.markdown(f"<hr style='border-color:{BORDER};'>", unsafe_allow_html=True)
     st.caption(
         "Source: Minecraft server logs (vanilla + Forge), parsed and aggregated. "
         "Only worlds created after `hardcore=true` was enabled (2026-05-05 21:37) are counted. "
