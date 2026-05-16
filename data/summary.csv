@@ -1,0 +1,10 @@
+metric,value
+hardcore_from,2026-05-05T21:37:00
+total_worlds_attempted,49
+worlds_failed,30
+worlds_survived_rerolled,19
+failure_rate_pct,61.2
+total_deaths,53
+unique_death_messages,23
+data_range_start,2026-05-05T21:49:48
+data_range_end,2026-05-16T17:41:21
